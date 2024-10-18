@@ -11,7 +11,6 @@ import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
-import com.project.plogger.provider.SmsProvider;
 import com.project.plogger.service.AuthService;
 
 import jakarta.validation.Valid;
