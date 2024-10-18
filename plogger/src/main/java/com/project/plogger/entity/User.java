@@ -1,5 +1,7 @@
 package com.project.plogger.entity;
 
+import com.project.plogger.dto.request.auth.SignUpRequestDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,7 +19,7 @@ import lombok.Setter;
 public class User {
 
     @Id
-    private Integer userId;
+    private String userId;
     private String name; 
     private String password; 
     private String telNumber;
@@ -29,5 +31,20 @@ public class User {
     private String joinPath;
     private String snsId;
     private Boolean isAdmin;
+
+    public User(SignUpRequestDto dto) {
+        this.userId = dto.getUserId();
+        this.name = dto.getName();
+        this.password = dto.getPassword();
+        this.telNumber = dto.getTelNumber();
+        this.address = dto.getAddress();
+        this.profileImage = dto.getProfileImage();
+        this.ecoScore = dto.getEcoScore();
+        this.mileage = dto.getMileage();
+        this.comment = dto.getComment();
+        this.joinPath = dto.getJoinPath();
+        this.snsId = dto.getSnsId();
+        this.isAdmin = dto.getIsAdmin();
+    }
 
 }

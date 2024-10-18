@@ -1,15 +1,16 @@
 package com.project.plogger.dto.request.auth;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class SignUpRequestDto {
     
     @NotBlank
@@ -30,16 +31,16 @@ public class SignUpRequestDto {
     private String address;
     @NotBlank
     private String profileImage;
-    @NotBlank
+    @NotNull
     private Integer ecoScore;
-    @NotBlank
+    @NotNull
     private Integer mileage;
     private String comment;
     @NotBlank
     @Pattern(regexp = "^(home|kakao|naver|google)$")
     private String joinPath;
     private String snsId;
-    @NotBlank
+    @NotNull
     private Boolean isAdmin;
 
 }

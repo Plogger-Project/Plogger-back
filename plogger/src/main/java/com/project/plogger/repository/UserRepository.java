@@ -6,6 +6,9 @@ import org.springframework.stereotype.Repository;
 import com.project.plogger.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
     
+    boolean existsByUserId(String userId);
+    boolean existsByTelNumber(String telNumber);
+
 }
