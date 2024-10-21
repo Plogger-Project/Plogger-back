@@ -5,14 +5,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.plogger.common.CreateNumber;
+import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.IdCheckRequestDto;
+import com.project.plogger.dto.request.auth.SignInRequestDto;
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.auth.SignInResponseDto;
 import com.project.plogger.entity.TelAuth;
-import com.project.plogger.entity.User;
+import com.project.plogger.entity.UserEntity;
+import com.project.plogger.provider.JwtProvider;
 import com.project.plogger.provider.SmsProvider;
 import com.project.plogger.repository.TelAuthRepository;
 import com.project.plogger.repository.UserRepository;
@@ -25,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthServiceImplement implements AuthService {
 
     private final SmsProvider smsProvider;
+    private final JwtProvider jwtProvider;
 
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
@@ -124,7 +128,7 @@ public class AuthServiceImplement implements AuthService {
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
 
-            User user = new User(dto);
+            UserEntity user = new UserEntity(dto);
             userRepository.save(user);
 
         } catch(Exception exception) {
@@ -133,6 +137,33 @@ public class AuthServiceImplement implements AuthService {
         }
 
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
+        
+        String userId = dto.getUserId();
+        String password = dto.getPassword();
+
+        String accessToken = null;
+        try {
+            
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.signInFail();
+
+            String encodedPassword = userEntity.getPassword();
+            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
+            if (!isMatched) return ResponseDto.signInFail();
+
+            accessToken = jwtProvider.create(userId);
+            if (accessToken == null) return ResponseDto.tokenCreateFail();
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return SignInResponseDto.success(accessToken);
     }
     
 } 

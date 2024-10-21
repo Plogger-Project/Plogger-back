@@ -7,10 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.auth.IdCheckRequestDto;
+import com.project.plogger.dto.request.auth.SignInRequestDto;
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.auth.SignInResponseDto;
 import com.project.plogger.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -44,6 +46,14 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<ResponseDto> SignUp(@RequestBody @Valid SignUpRequestDto request) {
         ResponseEntity<ResponseDto> response = authService.signUp(request);
+        return response;
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<? super SignInResponseDto> signIn(
+        @RequestBody @Valid SignInRequestDto requestBody
+    ) {
+        ResponseEntity<? super SignInResponseDto> response = authService.signIn(requestBody);
         return response;
     }
 

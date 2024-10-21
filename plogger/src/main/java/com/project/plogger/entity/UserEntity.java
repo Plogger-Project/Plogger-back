@@ -16,7 +16,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "user")
 @Table(name = "user")
-public class User {
+public class UserEntity {
 
     @Id
     private String userId;
@@ -32,7 +32,7 @@ public class User {
     private String snsId;
     private Boolean isAdmin;
 
-    public User(SignUpRequestDto dto) {
+    public UserEntity(SignUpRequestDto dto) {
         this.userId = dto.getUserId();
         this.name = dto.getName();
         this.password = dto.getPassword();
