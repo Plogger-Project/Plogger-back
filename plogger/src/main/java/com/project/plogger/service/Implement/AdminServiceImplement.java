@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.plogger.common.object.User;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
 import com.project.plogger.dto.response.admin.GetUserListResponseDto;

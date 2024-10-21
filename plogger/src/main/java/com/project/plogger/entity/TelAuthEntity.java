@@ -1,6 +1,5 @@
 package com.project.plogger.entity;
 
-import com.project.plogger.dto.request.auth.TelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 
 import jakarta.persistence.Entity;

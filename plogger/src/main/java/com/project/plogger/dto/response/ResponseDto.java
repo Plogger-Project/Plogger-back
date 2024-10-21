@@ -3,8 +3,6 @@ package com.project.plogger.dto.response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.project.plogger.dto.response.admin.GetUserListResponseDto;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
