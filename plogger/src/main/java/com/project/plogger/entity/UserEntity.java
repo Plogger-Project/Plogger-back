@@ -1,6 +1,7 @@
 package com.project.plogger.entity;
 
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
+import com.project.plogger.dto.request.user.PatchUserRequestDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -16,7 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity(name = "user")
 @Table(name = "user")
-public class User {
+public class UserEntity {
 
     @Id
     private String userId;
@@ -32,7 +33,7 @@ public class User {
     private String snsId;
     private Boolean isAdmin;
 
-    public User(SignUpRequestDto dto) {
+    public UserEntity(SignUpRequestDto dto) {
         this.userId = dto.getUserId();
         this.name = dto.getName();
         this.password = dto.getPassword();
@@ -45,6 +46,14 @@ public class User {
         this.joinPath = dto.getJoinPath();
         this.snsId = dto.getSnsId();
         this.isAdmin = dto.getIsAdmin();
+    }
+
+    public void patch(PatchUserRequestDto dto) {
+        this.profileImage = dto.getProfileImage();
+        this.name = dto.getName();
+        this.password = dto.getPassword();
+        this.telNumber = dto.getTelNumber();
+        this.address = dto.getAddress();
     }
 
 }

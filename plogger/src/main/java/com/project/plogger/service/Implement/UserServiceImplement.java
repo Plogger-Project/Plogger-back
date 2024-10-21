@@ -6,29 +6,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.common.util.CreateNumber;
-import com.project.plogger.dto.request.auth.IdCheckRequestDto;
-import com.project.plogger.dto.request.auth.SignInRequestDto;
-import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
-import com.project.plogger.dto.request.auth.TelAuthRequestDto;
+import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
+import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
-import com.project.plogger.dto.response.auth.SignInResponseDto;
-import com.project.plogger.provider.JwtProvider;
 import com.project.plogger.provider.SmsProvider;
 import com.project.plogger.repository.TelAuthRepository;
 import com.project.plogger.repository.UserRepository;
-import com.project.plogger.service.AuthService;
+import com.project.plogger.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplement implements AuthService {
+public class UserServiceImplement implements UserService  {
 
     private final SmsProvider smsProvider;
-    private final JwtProvider jwtProvider;
 
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
@@ -36,29 +31,15 @@ public class AuthServiceImplement implements AuthService {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
-    public ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto) {
-
-        String userId = dto.getUserId();
-        
-        try {
-
-            boolean isExisted = userRepository.existsById(userId);
-            if (isExisted) return ResponseDto.duplicatedUserId();
-
-        } catch(Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        return ResponseDto.success();
-    }
-
-    @Override
-    public ResponseEntity<ResponseDto> telAuth(TelAuthRequestDto dto) {
+    public ResponseEntity<ResponseDto> patchTelAuth(PatchTelAuthRequestDto dto, String userId) {
 
         String telNumber = dto.getTelNumber();
+        String authNumber = dto.getAuthNumber();
         
         try {
+
+            UserEntity user = userRepository.findByUserId(userId);
+            if (user == null) return ResponseDto.noExistUserId();
 
             boolean isExisted = userRepository.existsByTelNumber(telNumber);
             if (isExisted) return ResponseDto.duplicatedTelNumber();
@@ -68,7 +49,7 @@ public class AuthServiceImplement implements AuthService {
             return ResponseDto.databaseError();
         }
 
-        String authNumber = new CreateNumber().generateAuthNumber();
+        authNumber = new CreateNumber().generateAuthNumber();
 
         boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
         if (!isSendSuccess) return ResponseDto.messageSendFail();
@@ -76,6 +57,7 @@ public class AuthServiceImplement implements AuthService {
         try {
 
             TelAuthEntity telAuthEntity = new TelAuthEntity(telNumber, authNumber);
+            telAuthEntity.patch(dto);
             telAuthRepository.save(telAuthEntity);
     
         } catch(Exception exception) {
@@ -87,12 +69,15 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> telAuthCheck(TelAuthCheckRequestDto dto) {
+    public ResponseEntity<ResponseDto> patchTelAuthCheck(TelAuthCheckRequestDto dto, String userId) {
 
         String telNumber = dto.getTelNumber();
         String authNumber = dto.getAuthNumber();
 
         try {
+
+            UserEntity user = userRepository.findByUserId(userId);
+            if (user == null) return ResponseDto.noExistUserId();
 
             boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
             if (!isMatched) return ResponseDto.telAuthFail();
@@ -107,17 +92,16 @@ public class AuthServiceImplement implements AuthService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> signUp(SignUpRequestDto dto) {
-
-        String userId = dto.getUserId();
+    public ResponseEntity<ResponseDto> patchUser(PatchUserRequestDto dto, String userId) {
+    
+        String password = dto.getPassword();
         String telNumber = dto.getTelNumber();
         String authNumber = dto.getAuthNumber();
-        String password = dto.getPassword();
 
         try {
 
-            boolean isExisted = userRepository.existsById(userId);
-            if (isExisted) return ResponseDto.duplicatedUserId();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.noExistUserId();
 
             boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
             if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
@@ -125,10 +109,12 @@ public class AuthServiceImplement implements AuthService {
             boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
             if (!isMatched) return ResponseDto.telAuthFail();
 
-            String encodedPassword = passwordEncoder.encode(password);
-            dto.setPassword(encodedPassword);
+            if (password != null && !password.isEmpty()) {
+                String encodedPassword = passwordEncoder.encode(password);
+                dto.setPassword(encodedPassword);
+            }
 
-            UserEntity userEntity = new UserEntity(dto);
+            userEntity.patch(dto);
             userRepository.save(userEntity);
 
         } catch(Exception exception) {
@@ -138,32 +124,5 @@ public class AuthServiceImplement implements AuthService {
 
         return ResponseDto.success();
     }
-
-    @Override
-    public ResponseEntity<? super SignInResponseDto> signIn(SignInRequestDto dto) {
-        
-        String userId = dto.getUserId();
-        String password = dto.getPassword();
-
-        String accessToken = null;
-        try {
-            
-            UserEntity userEntity = userRepository.findByUserId(userId);
-            if (userEntity == null) return ResponseDto.signInFail();
-
-            String encodedPassword = userEntity.getPassword();
-            boolean isMatched = passwordEncoder.matches(password, encodedPassword);
-            if (!isMatched) return ResponseDto.signInFail();
-
-            accessToken = jwtProvider.create(userId);
-            if (accessToken == null) return ResponseDto.tokenCreateFail();
-
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        return SignInResponseDto.success(accessToken);
-    }
     
-} 
+}

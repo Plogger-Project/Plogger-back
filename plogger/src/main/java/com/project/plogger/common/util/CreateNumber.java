@@ -1,4 +1,4 @@
-package com.project.plogger.common;
+package com.project.plogger.common.util;
 
 public class CreateNumber {
     

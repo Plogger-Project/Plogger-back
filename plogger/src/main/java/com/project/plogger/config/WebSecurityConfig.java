@@ -25,60 +25,61 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
+
 @Configurable
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
+  
+        private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        @Bean
+        protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
 
-    @Bean
-    protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
+                httpSecurity
+                                .cors(cors -> cors
+                                                .configurationSource(corsConfigurationSource()))
+                                .csrf(CsrfConfigurer::disable)
+                                .httpBasic(HttpBasicConfigurer::disable)
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(request -> request
+                                                .requestMatchers("/", "/api/v1/auth/**", "/file/*").permitAll()
+                                                .requestMatchers("/api/v1/user/**").hasRole("USER")
+                                                .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                                                .anyRequest().authenticated())
+                                .exceptionHandling(exceptionHandling -> exceptionHandling
+                                                .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        httpSecurity
-                .cors(cors -> cors
-                        .configurationSource(corsConfigurationSource()))
-                .csrf(CsrfConfigurer::disable)
-                .httpBasic(HttpBasicConfigurer::disable)
-                .sessionManagement(sessionManagement -> sessionManagement
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/", "/api/v1/auth/**", "/file/*").permitAll()
-                        .requestMatchers("/api/v1/user/**").hasRole("USER")
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        return httpSecurity.build();
-
-    }
-
-    @Bean
-    protected CorsConfigurationSource corsConfigurationSource() {
-        
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
-
-    class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint {
-        @Override
-        public void commence(HttpServletRequest request, HttpServletResponse response,
-                AuthenticationException authException) throws IOException, ServletException {
-
-            response.setContentType("application/json");
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authentica Failed\"}");
+                return httpSecurity.build();
 
         }
-    }
+
+        @Bean
+        protected CorsConfigurationSource corsConfigurationSource() {
+
+                CorsConfiguration configuration = new CorsConfiguration();
+                configuration.addAllowedMethod("*");
+                configuration.addAllowedOrigin("*");
+                configuration.addAllowedHeader("*");
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", configuration);
+
+                return source;
+        }
+
+        class FailedAuthenticationEntryPoint implements AuthenticationEntryPoint {
+                @Override
+                public void commence(HttpServletRequest request, HttpServletResponse response,
+                                AuthenticationException authException) throws IOException, ServletException {
+
+                        response.setContentType("application/json");
+                        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                        response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authentication Failed\"}");
+
+                }
+        }
 }
