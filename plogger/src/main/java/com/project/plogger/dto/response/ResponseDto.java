@@ -43,6 +43,12 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+
+    public static ResponseEntity<ResponseDto> noExistGifticon() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_Gifticon, ResponseMessage.NO_EXIST_Gifticon);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> noExistUserId() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID, ResponseMessage.NO_EXIST_USER_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
