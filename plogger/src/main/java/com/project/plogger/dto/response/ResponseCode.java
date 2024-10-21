@@ -12,6 +12,7 @@ public interface ResponseCode {
     String AUTHENTICATION_FAIL = "AF";
 
     String TEL_AUTH_FAIL = "TAF";
+    String NO_PERMISSION = "NP";
 
     String MESSAGE_SEND_FAIL = "TF";
     String TOKEN_CREATE_FAIL = "TCF";

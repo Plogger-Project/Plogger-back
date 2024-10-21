@@ -7,7 +7,7 @@ import com.project.plogger.entity.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, String> {
-
+    
     boolean existsByUserId(String userId);
 
     boolean existsByTelNumber(String telNumber);
