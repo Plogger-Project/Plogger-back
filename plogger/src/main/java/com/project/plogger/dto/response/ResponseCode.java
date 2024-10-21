@@ -7,6 +7,8 @@ public interface ResponseCode {
     String VALIDATION_FAILED = "VF";
     String DUPLICATED_USER_ID = "DI";
     String DUPLICATED_TEL_NUMBER = "DT";
+    String NO_EXIST_Gifticon = "NG";
+
 
     String TEL_AUTH_FAIL = "TAF";
 
