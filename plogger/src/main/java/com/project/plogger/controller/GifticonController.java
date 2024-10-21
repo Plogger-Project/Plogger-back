@@ -1,6 +1,7 @@
 package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.gifticon.PostGifticonRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
 import com.project.plogger.service.GifticonService;
 
 import jakarta.validation.Valid;
@@ -27,5 +29,11 @@ public class GifticonController {
         ResponseEntity<ResponseDto> response = gifticonService.postGifticon(requestBody);
         return response;
     };
+
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<? super GetGifticonListResponseDto> getGifticonList() {
+        ResponseEntity<? super GetGifticonListResponseDto> response = gifticonService.getGifticonList();
+        return response;
+    }
     
 }
