@@ -1,10 +1,14 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.qna.GetQnAListResponseDto;
 import com.project.plogger.entity.QnAEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.QnARepository;
@@ -40,6 +44,24 @@ public class QnAServiceImplement implements QnAService{
         }
 
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetQnAListResponseDto> getQnAList() {
+
+        List<QnAEntity> qnaEntities = new ArrayList<>();
+
+        try {
+
+            qnaEntities = qnaRepository.findByOrderByQnaPostIdDesc();
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetQnAListResponseDto.success(qnaEntities);
+
     }
     
 }

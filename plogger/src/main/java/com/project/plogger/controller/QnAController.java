@@ -2,6 +2,7 @@ package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.qna.GetQnAListResponseDto;
 import com.project.plogger.service.QnAService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,12 @@ public class QnAController {
         @AuthenticationPrincipal String userId
     ){
         ResponseEntity<ResponseDto> response = qnaService.postQnA(requestBody, userId);
+        return response;
+    };
+
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<? super GetQnAListResponseDto> getQnAList(){
+        ResponseEntity<? super GetQnAListResponseDto> response = qnaService.getQnAList();
         return response;
     };
     
