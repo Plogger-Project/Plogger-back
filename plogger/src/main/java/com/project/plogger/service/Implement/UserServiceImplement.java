@@ -5,7 +5,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.project.plogger.common.CreateNumber;
+import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
