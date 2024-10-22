@@ -85,12 +85,14 @@ public class QnAServiceImplement implements QnAService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> patchQnA(Integer qnaPostId, PatchQnARequestDto dto) {
+    public ResponseEntity<ResponseDto> patchQnA(Integer qnaPostId, String userId, PatchQnARequestDto dto) {
 
         try {
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
+            
+            if(!qnaEntity.getQnaPostWriter().equals(userId)) return ResponseDto.noPermission();
 
             qnaEntity.patch(dto);
             qnaEntity.setQnaPostCreatedAt();
@@ -106,12 +108,14 @@ public class QnAServiceImplement implements QnAService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId) {
+    public ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId, String userId) {
 
         try {
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
+
+            if(!qnaEntity.getQnaPostWriter().equals(userId)) return ResponseDto.noPermission();
 
             qnaRepository.delete(qnaEntity);
             

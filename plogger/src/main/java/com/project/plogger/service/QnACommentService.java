@@ -10,6 +10,6 @@ public interface QnACommentService {
 
     ResponseEntity<ResponseDto> postQnAComment(PostQnACommentRequestDto dto, String userId, Integer qnaId);
     ResponseEntity<? super GetQnACommentListResponseDto> getQnACommentList(Integer qnaPostId);
-    // ResponseEntity<ResponseDto> patchTool(Integer toolNumber, PatchToolRequestDto dto);
+    // ResponseEntity<ResponseDto> patchTool(Integer qnaId, PatchToolRequestDto dto);
     
 }

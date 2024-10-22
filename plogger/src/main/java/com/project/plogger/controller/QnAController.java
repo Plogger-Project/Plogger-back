@@ -58,17 +58,19 @@ public class QnAController {
     @PatchMapping("/{qnaPostId}")
     public ResponseEntity<ResponseDto> patchQnA(
         @PathVariable("qnaPostId") Integer qnaPostId,
+        @AuthenticationPrincipal String userId,
         @RequestBody @Valid PatchQnARequestDto requestBody
     ){
-        ResponseEntity<ResponseDto> response = qnaService.patchQnA(qnaPostId, requestBody);
+        ResponseEntity<ResponseDto> response = qnaService.patchQnA(qnaPostId, userId, requestBody);
         return response;
     };
 
     @DeleteMapping("/{qnaPostId}")
     public ResponseEntity<ResponseDto> deleteQnA(
-        @PathVariable("qnaPostId") Integer qnaPostId
+        @PathVariable("qnaPostId") Integer qnaPostId,
+        @AuthenticationPrincipal String userId
     ){
-        ResponseEntity<ResponseDto> response = qnaService.deleteQnA(qnaPostId);
+        ResponseEntity<ResponseDto> response = qnaService.deleteQnA(qnaPostId, userId);
         return response;
     };
 

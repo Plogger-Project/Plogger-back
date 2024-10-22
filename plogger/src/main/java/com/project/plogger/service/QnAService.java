@@ -13,7 +13,7 @@ public interface QnAService {
     ResponseEntity<ResponseDto> postQnA(PostQnARequestDto dto, String userId);
     ResponseEntity<? super GetQnAListResponseDto> getQnAList();
     ResponseEntity<? super GetQnAResponseDto> getQna(Integer qnaPostId);
-    ResponseEntity<ResponseDto> patchQnA(Integer qnaPostId, PatchQnARequestDto dto);
-    ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId);
+    ResponseEntity<ResponseDto> patchQnA(Integer qnaPostId, String userId, PatchQnARequestDto dto);
+    ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId, String userId);
     
 }

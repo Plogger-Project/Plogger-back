@@ -45,7 +45,7 @@ public class ResponseDto {
 
 
     public static ResponseEntity<ResponseDto> noExistGifticon() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_Gifticon, ResponseMessage.NO_EXIST_Gifticon);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_GIFTICON, ResponseMessage.NO_EXIST_GIFTICON);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
@@ -55,7 +55,12 @@ public class ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> noExistQnA() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QnA, ResponseMessage.NO_EXIST_QnA);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_POST, ResponseMessage.NO_EXIST_QNA_POST);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistQnAComment() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_COMMENT, ResponseMessage.NO_EXIST_QNA_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
