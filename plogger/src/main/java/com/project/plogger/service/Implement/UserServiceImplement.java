@@ -21,10 +21,9 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImplement implements UserService  {
+public class UserServiceImplement implements UserService {
 
     private final SmsProvider smsProvider;
-
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
 
@@ -34,33 +33,28 @@ public class UserServiceImplement implements UserService  {
     public ResponseEntity<ResponseDto> patchTelAuth(PatchTelAuthRequestDto dto, String userId) {
 
         String telNumber = dto.getTelNumber();
-        String authNumber = dto.getAuthNumber();
-        
+        String authNumber;
+
         try {
 
             UserEntity user = userRepository.findByUserId(userId);
-            if (user == null) return ResponseDto.noExistUserId();
+            if (user == null)
+                return ResponseDto.noExistUserId();
 
             boolean isExisted = userRepository.existsByTelNumber(telNumber);
-            if (isExisted) return ResponseDto.duplicatedTelNumber();
+            if (isExisted)
+                return ResponseDto.duplicatedTelNumber();
 
-        } catch(Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-
-        authNumber = new CreateNumber().generateAuthNumber();
-
-        boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
-        if (!isSendSuccess) return ResponseDto.messageSendFail();
-
-        try {
+            authNumber = new CreateNumber().generateAuthNumber();
+            boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
+            if (!isSendSuccess)
+                return ResponseDto.messageSendFail();
 
             TelAuthEntity telAuthEntity = new TelAuthEntity(telNumber, authNumber);
-            telAuthEntity.patch(dto);
+            telAuthEntity.patch(dto); 
             telAuthRepository.save(telAuthEntity);
-    
-        } catch(Exception exception) {
+
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -76,53 +70,69 @@ public class UserServiceImplement implements UserService  {
 
         try {
 
-            UserEntity user = userRepository.findByUserId(userId);
-            if (user == null) return ResponseDto.noExistUserId();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.noExistUserId();
 
             boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
             if (!isMatched) return ResponseDto.telAuthFail();
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
         return ResponseDto.success();
-
     }
 
     @Override
     public ResponseEntity<ResponseDto> patchUser(PatchUserRequestDto dto, String userId) {
-    
-        String password = dto.getPassword();
-        String telNumber = dto.getTelNumber();
-        String authNumber = dto.getAuthNumber();
-
+        
         try {
 
             UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.noExistUserId();
 
-            boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
-            if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
+            String patchUserId = userEntity.getUserId();
+            boolean isUser = patchUserId.equals(userId);
+            if (!isUser) return ResponseDto.noPermission();
 
-            boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
-            if (!isMatched) return ResponseDto.telAuthFail();
+            if (dto.getTelNumber() != null && !dto.getTelNumber().isEmpty()) {
+                boolean isExistedTelNumber = userRepository.existsByTelNumber(dto.getTelNumber());
+                if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
 
-            if (password != null && !password.isEmpty()) {
-                String encodedPassword = passwordEncoder.encode(password);
-                dto.setPassword(encodedPassword);
+                if (!telAuthRepository.existsByTelNumberAndAuthNumber(dto.getTelNumber(), dto.getAuthNumber())) {
+                    return ResponseDto.telAuthFail();
+                }
             }
 
-            userEntity.patch(dto);
+            if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
+                String encodedPassword = passwordEncoder.encode(dto.getPassword());
+                userEntity.setPassword(encodedPassword);
+            }
+
+            if (dto.getProfileImage() != null) {
+                userEntity.setProfileImage(dto.getProfileImage());
+            }
+
+            if (dto.getName() != null) {
+                userEntity.setName(dto.getName());
+            }
+
+            if (dto.getTelNumber() != null) {
+                userEntity.setTelNumber(dto.getTelNumber());
+            }
+            
+            if (dto.getAddress() != null) {
+                userEntity.setAddress(dto.getAddress());
+            }
+
             userRepository.save(userEntity);
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
         return ResponseDto.success();
     }
-    
 }

@@ -54,6 +54,12 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+
+    public static ResponseEntity<ResponseDto> noExistActivePost() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+  
     public static ResponseEntity<ResponseDto> noExistQnA() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_POST, ResponseMessage.NO_EXIST_QNA_POST);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);

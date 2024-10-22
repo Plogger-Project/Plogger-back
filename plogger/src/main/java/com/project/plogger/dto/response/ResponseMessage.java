@@ -10,8 +10,10 @@ public interface ResponseMessage {
 
     String NO_EXIST_GIFTICON = "No exist gifticon";
     String NO_EXIST_USER_ID = "No exist user id.";
+    String NO_EXIST_ACTIVE_POST = "No exist active post.";
     String NO_EXIST_QNA_POST = "No exist qna post.";
     String NO_EXIST_QNA_COMMENT = "No exist qna comment";
+  
     String SIGN_IN_FAIL = "Sign in failed.";
     String AUTHENTICATION_FAIL = "Authentication failed.";
 

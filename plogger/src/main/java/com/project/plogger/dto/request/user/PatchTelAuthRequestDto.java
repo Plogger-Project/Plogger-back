@@ -14,7 +14,5 @@ public class PatchTelAuthRequestDto {
     @NotBlank
     @Pattern(regexp = "^[0-9]{11}$")
     private String telNumber;
-    @NotBlank
-    private String authNumber;
 
 }
