@@ -13,4 +13,5 @@ public interface ResponseMessage {
     String MESSAGE_SEND_FAIL = "Auth number send failed.";
     String DATABASE_ERROR = "Database error.";
 
+    String NO_EXIST_RECRUIT_POST = "No exist Recruit Post";
 }

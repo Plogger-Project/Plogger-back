@@ -13,4 +13,6 @@ public interface ResponseCode {
     String MESSAGE_SEND_FAIL = "TF";
     String DATABASE_ERROR = "DBE";
 
+    String NO_EXIST_RECRUIT_POST = "NRP";
+
 }

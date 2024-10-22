@@ -77,7 +77,7 @@ public class WebSecurityConfig {
 
             response.setContentType("application/json");
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authentica Failed\"}");
+            response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authentication Failed\"}");
 
         }
     }
