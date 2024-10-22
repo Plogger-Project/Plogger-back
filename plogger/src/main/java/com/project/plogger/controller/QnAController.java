@@ -2,6 +2,7 @@ package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -56,6 +57,14 @@ public class QnAController {
         @RequestBody @Valid PatchQnARequestDto requestBody
     ){
         ResponseEntity<ResponseDto> response = qnaService.patchQnA(qnaPostId, requestBody);
+        return response;
+    };
+
+    @DeleteMapping("/{qnaPostId}")
+    public ResponseEntity<ResponseDto> deleteQnA(
+        @PathVariable("qnaPostId") Integer qnaPostId
+    ){
+        ResponseEntity<ResponseDto> response = qnaService.deleteQnA(qnaPostId);
         return response;
     };
     

@@ -14,5 +14,6 @@ public interface QnAService {
     ResponseEntity<? super GetQnAListResponseDto> getQnAList();
     ResponseEntity<? super GetQnAResponseDto> getQna(Integer qnaPostId);
     ResponseEntity<ResponseDto> patchQnA(Integer qnaPostId, PatchQnARequestDto dto);
+    ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId);
     
 }

@@ -104,5 +104,24 @@ public class QnAServiceImplement implements QnAService{
 
         return ResponseDto.success();
     }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteQnA(Integer qnaPostId) {
+
+        try {
+
+            QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
+            if(qnaEntity == null) return ResponseDto.noExistQnA();
+
+            qnaRepository.delete(qnaEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
+    }
     
 }
