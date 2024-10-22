@@ -36,6 +36,10 @@ public class QnAEntity {
 
     private static final DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    public void setQnaPostCreatedAt() {
+        this.qnaPostCreatedAt = LocalDateTime.now().format(Formatter);
+    }
+
     public QnAEntity(PostQnARequestDto dto) {
         this.qnaPostTitle = dto.getQnaPostTitle();
         this.qnaPostContent = dto.getQnaPostContent();
@@ -48,10 +52,6 @@ public class QnAEntity {
         this.qnaPostContent = dto.getQnaPostContent();
         this.qnaPostImage = dto.getQnaPostImage();
         this.isPinned = dto.getIsPinned();
-    }
-
-    public void setQnaPostCreatedAt() {
-        this.qnaPostCreatedAt = LocalDateTime.now().format(Formatter);
     }
     
 }

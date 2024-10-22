@@ -11,6 +11,6 @@ import com.project.plogger.entity.QnAEntity;
 public interface QnARepository extends JpaRepository<QnAEntity, Integer> {
 
     List<QnAEntity> findByOrderByQnaPostIdDesc();
-    QnAEntity findByQnaPostId(Integer qnaPostId);
+    QnAEntity findByQnaPostId(Integer qnaPostId);   
 
 }

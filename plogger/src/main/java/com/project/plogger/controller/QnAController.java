@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.qna.PatchQnARequestDto;
+import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.qna.GetQnAListResponseDto;
 import com.project.plogger.dto.response.qna.GetQnAResponseDto;
+import com.project.plogger.service.QnACommentService;
 import com.project.plogger.service.QnAService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class QnAController {
 
     private final QnAService qnaService;
+    private final QnACommentService qnaCommentService;
 
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postQnA(
@@ -67,5 +70,15 @@ public class QnAController {
         ResponseEntity<ResponseDto> response = qnaService.deleteQnA(qnaPostId);
         return response;
     };
+
+    @PostMapping("/{qnaPostId}/comments")
+    public ResponseEntity<ResponseDto> postQnAComment(
+        @RequestBody @Valid PostQnACommentRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("qnaPostId") Integer qnaPostId
+    ){ 
+        ResponseEntity<ResponseDto> response = qnaCommentService.postQnAComment(requestBody, userId, qnaPostId);
+        return response;
+    }
     
 }
