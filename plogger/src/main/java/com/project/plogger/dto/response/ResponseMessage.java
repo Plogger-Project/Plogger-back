@@ -24,4 +24,5 @@ public interface ResponseMessage {
     String TOKEN_CREATE_FAIL = "Token creation failed.";
     String DATABASE_ERROR = "Database error.";
 
+    String NO_EXIST_RECRUIT_POST = "No exist Recruit Post";
 }

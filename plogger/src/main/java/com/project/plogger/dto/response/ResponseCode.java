@@ -24,4 +24,6 @@ public interface ResponseCode {
     String TOKEN_CREATE_FAIL = "TCF";
     String DATABASE_ERROR = "DBE";
 
+    String NO_EXIST_RECRUIT_POST = "NRP";
+
 }
