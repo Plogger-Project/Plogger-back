@@ -1,9 +1,10 @@
 package com.project.plogger.entity;
 
-import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
+import com.project.plogger.entity.pk.RecruitScrapPk;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,16 +15,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "tel_auth")
-@Entity(name = "tel_auth")
-public class TelAuthEntity {
+@Entity(name = "scrap")
+@Table(name = "scrap")
+@IdClass(RecruitScrapPk.class)
+public class RecruitScrapEntity {
     
     @Id
-    private String telNumber;
-    private String authNumber;
-
-    public void patch(PatchTelAuthRequestDto dto) {
-        this.telNumber = dto.getTelNumber();
-    }
-
+    private String userId;
+    @Id
+    private String recruitId;
+    private String createdAt;
+    
 }

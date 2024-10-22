@@ -9,7 +9,8 @@ public interface ResponseCode {
     String DUPLICATED_TEL_NUMBER = "DT";
 
     String NO_EXIST_USER_ID = "NI";
-    String NO_EXIST_Gifticon = "NG";
+    String NO_EXIST_GIFTICON = "NG";
+    String NO_EXIST_ACTIVE_POST = "NAP";
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
 

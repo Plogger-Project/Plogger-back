@@ -9,10 +9,7 @@ import com.project.plogger.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, String> {
     
     boolean existsByUserId(String userId);
-
     boolean existsByTelNumber(String telNumber);
-
     UserEntity findByUserId(String userId);
-
     UserEntity findBySnsIdAndJoinPath(String snsId, String joinPath);
 }
