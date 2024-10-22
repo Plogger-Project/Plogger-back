@@ -10,6 +10,5 @@ import com.project.plogger.entity.GifticonEntity;
 public interface GifticonRepository extends JpaRepository<GifticonEntity, Integer>{
 
     GifticonEntity findByGifticonId(Integer gifticonId);
-    List<GifticonEntity> findByOrderByGifticonIdDesc();
-    
+    List<GifticonEntity> findByOrderByGifticonIdDesc();    
 }
