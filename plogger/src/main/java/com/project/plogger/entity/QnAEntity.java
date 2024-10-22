@@ -3,6 +3,7 @@ package com.project.plogger.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.project.plogger.dto.request.qna.PatchQnARequestDto;
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 
 import jakarta.persistence.Entity;
@@ -36,6 +37,13 @@ public class QnAEntity {
     private static final DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public QnAEntity(PostQnARequestDto dto) {
+        this.qnaPostTitle = dto.getQnaPostTitle();
+        this.qnaPostContent = dto.getQnaPostContent();
+        this.qnaPostImage = dto.getQnaPostImage();
+        this.isPinned = dto.getIsPinned();
+    }
+
+    public void patch(PatchQnARequestDto dto) {
         this.qnaPostTitle = dto.getQnaPostTitle();
         this.qnaPostContent = dto.getQnaPostContent();
         this.qnaPostImage = dto.getQnaPostImage();
