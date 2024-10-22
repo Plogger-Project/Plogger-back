@@ -3,6 +3,7 @@ package com.project.plogger.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.project.plogger.dto.request.qna.PatchQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 
 import jakarta.persistence.Entity;
@@ -43,6 +44,10 @@ public class QnACommentEntity {
 
     public void setQnaPostId(Integer qnaId) {
         this.qnaId = qnaId;
+    }
+
+    public void patch(PatchQnACommentRequestDto dto) {
+        this.qnaCommentContent = dto.getQnaCommentContent();
     }
     
 }
