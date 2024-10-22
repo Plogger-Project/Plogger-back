@@ -10,6 +10,7 @@ public interface ResponseCode {
 
     String NO_EXIST_USER_ID = "NI";
     String NO_EXIST_Gifticon = "NG";
+    String NO_EXIST_QnA = "NQ";
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
 

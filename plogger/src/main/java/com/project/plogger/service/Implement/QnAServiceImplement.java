@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.qna.GetQnAListResponseDto;
+import com.project.plogger.dto.response.qna.GetQnAResponseDto;
 import com.project.plogger.entity.QnAEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.QnARepository;
@@ -62,6 +63,24 @@ public class QnAServiceImplement implements QnAService{
 
         return GetQnAListResponseDto.success(qnaEntities);
 
+    }
+
+    @Override
+    public ResponseEntity<? super GetQnAResponseDto> getQna(Integer qnaPostId) {
+
+        QnAEntity qnaEntity = null;
+
+        try {
+
+            qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
+            if(qnaEntity == null) return ResponseDto.noExistQnA();
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetQnAResponseDto.success(qnaEntity);
     }
     
 }
