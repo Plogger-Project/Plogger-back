@@ -15,6 +15,7 @@ import com.project.plogger.dto.request.qna.PatchQnARequestDto;
 import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.qna.GetQnACommentListResponseDto;
 import com.project.plogger.dto.response.qna.GetQnAListResponseDto;
 import com.project.plogger.dto.response.qna.GetQnAResponseDto;
 import com.project.plogger.service.QnACommentService;
@@ -80,5 +81,13 @@ public class QnAController {
         ResponseEntity<ResponseDto> response = qnaCommentService.postQnAComment(requestBody, userId, qnaPostId);
         return response;
     }
+
+    @GetMapping("/{qnaPostId}/comments")
+    public ResponseEntity<? super GetQnACommentListResponseDto> getQnACommentList(
+        @PathVariable("qnaPostId") Integer qnaPostId   
+    ){
+        ResponseEntity<? super GetQnACommentListResponseDto> response = qnaCommentService.getQnACommentList(qnaPostId);
+        return response;
+}
     
 }

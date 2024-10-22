@@ -1,10 +1,14 @@
 package com.project.plogger.service.Implement;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.qna.GetQnACommentListResponseDto;
 import com.project.plogger.entity.QnACommentEntity;
 import com.project.plogger.entity.QnAEntity;
 import com.project.plogger.entity.UserEntity;
@@ -48,6 +52,24 @@ public class QnACommentServiceImplement implements QnACommentService{
         }
 
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetQnACommentListResponseDto> getQnACommentList(Integer qnaId) {
+
+        List<QnACommentEntity> qnaCommentEntities = new ArrayList<>();
+
+        try {
+
+            qnaCommentEntities = qnaCommentRepository.findByQnaIdOrderByQnaCommentIdAsc(qnaId);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetQnACommentListResponseDto.success(qnaCommentEntities);
+
     }
     
 }
