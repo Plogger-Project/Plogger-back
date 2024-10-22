@@ -1,6 +1,7 @@
 package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -29,9 +30,10 @@ public class GifticonController {
 
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postGifticon(
+        @AuthenticationPrincipal String userId,
         @RequestBody @Valid PostGifticonRequestDto requestBody
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.postGifticon(requestBody);
+        ResponseEntity<ResponseDto> response = gifticonService.postGifticon(userId, requestBody);
         return response;
     };
 
@@ -51,18 +53,20 @@ public class GifticonController {
 
     @PatchMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> patchGifticon(
+        @AuthenticationPrincipal String userId,
         @PathVariable("gifticonId") Integer gifticonId,
         @RequestBody @Valid PatchGifticonRequestDto requestBody
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.patchGifticon(gifticonId, requestBody);
+        ResponseEntity<ResponseDto> response = gifticonService.patchGifticon(userId, gifticonId, requestBody);
         return response;
     };
 
     @DeleteMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> deleteGifticon(
+        @AuthenticationPrincipal String userId,
         @PathVariable("gifticonId") Integer gifticonId
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(gifticonId);
+        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(userId, gifticonId);
         return response;
     };
     
