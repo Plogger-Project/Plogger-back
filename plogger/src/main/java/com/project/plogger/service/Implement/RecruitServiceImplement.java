@@ -7,7 +7,7 @@ import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.repository.RecruitRepository;
-import com.project.plogger.repository.resultSet.GetRecruitResultSet;
+import com.project.plogger.repository.resultset.GetRecruitResultSet;
 import com.project.plogger.service.RecruitService;
 
 import lombok.RequiredArgsConstructor;

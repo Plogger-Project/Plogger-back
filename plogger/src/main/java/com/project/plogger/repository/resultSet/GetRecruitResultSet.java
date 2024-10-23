@@ -1,11 +1,9 @@
-package com.project.plogger.repository.resultSet;
+package com.project.plogger.repository.resultset;
 
 public interface GetRecruitResultSet {
-    Integer getRecruitPostId();
-
-    String getRecruitPostTitle();
-
     
+    Integer getRecruitPostId();
+    String getRecruitPostTitle();
     String getRecruitPostContent();
     String getRecruitPostImage();
     String getRecruitPostWriter();

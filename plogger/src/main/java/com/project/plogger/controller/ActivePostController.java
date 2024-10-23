@@ -3,6 +3,7 @@ package com.project.plogger.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
+import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.service.active.ActivePostService;
 
 import jakarta.validation.Valid;
@@ -40,6 +43,18 @@ public class ActivePostController {
     @DeleteMapping("/{activePostId}")
     public ResponseEntity<ResponseDto> deleteActivePost(@PathVariable Integer activePostId, @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = activePostService.deleteActivePost(activePostId, userId);
+        return response;
+    }
+
+    @GetMapping("/{activePostId}")
+    public ResponseEntity<? super GetActivePostResponseDto> getActivePost(@PathVariable Integer activePostId) {
+        ResponseEntity<? super GetActivePostResponseDto> response = activePostService.getActivePost(activePostId);
+        return response;
+    }
+
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<? super GetActivePostListResponseDto> getActivePosts() {
+        ResponseEntity<? super GetActivePostListResponseDto> response = activePostService.getActivePostList();
         return response;
     }
 
