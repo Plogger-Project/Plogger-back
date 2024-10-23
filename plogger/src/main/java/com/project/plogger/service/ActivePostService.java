@@ -1,4 +1,4 @@
-package com.project.plogger.service.active;
+package com.project.plogger.service;
 
 import org.springframework.http.ResponseEntity;
 

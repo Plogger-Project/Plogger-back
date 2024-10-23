@@ -16,7 +16,7 @@ import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
-import com.project.plogger.service.active.ActivePostService;
+import com.project.plogger.service.ActivePostService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

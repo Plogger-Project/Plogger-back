@@ -3,6 +3,8 @@ package com.project.plogger.dto.response;
 public interface ResponseMessage {
 
     String SUCCESS = "Success.";
+    String LIKE_CLICK = "Like click.";
+    String LIKE_UNCLICK = "Like unclick.";
 
     String VALIDATION_FAIL = "Validation failed.";
     String DUPLICATED_USER_ID = "Duplicated user id.";
@@ -13,7 +15,7 @@ public interface ResponseMessage {
     String NO_EXIST_ACTIVE_POST = "No exist active post.";
     String NO_EXIST_QNA_POST = "No exist qna post.";
     String NO_EXIST_QNA_COMMENT = "No exist qna comment";
-  
+
     String SIGN_IN_FAIL = "Sign in failed.";
     String AUTHENTICATION_FAIL = "Authentication failed.";
 

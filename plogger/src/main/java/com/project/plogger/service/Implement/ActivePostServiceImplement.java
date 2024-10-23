@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.project.plogger.common.object.ActivePost;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -16,7 +15,7 @@ import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.UserRepository;
-import com.project.plogger.service.active.ActivePostService;
+import com.project.plogger.service.ActivePostService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -133,7 +132,7 @@ public class ActivePostServiceImplement implements ActivePostService {
         try {
 
             activePostEntities = activePostRepository.findAllByOrderByActivePostIdDesc();
-            
+
 
         } catch(Exception exception) {
             exception.printStackTrace();
