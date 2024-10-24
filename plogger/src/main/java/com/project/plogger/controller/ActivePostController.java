@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
+import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
+import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
 
 import jakarta.validation.Valid;
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class ActivePostController {
 
     private final ActivePostService activePostService;
+    private final ActiveCommentService activeCommentService;
     
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postActivePost(@RequestBody @Valid PostActivePostRequestDto dto, @AuthenticationPrincipal String userId) {
@@ -55,6 +58,16 @@ public class ActivePostController {
     @GetMapping(value = {"", "/"})
     public ResponseEntity<? super GetActivePostListResponseDto> getActivePosts() {
         ResponseEntity<? super GetActivePostListResponseDto> response = activePostService.getActivePostList();
+        return response;
+    }
+
+    @PostMapping("/{activePostId}/comments")
+    public ResponseEntity<ResponseDto> postActiveComment(
+        @RequestBody @Valid PostActiveCommentRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("activePostId") Integer activePostId
+    ){ 
+        ResponseEntity<ResponseDto> response = activeCommentService.postActiveComment(requestBody, userId, activePostId);
         return response;
     }
 
