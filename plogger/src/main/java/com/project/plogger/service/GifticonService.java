@@ -13,5 +13,5 @@ public interface GifticonService {
     ResponseEntity<? super GetGifticonListResponseDto> getGifticonList();
     ResponseEntity<? super GetGifticonResponseDto> getGifticon(Integer gifticonId);
     ResponseEntity<ResponseDto> patchGifticon(String userId, Integer gifticonId, PatchGifticonRequestDto dto);  
-    ResponseEntity<ResponseDto> deleteGifticon(String userId, Integer gifticonId); 
+    ResponseEntity<ResponseDto> deleteGifticon(String userId, Integer gifticonId);
 }

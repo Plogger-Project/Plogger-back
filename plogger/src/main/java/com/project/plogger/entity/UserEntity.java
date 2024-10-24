@@ -1,7 +1,7 @@
 package com.project.plogger.entity;
 
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
-import com.project.plogger.dto.request.user.PatchUserRequestDto;
+import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -48,7 +48,7 @@ public class UserEntity {
         this.isAdmin = dto.getIsAdmin();
     }
 
-    public void patch(PatchUserRequestDto dto) {
+    public void patch(ChangeMileageRequestDto dto) {
         this.profileImage = dto.getProfileImage();
         this.name = dto.getName();
         this.password = dto.getPassword();
