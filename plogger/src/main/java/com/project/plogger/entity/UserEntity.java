@@ -26,17 +26,12 @@ public class UserEntity {
     private String password; 
     private String telNumber;
     private String address;
-    @Column(columnDefinition = "varchar(255) default 'https://blog.kakaocdn.net/dn/4CElL/btrQw18lZMc/Q0oOxqQNdL6kZp0iSKLbV1/img.png'")
     private String profileImage = "https://blog.kakaocdn.net/dn/4CElL/btrQw18lZMc/Q0oOxqQNdL6kZp0iSKLbV1/img.png";
-    @Column(columnDefinition = "int default 0")
     private Integer ecoScore = 0;
-    @Column(columnDefinition = "int default 0")
     private Integer mileage = 0;
     private String comment;
-    @Column(columnDefinition = "text default 'home'")
     private String joinPath = "home";
     private String snsId;
-    @Column(columnDefinition = "boolean default false")
     private Boolean isAdmin = false;
 
     public UserEntity(SignUpRequestDto dto) {

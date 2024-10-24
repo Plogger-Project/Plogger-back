@@ -39,7 +39,7 @@ public class ActiveLikeServiceImplement implements ActiveLikeService {
                 likeRepository.deleteByUserIdAndActiveId(userId, activeId); // 좋아요 취소
                 activePostEntity.setActivePostLike(activePostEntity.getActivePostLike() - 1);
                 postRepository.save(activePostEntity);
-                return ResponseDto.likeClick();
+                return ResponseDto.likeUnclick();
 
             } else {
 
@@ -47,7 +47,7 @@ public class ActiveLikeServiceImplement implements ActiveLikeService {
                 likeRepository.save(likeEntity); 
                 activePostEntity.setActivePostLike(activePostEntity.getActivePostLike() + 1);
                 postRepository.save(activePostEntity);
-                return ResponseDto.likeUnclick();
+                return ResponseDto.likeClick();
 
             }
 
