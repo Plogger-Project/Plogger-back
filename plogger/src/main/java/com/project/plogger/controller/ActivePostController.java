@@ -15,6 +15,7 @@ import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.service.ActiveCommentService;
@@ -68,6 +69,14 @@ public class ActivePostController {
         @PathVariable("activePostId") Integer activePostId
     ){ 
         ResponseEntity<ResponseDto> response = activeCommentService.postActiveComment(requestBody, userId, activePostId);
+        return response;
+    }
+
+    @GetMapping("/{activePostId}/comments")
+    public ResponseEntity<? super GetActiveCommentListResponseDto> getActiveCommentList(
+        @PathVariable("activePostId") Integer activePostId
+    ){
+        ResponseEntity<? super GetActiveCommentListResponseDto> response = activeCommentService.getActiveCommentList(activePostId);
         return response;
     }
 
