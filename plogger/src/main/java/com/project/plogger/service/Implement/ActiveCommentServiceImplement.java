@@ -98,5 +98,27 @@ public class ActiveCommentServiceImplement implements ActiveCommentService{
         return ResponseDto.success();
         
     }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteActiveComment(Integer activeId, Integer activeCommentId, String userId) {
+
+        try {
+
+            ActiveCommentEntity activeCommentEntity = activeCommentRepository.findByActiveCommentId(activeCommentId);
+            if(activeCommentEntity == null) return ResponseDto.noExistActiveComment();
+
+            if(!activeCommentEntity.getActiveId().equals(activeId)) return ResponseDto.noExistActivePost();
+            if(!activeCommentEntity.getActiveCommentWriter().equals(userId)) return ResponseDto.noPermission();
+
+            activeCommentRepository.delete(activeCommentEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+        
+    }
     
 }

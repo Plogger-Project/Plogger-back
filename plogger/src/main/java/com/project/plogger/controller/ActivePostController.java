@@ -92,4 +92,14 @@ public class ActivePostController {
         return response;
     };
 
+    @DeleteMapping("/{activePostId}/comments/{activeCommentId}")
+    public ResponseEntity<ResponseDto> deleteActiveComment(
+        @PathVariable("activePostId") Integer activePostId,
+        @PathVariable("activeCommentId") Integer activeCommentId,
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<ResponseDto> response = activeCommentService.deleteActiveComment(activePostId, activeCommentId, userId);
+        return response;
+    };
+
 }

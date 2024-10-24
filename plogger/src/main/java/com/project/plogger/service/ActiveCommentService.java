@@ -12,5 +12,6 @@ public interface ActiveCommentService {
     ResponseEntity<ResponseDto> postActiveComment(PostActiveCommentRequestDto dto, String userId, Integer activeId);
     ResponseEntity<? super GetActiveCommentListResponseDto> getActiveCommentList(Integer activeId);
     ResponseEntity<ResponseDto> patchActiveComment(Integer activeId, Integer activeCommentId, String userId, PatchActiveCommentRequestDto dto);
+    ResponseEntity<ResponseDto> deleteActiveComment(Integer activeId, Integer activeCommentId, String userId);
 
 }
