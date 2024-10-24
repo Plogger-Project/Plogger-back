@@ -1,19 +1,26 @@
 package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.auth.FindIdAuthCheckDto;
+import com.project.plogger.dto.request.auth.FindIdRequestDto;
 import com.project.plogger.dto.request.auth.IdCheckRequestDto;
 import com.project.plogger.dto.request.auth.SignInRequestDto;
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.auth.TelAuthRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.auth.FindIdResponseDto;
+import com.project.plogger.dto.response.admin.GetSignInResponseDto;
 import com.project.plogger.dto.response.auth.SignInResponseDto;
 import com.project.plogger.service.AuthService;
+import com.project.plogger.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
+    private final UserService userService;
 
     @PostMapping("/id-check")
     public ResponseEntity<ResponseDto> idCheck(@RequestBody @Valid IdCheckRequestDto request) {
@@ -55,4 +63,23 @@ public class AuthController {
         return response;
     }
 
+    @PostMapping("/send-auth")
+    public ResponseEntity<ResponseDto> sendAuthNumber(@RequestBody @Valid FindIdAuthCheckDto request) {
+        ResponseEntity<ResponseDto> response = authService.sendAuthNumber(request);
+        return response;
+    }
+
+    @PostMapping("/find-id")
+    public ResponseEntity<? super FindIdResponseDto> findUserIdByTelNumber(@RequestBody @Valid FindIdRequestDto requestBody) {
+        ResponseEntity<? super FindIdResponseDto> response = authService.findUserIdByTelNumber(requestBody);
+        return response;
+    }
+
+    @GetMapping("/sign-in")
+    public ResponseEntity<? super GetSignInResponseDto> getSignIn(
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<? super GetSignInResponseDto> response = userService.getSignIn(userId);
+        return response;
+    };
 }
