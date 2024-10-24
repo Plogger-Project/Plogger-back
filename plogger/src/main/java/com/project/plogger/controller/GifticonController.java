@@ -1,6 +1,7 @@
 package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.gifticon.PatchGifticonRequestDto;
 import com.project.plogger.dto.request.gifticon.PostGifticonRequestDto;
+import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 import com.project.plogger.service.GifticonService;
+import com.project.plogger.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +29,14 @@ import lombok.RequiredArgsConstructor;
 public class GifticonController {
 
     private final GifticonService gifticonService;
+    private final UserService userService;
 
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postGifticon(
+        @AuthenticationPrincipal String userId,
         @RequestBody @Valid PostGifticonRequestDto requestBody
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.postGifticon(requestBody);
+        ResponseEntity<ResponseDto> response = gifticonService.postGifticon(userId, requestBody);
         return response;
     };
 
@@ -51,19 +56,31 @@ public class GifticonController {
 
     @PatchMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> patchGifticon(
+        @AuthenticationPrincipal String userId,
         @PathVariable("gifticonId") Integer gifticonId,
         @RequestBody @Valid PatchGifticonRequestDto requestBody
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.patchGifticon(gifticonId, requestBody);
+        ResponseEntity<ResponseDto> response = gifticonService.patchGifticon(userId, gifticonId, requestBody);
         return response;
     };
 
     @DeleteMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> deleteGifticon(
+        @AuthenticationPrincipal String userId,
         @PathVariable("gifticonId") Integer gifticonId
     ){
-        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(gifticonId);
+        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(userId, gifticonId);
         return response;
     };
+
+    @PatchMapping("/{gifticonId}/purchase")
+    public ResponseEntity<ResponseDto> purchase(
+        @AuthenticationPrincipal String userId,
+        @PathVariable("gifticonId") Integer gifticonId,
+        @RequestBody @Valid ChangeMileageRequestDto requestBody    
+    ) {
+        ResponseEntity<ResponseDto> response = userService.changeMileage(userId, gifticonId, requestBody);
+        return response;
+    }
     
 }

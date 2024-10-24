@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.qna.PatchQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.qna.GetQnACommentListResponseDto;
@@ -70,6 +71,53 @@ public class QnACommentServiceImplement implements QnACommentService{
 
         return GetQnACommentListResponseDto.success(qnaCommentEntities);
 
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchQnAComment(Integer qnaId, Integer qnaCommentId, String userId, PatchQnACommentRequestDto dto) {
+
+        try {
+
+            QnACommentEntity qnaCommentEntity = qnaCommentRepository.findByQnaCommentId(qnaCommentId);
+            if(qnaCommentEntity == null) return ResponseDto.noExistQnAComment();
+
+            if(!qnaCommentEntity.getQnaId().equals(qnaId)) return ResponseDto.noExistQnA();
+            if(!qnaCommentEntity.getQnaCommentWriter().equals(userId)) return ResponseDto.noPermission();
+
+            qnaCommentEntity.patch(dto);
+            qnaCommentEntity.setQnaCommentCreatedAt();
+
+            qnaCommentRepository.save(qnaCommentEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteQnAComment(Integer qnaId, Integer qnaCommentId, String userId) {
+
+        try {
+
+            QnACommentEntity qnaCommentEntity = qnaCommentRepository.findByQnaCommentId(qnaCommentId);
+            if(qnaCommentEntity == null) return ResponseDto.noExistQnAComment();
+
+            if(!qnaCommentEntity.getQnaId().equals(qnaId)) return ResponseDto.noExistQnA();
+            if(!qnaCommentEntity.getQnaCommentWriter().equals(userId)) return ResponseDto.noPermission();     
+
+            qnaCommentRepository.delete(qnaCommentEntity);
+
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
     }
     
 }
