@@ -4,10 +4,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
-import com.project.plogger.dto.request.recruit.ReportRecruitReqeustDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
-import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.repository.resultSet.GetRecruitResultSet;
 import com.project.plogger.service.RecruitService;
@@ -36,31 +34,17 @@ public class RecruitServiceImplement implements RecruitService {
 
     }
 
-    // @Override
-    // public ResponseEntity<ResponseDto> reportRecruit(Integer recruitPostId, String userId) {
-    //     try {
-    //         RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
-    //         if ( recruitEntity == null) {
-    //             return ResponseDto.noExistRecruit();
-    //         }
-
-    //         recruitEntity.setRecruitReport(recruitEntity.getRecruitReport() + 1);
-    //         recruitRepository.save(recruitEntity);
-    //     } catch (Exception exception) {
-    //         exception.printStackTrace();
-    //         return ResponseDto.databaseError();
-    //     }
-    //     return ResponseDto.success();
-    // }
-
-    // @Override
-    // public ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto) {
-    //     try {
+    @Override
+    public ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto) {
+        try {
             
-    //     } catch (Exception exception) {
-    //         exception.printStackTrace();
-    //         return ResponseDto.databaseError();
-    //     }
-    //     return ResponseDto.success();
-    // }
+
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
+    }
+    
 }

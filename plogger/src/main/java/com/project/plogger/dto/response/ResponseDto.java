@@ -12,6 +12,7 @@ public class ResponseDto {
     
     private String code;
     private String message;
+    
 
     public static ResponseEntity<ResponseDto> success() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
@@ -43,7 +44,6 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
-
     public static ResponseEntity<ResponseDto> noExistGifticon() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_GIFTICON, ResponseMessage.NO_EXIST_GIFTICON);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
@@ -54,12 +54,17 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistTelNumber() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_TEL_NUMBER, ResponseMessage.NO_EXIST_TEL_NUMBER);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
 
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-  
+
     public static ResponseEntity<ResponseDto> noExistQnA() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_POST, ResponseMessage.NO_EXIST_QNA_POST);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);

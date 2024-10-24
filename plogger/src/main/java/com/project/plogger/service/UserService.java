@@ -16,5 +16,4 @@ public interface UserService {
     ResponseEntity<ResponseDto> patchUser(PatchUserRequestDto dto, String userId);
     ResponseEntity<ResponseDto> changeMileage(String userId, Integer gifticonId, ChangeMileageRequestDto dto);
     ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId);
-
 }
