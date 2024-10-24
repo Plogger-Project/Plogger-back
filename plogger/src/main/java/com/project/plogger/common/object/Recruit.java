@@ -22,7 +22,7 @@ public class Recruit {
     private Integer recruitView;
     private Integer recruitPostLike;
     private Integer recruitReport;
-    private Integer isCompleted;
+    private Boolean isCompleted;
 
     public Recruit(RecruitEntity recruitEntity) {
         this.recruitPostId = recruitEntity.getRecruitPostId();

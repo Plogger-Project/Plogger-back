@@ -7,6 +7,7 @@ import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.entity.RecruitEntity;
+import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.repository.resultSet.GetRecruitResultSet;
@@ -25,11 +26,14 @@ public class RecruitServiceImplement implements RecruitService {
     public ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto, String userId) {
         try {
 
-            boolean isExistedUser = userRepository.existsById(userId);
-            if (!isExistedUser)
+            RecruitEntity recruitEntity = new RecruitEntity(dto);
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null)
                 return ResponseDto.noExistUserId();
 
-            RecruitEntity recruitEntity = new RecruitEntity(dto);
+            
+            recruitEntity.setRecruitPostCreatedAt();
             recruitEntity.setRecruitPostWriter(userId);
             recruitRepository.save(recruitEntity);
 

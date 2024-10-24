@@ -25,8 +25,10 @@ public class RecruitController {
     private final RecruitService recruitService;
 
     @PostMapping(value = { "", "/" })
-    public ResponseEntity<ResponseDto> postRecruit(@RequestBody @Valid PostRecruitRequestDto dto,
-            @AuthenticationPrincipal String userId) {
+    public ResponseEntity<ResponseDto> postRecruit(
+        @RequestBody @Valid PostRecruitRequestDto dto,
+        @AuthenticationPrincipal String userId
+    ) {
         ResponseEntity<ResponseDto> response = recruitService.postRecruit(dto, userId);
         return response;
     }

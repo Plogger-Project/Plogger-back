@@ -1,6 +1,8 @@
 package com.project.plogger.entity;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
@@ -21,8 +23,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "recruit")
-@Table(name = "recruit")
+@Entity(name = "recruitpost")
+@Table(name = "recruitpost")
 public class RecruitEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,25 +40,32 @@ public class RecruitEntity {
     private String recruitEndDate;
     private Integer minPeople;
     @Column(columnDefinition = "int default 1")
-    private Integer currentPeople;
+    private Integer currentPeople=1;
     @Column(columnDefinition = "int default 0")
-    private Integer recruitView;
+    private Integer recruitView=0;
     @Column(columnDefinition = "int default 0")
-    private Integer recruitPostLike;
+    private Integer recruitPostLike=0;
     @Column(columnDefinition = "int default 0")
-    private Integer recruitReport;
+    private Integer recruitReport=0;
     @Column(columnDefinition = "boolean default false")
-    private Integer isCompleted;
+    private Boolean isCompleted = false;
     
+
+    private static final DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public void setRecruitPostCreatedAt() {
+        this.recruitPostCreatedAt = LocalDateTime.now().format(Formatter);
+    }
+
     public RecruitEntity(PostRecruitRequestDto dto) {
-        Date now = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        
         this.recruitPostTitle = dto.getRecruitPostTitle();
         this.recruitPostContent = dto.getRecruitPostContent();
         this.recruitPostImage = dto.getRecruitPostImage();
         this.recruitLocation = dto.getRecruitLocation();
         this.minPeople = dto.getMinPeople();
-        this.recruitPostCreatedAt = simpleDateFormat.format(now);
+        this.recruitEndDate = dto.getRecruitEndDate();
+        
     }
 
 
