@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
@@ -72,5 +73,30 @@ public class ActiveCommentServiceImplement implements ActiveCommentService{
         return GetActiveCommentListResponseDto.success(activeCommentEntities);
 		
 	}
+
+    @Override
+    public ResponseEntity<ResponseDto> patchActiveComment(Integer activeId, Integer activeCommentId, String userId, PatchActiveCommentRequestDto dto) {
+
+        try {
+
+            ActiveCommentEntity activeCommentEntity = activeCommentRepository.findByActiveCommentId(activeCommentId);
+            if(activeCommentEntity == null) return ResponseDto.noExistActiveComment();
+
+            if(!activeCommentEntity.getActiveId().equals(activeId)) return ResponseDto.noExistActivePost();
+            if(!activeCommentEntity.getActiveCommentWriter().equals(userId)) return ResponseDto.noPermission();
+
+            activeCommentEntity.patch(dto);
+            activeCommentEntity.setActiveCommentCreatedAt();
+
+            activeCommentRepository.save(activeCommentEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+        
+    }
     
 }

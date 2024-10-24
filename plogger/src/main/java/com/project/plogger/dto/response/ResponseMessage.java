@@ -15,6 +15,7 @@ public interface ResponseMessage {
     String NO_EXIST_ACTIVE_POST = "No exist active post.";
     String NO_EXIST_QNA_POST = "No exist qna post.";
     String NO_EXIST_QNA_COMMENT = "No exist qna comment";
+    String NO_EXIST_ACTIVE_COMMENT = "No exist active comment";
 
     String NO_EXIST_TEL_NUMBER = "No exist tel number";
     String SIGN_IN_FAIL = "Sign in failed.";

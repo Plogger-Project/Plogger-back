@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
@@ -79,5 +80,16 @@ public class ActivePostController {
         ResponseEntity<? super GetActiveCommentListResponseDto> response = activeCommentService.getActiveCommentList(activePostId);
         return response;
     }
+
+    @PatchMapping("/{activePostId}/comments/{activeCommentId}")
+    public ResponseEntity<ResponseDto> patchActiveComment(
+        @PathVariable("activePostId") Integer activePostId,
+        @PathVariable("activeCommentId") Integer activeCommentId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchActiveCommentRequestDto requestBody
+    ){
+        ResponseEntity<ResponseDto> response = activeCommentService.patchActiveComment(activePostId, activeCommentId, userId, requestBody);
+        return response;
+    };
 
 }

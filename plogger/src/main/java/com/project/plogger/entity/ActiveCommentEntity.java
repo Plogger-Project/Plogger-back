@@ -3,6 +3,7 @@ package com.project.plogger.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 
 import jakarta.persistence.Entity;
@@ -41,8 +42,8 @@ public class ActiveCommentEntity {
         this.activeCommentCreatedAt = LocalDateTime.now().format(Formatter);
     }
 
-    // public void patch(PatchQnACommentRequestDto dto) {
-    //     this.activeCommentContent = dto.getQnaCommentContent();
-    // }
+    public void patch(PatchActiveCommentRequestDto dto) {
+        this.activeCommentContent = dto.getActiveCommentContent();
+    }
     
 }

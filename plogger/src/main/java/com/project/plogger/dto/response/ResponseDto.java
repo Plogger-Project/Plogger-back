@@ -85,6 +85,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistActiveComment() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_COMMENT, ResponseMessage.NO_EXIST_ACTIVE_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> telAuthFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.TEL_AUTH_FAIL, ResponseMessage.TEL_AUTH_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
