@@ -2,7 +2,7 @@ package com.project.plogger.dto.response.recruit;
 
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import com.project.plogger.repository.resultSet.GetRecruitResultSet;
+import com.project.plogger.repository.resultset.GetRecruitResultSet;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

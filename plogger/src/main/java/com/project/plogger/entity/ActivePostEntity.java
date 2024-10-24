@@ -38,11 +38,8 @@ public class ActivePostEntity {
     private String activeLocation;
     private String activeStartDate;
     private String activeEndDate;
-    @Column(columnDefinition = "int default 0")
     private Integer activeView = 0;
-    @Column(columnDefinition = "int default 0")
     private Integer activePostLike = 0;
-    @Column(columnDefinition = "int default 0")
     private Integer activeReport = 0;
     private String activePostImage;
     

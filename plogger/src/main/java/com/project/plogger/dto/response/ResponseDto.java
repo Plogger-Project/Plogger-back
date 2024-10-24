@@ -19,6 +19,16 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> likeClick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.LIKE_CLICK, ResponseMessage.LIKE_CLICK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> likeUnclick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.LIKE_UNCLICK, ResponseMessage.LIKE_UNCLICK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> signInFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.SIGN_IN_FAIL, ResponseMessage.SIGN_IN_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);

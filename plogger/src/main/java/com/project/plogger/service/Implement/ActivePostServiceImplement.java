@@ -1,4 +1,7 @@
-package com.project.plogger.service.Implement.active;
+package com.project.plogger.service.Implement;
+
+import java.util.List;
+import java.util.ArrayList;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -7,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
-import com.project.plogger.dto.response.active.GetActivePostResultSet;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.UserRepository;
-import com.project.plogger.service.active.ActivePostService;
+import com.project.plogger.service.ActivePostService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -105,18 +108,41 @@ public class ActivePostServiceImplement implements ActivePostService {
     @Override
     public ResponseEntity<? super GetActivePostResponseDto> getActivePost(Integer activePostId) {
 
-        GetActivePostResultSet resultSet = null;
+        ActivePostEntity activePostEntity = null;
 
         try {
 
-            
+            activePostEntity = activePostRepository.findByActivePostId(activePostId);
+            if (activePostEntity == null) return ResponseDto.noExistActivePost();            
 
         } catch(Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetActivePostResponseDto.success(null);
+        return GetActivePostResponseDto.success(activePostEntity);
     }
+
+    @Override
+    public ResponseEntity<? super GetActivePostListResponseDto> getActivePostList() {
+
+        List<ActivePostEntity> activePostEntities = new ArrayList<>();
+        
+
+        try {
+
+            activePostEntities = activePostRepository.findAllByOrderByActivePostIdDesc();
+
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetActivePostListResponseDto.success(activePostEntities);
+
+    }
+
+    
 
 }
