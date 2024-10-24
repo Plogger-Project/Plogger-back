@@ -10,6 +10,9 @@ import com.project.plogger.repository.resultSet.GetRecruitResultSet;
 public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer> {
     
     RecruitEntity findByRecruitPostId(Integer recruitPostId);
+
+    boolean existsByRecruitPostId(Integer recruitPostID);
+    void deleteByRecruitPostId(Integer recruitPostId);
     
     @Query(value = "SELECT * FROM recruitpost WHERE recruit_post_id = :recruitPostId", nativeQuery = true)
     GetRecruitResultSet getRecruit(@Param("recruitPostId") Integer recruitPostId);

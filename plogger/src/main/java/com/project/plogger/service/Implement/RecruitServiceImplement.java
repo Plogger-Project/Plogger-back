@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
+import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.repository.RecruitRepository;
+import com.project.plogger.repository.UserRepository;
 import com.project.plogger.repository.resultSet.GetRecruitResultSet;
 import com.project.plogger.service.RecruitService;
 
@@ -17,7 +19,26 @@ import lombok.RequiredArgsConstructor;
 public class RecruitServiceImplement implements RecruitService {
     
     private final RecruitRepository recruitRepository;
+    private final UserRepository userRepository;
     
+    @Override
+    public ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto, String userId) {
+        try {
+
+            boolean isExistedUser = userRepository.existsById(userId);
+            if (!isExistedUser)
+                return ResponseDto.noExistUserId();
+
+            RecruitEntity recruitEntity = new RecruitEntity(dto);
+            recruitEntity.setRecruitPostWriter(userId);
+            recruitRepository.save(recruitEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
+    }
     @Override
     public ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId) {
         GetRecruitResultSet resultSet = null;
@@ -34,17 +55,6 @@ public class RecruitServiceImplement implements RecruitService {
 
     }
 
-    @Override
-    public ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto) {
-        try {
-            
-
-            
-        } catch (Exception exception) {
-            exception.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-        return ResponseDto.success();
-    }
+    
     
 }

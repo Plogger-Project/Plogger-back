@@ -6,6 +6,7 @@ import com.project.plogger.dto.request.gifticon.PatchGifticonRequestDto;
 import com.project.plogger.dto.request.gifticon.PostGifticonRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
+import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 
 public interface GifticonService {
 
