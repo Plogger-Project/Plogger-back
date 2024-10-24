@@ -8,7 +8,7 @@ import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 
 public interface RecruitService {
 
-    ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto);
+    ResponseEntity<ResponseDto> postRecruit(PostRecruitRequestDto dto,String userId);
     ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId);
     
 }

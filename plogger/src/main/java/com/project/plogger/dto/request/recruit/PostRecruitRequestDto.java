@@ -1,5 +1,6 @@
 package com.project.plogger.dto.request.recruit;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,26 +14,11 @@ public class PostRecruitRequestDto {
     private String recruitPostTitle;
     @NotBlank
     private String recruitPostContent;
-
     private String recruitPostImage;
-    @NotBlank
-    private String recruitPostWriter;
-    @NotBlank
-    private String recruitPostCreatedAt;
     @NotBlank
     private String recruitLocation;
     @NotBlank
     private String recruitEndDate;
-    @NotBlank
+    @Min(1)
     private Integer minPeople;
-    @NotBlank
-    private Integer currentPeople;
-    @NotBlank
-    private Integer recruitView;
-    @NotBlank
-    private Integer recruitPostLike;
-    @NotBlank
-    private Integer recruitReport;
-    @NotBlank
-    private Integer isCompleted;
 }
