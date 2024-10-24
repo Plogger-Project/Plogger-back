@@ -12,9 +12,20 @@ public class ResponseDto {
     
     private String code;
     private String message;
+    
 
     public static ResponseEntity<ResponseDto> success() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> likeClick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.LIKE_CLICK, ResponseMessage.LIKE_CLICK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> likeUnclick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.LIKE_UNCLICK, ResponseMessage.LIKE_UNCLICK);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
@@ -43,7 +54,6 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
-
     public static ResponseEntity<ResponseDto> noExistGifticon() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_GIFTICON, ResponseMessage.NO_EXIST_GIFTICON);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
@@ -54,12 +64,17 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistTelNumber() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_TEL_NUMBER, ResponseMessage.NO_EXIST_TEL_NUMBER);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
 
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-  
+
     public static ResponseEntity<ResponseDto> noExistQnA() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_POST, ResponseMessage.NO_EXIST_QNA_POST);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);

@@ -4,15 +4,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
+import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.admin.GetSignInResponseDto;
+import com.project.plogger.entity.GifticonEntity;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.provider.SmsProvider;
+import com.project.plogger.repository.GifticonRepository;
 import com.project.plogger.repository.TelAuthRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.UserService;
@@ -26,6 +31,7 @@ public class UserServiceImplement implements UserService {
     private final SmsProvider smsProvider;
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
+    private final GifticonRepository gifticonRepository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -128,6 +134,48 @@ public class UserServiceImplement implements UserService {
 
             userRepository.save(userEntity);
 
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
+
+        UserEntity userEntity = null;
+
+        try {
+
+            userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetSignInResponseDto.success(userEntity);
+        
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ResponseDto> changeMileage(String userId, Integer gifticonId, ChangeMileageRequestDto dto) {
+        try {
+
+            GifticonEntity gifticonEntity = gifticonRepository.findByGifticonId(gifticonId);
+            if(gifticonEntity == null) return ResponseDto.noExistGifticon();
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+
+            userEntity.purchase(dto);
+            userRepository.save(userEntity);
+            
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();

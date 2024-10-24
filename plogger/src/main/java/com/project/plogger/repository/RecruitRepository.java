@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.project.plogger.entity.RecruitEntity;
-import com.project.plogger.repository.resultSet.GetRecruitResultSet;
+import com.project.plogger.repository.resultset.GetRecruitResultSet;
 
 public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer> {
     

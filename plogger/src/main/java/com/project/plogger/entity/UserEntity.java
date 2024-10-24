@@ -1,8 +1,10 @@
 package com.project.plogger.entity;
 
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
+import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -25,13 +27,13 @@ public class UserEntity {
     private String password; 
     private String telNumber;
     private String address;
-    private String profileImage;
-    private Integer ecoScore;
-    private Integer mileage;
+    private String profileImage = "https://blog.kakaocdn.net/dn/4CElL/btrQw18lZMc/Q0oOxqQNdL6kZp0iSKLbV1/img.png";
+    private Integer ecoScore = 0;
+    private Integer mileage = 0;
     private String comment;
-    private String joinPath;
+    private String joinPath = "home";
     private String snsId;
-    private Boolean isAdmin;
+    private Boolean isAdmin = false;
 
     public UserEntity(SignUpRequestDto dto) {
         this.userId = dto.getUserId();
@@ -39,13 +41,8 @@ public class UserEntity {
         this.password = dto.getPassword();
         this.telNumber = dto.getTelNumber();
         this.address = dto.getAddress();
-        this.profileImage = dto.getProfileImage();
-        this.ecoScore = dto.getEcoScore();
-        this.mileage = dto.getMileage();
-        this.comment = dto.getComment();
         this.joinPath = dto.getJoinPath();
         this.snsId = dto.getSnsId();
-        this.isAdmin = dto.getIsAdmin();
     }
 
     public void patch(PatchUserRequestDto dto) {
@@ -54,6 +51,10 @@ public class UserEntity {
         this.password = dto.getPassword();
         this.telNumber = dto.getTelNumber();
         this.address = dto.getAddress();
+    }
+
+    public void purchase(ChangeMileageRequestDto dto) {
+        this.mileage = dto.getMileage();
     }
 
 }
