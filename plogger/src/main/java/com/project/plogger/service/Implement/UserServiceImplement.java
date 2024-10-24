@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
@@ -161,6 +162,7 @@ public class UserServiceImplement implements UserService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<ResponseDto> changeMileage(String userId, Integer gifticonId, ChangeMileageRequestDto dto) {
         try {
 
@@ -170,7 +172,7 @@ public class UserServiceImplement implements UserService {
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
 
-            userEntity.patch(dto);
+            userEntity.purchase(dto);
             userRepository.save(userEntity);
             
             

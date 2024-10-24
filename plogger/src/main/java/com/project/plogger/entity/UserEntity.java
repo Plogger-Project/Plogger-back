@@ -2,6 +2,7 @@ package com.project.plogger.entity;
 
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.user.PatchUserRequestDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -48,12 +49,16 @@ public class UserEntity {
         this.isAdmin = dto.getIsAdmin();
     }
 
-    public void patch(ChangeMileageRequestDto dto) {
+    public void patch(PatchUserRequestDto dto) {
         this.profileImage = dto.getProfileImage();
         this.name = dto.getName();
         this.password = dto.getPassword();
         this.telNumber = dto.getTelNumber();
         this.address = dto.getAddress();
+    }
+
+    public void purchase(ChangeMileageRequestDto dto) {
+        this.mileage = dto.getMileage();
     }
 
 }
