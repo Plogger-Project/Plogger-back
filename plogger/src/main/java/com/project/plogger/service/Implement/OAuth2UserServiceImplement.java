@@ -71,9 +71,6 @@ public class OAuth2UserServiceImplement extends DefaultOAuth2UserService {
             Map<String, String> response = (Map<String, String>) oAuth2User.getAttributes().get("response");
             snsId = response.get("id");
         }
-        if (registration.equals("google")) {
-            snsId = (String) oAuth2User.getAttributes().get("sub");
-        }
         return snsId;
     }
 }
