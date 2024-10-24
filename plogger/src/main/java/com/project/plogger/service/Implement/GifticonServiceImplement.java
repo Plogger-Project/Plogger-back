@@ -12,7 +12,9 @@ import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 import com.project.plogger.entity.GifticonEntity;
+import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.GifticonRepository;
+import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.GifticonService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GifticonServiceImplement implements GifticonService{
 
+    private final UserRepository userRepository;
     private final GifticonRepository gifticonRepository;
 
     @Override
-    public ResponseEntity<ResponseDto> postGifticon(PostGifticonRequestDto dto) {
+    public ResponseEntity<ResponseDto> postGifticon(String userId, PostGifticonRequestDto dto) {
 
         try {
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            if(!userEntity.getIsAdmin()) return ResponseDto.noPermission();
 
             GifticonEntity gifticonEntity = new GifticonEntity(dto);
             gifticonRepository.save(gifticonEntity);
@@ -76,9 +83,13 @@ public class GifticonServiceImplement implements GifticonService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> patchGifticon(Integer gifticonId, PatchGifticonRequestDto dto) {
+    public ResponseEntity<ResponseDto> patchGifticon(String userId, Integer gifticonId, PatchGifticonRequestDto dto) {
 
         try {
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            if(!userEntity.getIsAdmin()) return ResponseDto.noPermission();
 
             GifticonEntity gifticonEntity = gifticonRepository.findByGifticonId(gifticonId);
             if(gifticonEntity == null) return ResponseDto.noExistGifticon();
@@ -96,9 +107,13 @@ public class GifticonServiceImplement implements GifticonService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteGifticon(Integer gifticonId) {
+    public ResponseEntity<ResponseDto> deleteGifticon(String userId, Integer gifticonId) {
 
         try {
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            if(!userEntity.getIsAdmin()) return ResponseDto.noPermission();
 
             GifticonEntity gifticonEntity = gifticonRepository.findByGifticonId(gifticonId);
             if(gifticonEntity == null) return ResponseDto.noExistGifticon();

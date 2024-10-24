@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.qna.PatchQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PatchQnARequestDto;
 import com.project.plogger.dto.request.qna.PostQnACommentRequestDto;
 import com.project.plogger.dto.request.qna.PostQnARequestDto;
@@ -90,6 +91,27 @@ public class QnAController {
     ){
         ResponseEntity<? super GetQnACommentListResponseDto> response = qnaCommentService.getQnACommentList(qnaPostId);
         return response;
-}
+    }
+
+    @PatchMapping("/{qnaPostId}/comments/{qnaCommentId}")
+    public ResponseEntity<ResponseDto> patchQnAComment(
+        @PathVariable("qnaPostId") Integer qnaPostId,
+        @PathVariable("qnaCommentId") Integer qnaCommentId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchQnACommentRequestDto requestBody
+    ){
+        ResponseEntity<ResponseDto> response = qnaCommentService.patchQnAComment(qnaPostId, qnaCommentId, userId, requestBody);
+        return response;
+    };
+
+    @DeleteMapping("/{qnaPostId}/comments/{qnaCommentId}")
+    public ResponseEntity<ResponseDto> deleteQnAComment(
+        @PathVariable("qnaPostId") Integer qnaPostId,
+        @PathVariable("qnaCommentId") Integer qnaCommentId,
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<ResponseDto> response = qnaCommentService.deleteQnAComment(qnaPostId, qnaCommentId, userId);
+        return response;
+    };
     
 }
