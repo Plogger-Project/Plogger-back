@@ -100,10 +100,25 @@ public class RecruitCommentServiceImplement implements RecruitCommentService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteRecruitComment(Integer recruitId, Integer recruitCommentId,
-            String userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteRecruitComment'");
+    public ResponseEntity<ResponseDto> deleteRecruitComment(Integer recruitId, Integer recruitCommentId, String userId) {
+        
+        try {
+
+            RecruitCommentEntity recruitCommentEntity = recruitCommentRepository.findByRecruitCommentId(recruitCommentId);
+            if(recruitCommentEntity == null) return ResponseDto.noExistRecruitComment();
+
+            if(!recruitCommentEntity.getRecruitId().equals(recruitId)) return ResponseDto.noExistRecruit();
+            if(!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) return ResponseDto.noPermission();
+
+            recruitCommentRepository.delete(recruitCommentEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
     }
     
 }
