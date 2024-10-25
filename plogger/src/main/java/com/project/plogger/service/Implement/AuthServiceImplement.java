@@ -124,16 +124,13 @@ public class AuthServiceImplement implements AuthService {
         try {
 
             boolean isExisted = userRepository.existsById(userId);
-            if (isExisted)
-                return ResponseDto.duplicatedUserId();
+            if (isExisted) return ResponseDto.duplicatedUserId();
 
             boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
-            if (isExistedTelNumber)
-                return ResponseDto.duplicatedTelNumber();
+            if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
 
             boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
-            if (!isMatched)
-                return ResponseDto.telAuthFail();
+            if (!isMatched) return ResponseDto.telAuthFail();
 
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
