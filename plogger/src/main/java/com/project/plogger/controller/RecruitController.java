@@ -9,9 +9,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
+import com.project.plogger.service.RecruitCommentService;
 import com.project.plogger.service.RecruitService;
 
 import jakarta.validation.Valid;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class RecruitController {
 
     private final RecruitService recruitService;
+    private final RecruitCommentService recruitCommentService;
 
     @PostMapping(value = { "", "/" })
     public ResponseEntity<ResponseDto> postRecruit(
@@ -38,6 +41,16 @@ public class RecruitController {
         @PathVariable("recruitPostId") Integer recruitPostId
     ) {
         ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getRecruit(recruitPostId);
+        return response;
+    }
+
+    @PostMapping("/{recruitPostId}/comments")
+    public ResponseEntity<ResponseDto> postRecruitComment(
+        @RequestBody @Valid PostRecruitCommentRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("recruitPostId") Integer recruitPostId
+    ){ 
+        ResponseEntity<ResponseDto> response = recruitCommentService.postRecruitComment(requestBody, userId, recruitPostId);
         return response;
     }
     
