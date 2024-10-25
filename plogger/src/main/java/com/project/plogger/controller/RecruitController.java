@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
+
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.service.RecruitCommentService;
 import com.project.plogger.service.RecruitService;
@@ -46,6 +48,32 @@ public class RecruitController {
     ) {
         ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getRecruit(recruitPostId);
         return response;
+    }
+
+
+    @GetMapping(value = {"","/"})
+    public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
+        ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
+        return response;
+    }
+
+    @PatchMapping("/{recruitPostId}")
+    public ResponseEntity<ResponseDto> patchRecruit(
+        @PathVariable("recruitPostId") Integer recruitPostId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchRecruitRequestDto requestBody
+    ) {
+        ResponseEntity<ResponseDto> response = recruitService.patchRecruit(recruitPostId, userId, requestBody);
+        return response;
+    }
+
+    @DeleteMapping("/{recruitPostId}")
+    public ResponseEntity<ResponseDto> deleteRecruit(
+        @PathVariable("recruitPostId") Integer recruitPostId,
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<ResponseDto> response = recruitService.deleteRecruit(recruitPostId, userId);
+        return response; 
     }
 
     @PostMapping("/{recruitPostId}/comments")
@@ -86,5 +114,6 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.deleteRecruitComment(recruitPostId, recruitCommentId, userId);
         return response;
     };
+
     
 }

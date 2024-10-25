@@ -16,11 +16,11 @@ import lombok.Getter;
 @Getter
 public class GetQnAListResponseDto extends ResponseDto{
 
-    private List<QnA> qnas;
+    private List<QnA> qnaPosts;
 
     private GetQnAListResponseDto(List<QnAEntity> qnaEntities) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.qnas = QnA.getList(qnaEntities);
+        this.qnaPosts = QnA.getList(qnaEntities);
     }
 
     public static ResponseEntity<GetQnAListResponseDto> success(List<QnAEntity> qnaEntities) {

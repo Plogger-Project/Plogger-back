@@ -10,6 +10,8 @@ import com.project.plogger.dto.response.qna.GetQnAResponseDto;
 
 public interface QnAService {
 
+    
+
     ResponseEntity<ResponseDto> postQnA(PostQnARequestDto dto, String userId);
     ResponseEntity<? super GetQnAListResponseDto> getQnAList();
     ResponseEntity<? super GetQnAResponseDto> getQna(Integer qnaPostId);
