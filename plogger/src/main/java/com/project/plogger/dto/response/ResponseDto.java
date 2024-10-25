@@ -69,6 +69,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistUserIdAndTelNumber() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID_AND_TEL_NUMBER, ResponseMessage.NO_EXIST_USER_ID_AND_TEL_NUMBER);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
 
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
