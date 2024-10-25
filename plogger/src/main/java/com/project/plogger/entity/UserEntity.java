@@ -4,7 +4,6 @@ import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -48,7 +47,6 @@ public class UserEntity {
     public void patch(PatchUserRequestDto dto) {
         this.profileImage = dto.getProfileImage();
         this.name = dto.getName();
-        this.password = dto.getPassword();
         this.telNumber = dto.getTelNumber();
         this.address = dto.getAddress();
     }

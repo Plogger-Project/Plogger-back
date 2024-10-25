@@ -3,14 +3,13 @@ package com.project.plogger.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.project.plogger.dto.request.recruit.RecruitReportRequestDto;
+import com.project.plogger.dto.request.active.ActiveReportRequestDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,9 +19,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "recruitreport")
-@Entity(name = "recruitreport")
-public class RecruitReportEntity {
+@Table(name = "activereport")
+@Entity(name = "activereport")
+public class ActiveReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reportId;
@@ -32,16 +31,16 @@ public class RecruitReportEntity {
 
     private String createdAt;
 
-    private Integer recruitId;
+    private Integer activeId;
 
     private String userId;
 
-    public RecruitReportEntity(RecruitReportRequestDto dto, Integer recruitId, String userId) {
+    public ActiveReportEntity(ActiveReportRequestDto dto, Integer activeId, String userId) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
         this.content = dto.getContent();
         this.createdAt = simpleDateFormat.format(now);
-        this.recruitId = recruitId;
+        this.activeId = activeId;
         this.userId = userId;
     }
 }

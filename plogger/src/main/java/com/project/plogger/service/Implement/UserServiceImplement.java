@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.user.PatchPasswordRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -104,16 +105,8 @@ public class UserServiceImplement implements UserService {
 
             if (dto.getTelNumber() != null && !dto.getTelNumber().isEmpty()) {
                 boolean isExistedTelNumber = userRepository.existsByTelNumber(dto.getTelNumber());
-                if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
-
-                if (!telAuthRepository.existsByTelNumberAndAuthNumber(dto.getTelNumber(), dto.getAuthNumber())) {
-                    return ResponseDto.telAuthFail();
-                }
-            }
-
-            if (dto.getPassword() != null && !dto.getPassword().isEmpty()) {
-                String encodedPassword = passwordEncoder.encode(dto.getPassword());
-                userEntity.setPassword(encodedPassword);
+                boolean isMyTelNumber = userRepository.existsByTelNumberAndUserId(dto.getTelNumber(), userId);
+                if (!isMyTelNumber && isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
             }
 
             if (dto.getProfileImage() != null) {
@@ -140,6 +133,31 @@ public class UserServiceImplement implements UserService {
         }
 
         return ResponseDto.success();
+    }
+    
+    @Override
+    public ResponseEntity<ResponseDto> patchPassword(PatchPasswordRequestDto dto, String userId) {
+
+        String currenPassword = dto.getCurrentPassword();
+
+        try {
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) return ResponseDto.noExistUserId();
+
+            String encodedPassword = passwordEncoder.encode(currenPassword);
+            dto.setCurrentPassword(encodedPassword);
+
+            userRepository.save(userEntity);
+
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
     }
 
     @Override
@@ -183,4 +201,5 @@ public class UserServiceImplement implements UserService {
 
         return ResponseDto.success();
     }
+
 }
