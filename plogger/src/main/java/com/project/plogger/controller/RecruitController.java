@@ -3,12 +3,14 @@ package com.project.plogger.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -62,5 +64,16 @@ public class RecruitController {
         ResponseEntity<? super GetRecruitCommentListResponseDto> response = recruitCommentService.getRecruitCommentList(recruitPostId);
         return response;
     }
+
+    @PatchMapping("/{recruitPostId}/comments/{recruitCommentId}")
+    public ResponseEntity<ResponseDto> patchQnAComment(
+        @PathVariable("recruitPostId") Integer recruitPostId,
+        @PathVariable("recruitCommentId") Integer recruitCommentId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchRecruitCommentRequestDto requestBody
+    ){
+        ResponseEntity<ResponseDto> response = recruitCommentService.patchRecruitComment(recruitPostId, recruitCommentId, userId, requestBody);
+        return response;
+    };
     
 }

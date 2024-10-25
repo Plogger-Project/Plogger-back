@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
@@ -71,6 +72,38 @@ public class RecruitCommentServiceImplement implements RecruitCommentService{
 
         return GetRecruitCommentListResponseDto.success(recruitCommentEntities);
         
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchRecruitComment(Integer recruitId, Integer recruitCommentId, String userId, PatchRecruitCommentRequestDto dto) {
+
+        try {
+
+            RecruitCommentEntity recruitCommentEntity = recruitCommentRepository.findByRecruitCommentId(recruitCommentId);
+            if(recruitCommentEntity == null) return ResponseDto.noExistRecruitComment();
+
+            if(!recruitCommentEntity.getRecruitId().equals(recruitId)) return ResponseDto.noExistRecruit();
+            if(!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) return ResponseDto.noPermission();
+
+            recruitCommentEntity.patch(dto);
+            recruitCommentEntity.setRecruitCommentCreatedAt();
+
+            recruitCommentRepository.save(recruitCommentEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+        
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteRecruitComment(Integer recruitId, Integer recruitCommentId,
+            String userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deleteRecruitComment'");
     }
     
 }

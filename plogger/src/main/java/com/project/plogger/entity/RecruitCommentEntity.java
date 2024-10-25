@@ -3,6 +3,7 @@ package com.project.plogger.entity;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 
 import jakarta.persistence.Entity;
@@ -41,8 +42,8 @@ public class RecruitCommentEntity {
         this.recruitCommentCreatedAt = LocalDateTime.now().format(Formatter);
     }
 
-    // public void patch(PatchRecruitCommentRequestDto dto) {
-    //     this.recruitCommentContent = dto.getRecruitCommentContent();
-    // }
+    public void patch(PatchRecruitCommentRequestDto dto) {
+        this.recruitCommentContent = dto.getRecruitCommentContent();
+    }
     
 }
