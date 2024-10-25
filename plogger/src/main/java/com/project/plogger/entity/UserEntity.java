@@ -47,7 +47,6 @@ public class UserEntity {
     public void patch(PatchUserRequestDto dto) {
         this.profileImage = dto.getProfileImage();
         this.name = dto.getName();
-        this.password = dto.getPassword();
         this.telNumber = dto.getTelNumber();
         this.address = dto.getAddress();
     }
