@@ -1,18 +1,21 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.RecruitRepository;
-
 import com.project.plogger.repository.UserRepository;
-import com.project.plogger.repository.resultSet.GetRecruitResultSet;
-
+import com.project.plogger.repository.resultset.GetRecruitResultSet;
 import com.project.plogger.service.RecruitService;
 
 import lombok.RequiredArgsConstructor;
@@ -60,6 +63,55 @@ public class RecruitServiceImplement implements RecruitService {
         return GetRecruitResponseDto.success(resultSet);
 
     }
+    @Override
+    public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
+
+        List<RecruitEntity> recruitEntities = new ArrayList<>();
+
+        try {
+            recruitEntities = recruitRepository.findByOrderByRecruitPostIdDesc();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetRecruitListResponseDto.success(recruitEntities);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchRecruit(Integer recruitPostId, String userId, PatchRecruitRequestDto dto) {
+
+        try {
+            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
+            if (recruitEntity == null)
+                return ResponseDto.noExistRecruit();
+            if (!recruitEntity.getRecruitPostWriter().equals(userId))
+                return ResponseDto.noPermission();
+            recruitEntity.RecruitPatch(dto);
+            recruitEntity.setRecruitPostCreatedAt();
+            recruitRepository.save(recruitEntity);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
+    }
+    
+    @Override
+    public ResponseEntity<ResponseDto> deleteRecruit(Integer recruitPostId, String userId) {
+
+        try {
+            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
+            if (recruitEntity == null)  return ResponseDto.noExistRecruit();
+            if (!recruitEntity.getRecruitPostWriter().equals(userId))return ResponseDto.noPermission();
+            recruitRepository.delete(recruitEntity);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
+    }
+    
+    
 
     
     

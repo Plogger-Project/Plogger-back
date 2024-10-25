@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 
 import jakarta.persistence.Column;
@@ -58,14 +59,22 @@ public class RecruitEntity {
     }
 
     public RecruitEntity(PostRecruitRequestDto dto) {
-        
+
         this.recruitPostTitle = dto.getRecruitPostTitle();
         this.recruitPostContent = dto.getRecruitPostContent();
         this.recruitPostImage = dto.getRecruitPostImage();
         this.recruitLocation = dto.getRecruitLocation();
         this.minPeople = dto.getMinPeople();
         this.recruitEndDate = dto.getRecruitEndDate();
-        
+
+    }
+    
+    public void RecruitPatch(PatchRecruitRequestDto dto) {
+        this.recruitPostTitle = dto.getRecruitPostTitle();
+        this.recruitPostContent = dto.getRecruitPostContent();
+        this.recruitPostImage = dto.getRecruitPostImage();
+        this.minPeople = dto.getMinPeople();
+        this.recruitEndDate = dto.getRecruitEndDate();
     }
 
 

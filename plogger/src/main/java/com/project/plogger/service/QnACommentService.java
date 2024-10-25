@@ -12,5 +12,6 @@ public interface QnACommentService {
     ResponseEntity<ResponseDto> postQnAComment(PostQnACommentRequestDto dto, String userId, Integer qnaId);
     ResponseEntity<? super GetQnACommentListResponseDto> getQnACommentList(Integer qnaPostId);
     ResponseEntity<ResponseDto> patchQnAComment(Integer qnaId, Integer qnaCommentId, String userId, PatchQnACommentRequestDto dto);
-    ResponseEntity<ResponseDto> deleteQnAComment(Integer qnaId, Integer qnaCommentId, String userId)  
+
+    ResponseEntity<ResponseDto> deleteQnAComment(Integer qnaId, Integer qnaCommentId, String userId);  
 }
