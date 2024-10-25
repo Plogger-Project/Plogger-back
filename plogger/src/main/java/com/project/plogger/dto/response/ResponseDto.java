@@ -69,6 +69,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistUserIdAndTelNumber() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID_AND_TEL_NUMBER, ResponseMessage.NO_EXIST_USER_ID_AND_TEL_NUMBER);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
 
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
@@ -82,6 +87,16 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistQnAComment() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_QNA_COMMENT, ResponseMessage.NO_EXIST_QNA_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistActiveComment() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_COMMENT, ResponseMessage.NO_EXIST_ACTIVE_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistRecruitComment() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RECRUIT_COMMENT, ResponseMessage.NO_EXIST_RECRUIT_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

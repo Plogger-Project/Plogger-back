@@ -42,10 +42,6 @@ public class QnACommentEntity {
         this.qnaCommentCreatedAt = LocalDateTime.now().format(Formatter);
     }
 
-    public void setQnaPostId(Integer qnaId) {
-        this.qnaId = qnaId;
-    }
-
     public void patch(PatchQnACommentRequestDto dto) {
         this.qnaCommentContent = dto.getQnaCommentContent();
     }
