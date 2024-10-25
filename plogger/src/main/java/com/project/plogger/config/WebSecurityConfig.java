@@ -18,21 +18,26 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.project.plogger.dto.response.ResponseCode;
+import com.project.plogger.dto.response.ResponseMessage;
 import com.project.plogger.filter.JwtAuthenticationFilter;
+import com.project.plogger.handler.OAuth2SuccessHandler;
+import com.project.plogger.service.Implement.OAuth2UserServiceImplement;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-
 @Configurable
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class WebSecurityConfig {
-  
+
+        private final OAuth2SuccessHandler oAuth2SuccessHandler;
         private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final OAuth2UserServiceImplement oAuth2Service;
 
         @Bean
         protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
@@ -45,12 +50,21 @@ public class WebSecurityConfig {
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(request -> request
-                                                .requestMatchers("/", "/api/v1/auth/**", "/file/*","/find-id/*", "/send-auth/*").permitAll()
+                                                .requestMatchers("/", "/api/v1/auth/**", "/file/*", "/find-id/*",
+                                                                "/send-auth/*", "/oauth2/callback/*","/reports")
+                                                .permitAll()
                                                 .requestMatchers("/api/v1/user/**").hasRole("USER")
                                                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(exceptionHandling -> exceptionHandling
                                                 .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))
+                                // oAuth2 로그인 적용
+                                .oauth2Login(oauth2 -> oauth2
+                                                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+                                                .authorizationEndpoint(endpoint -> endpoint
+                                                                .baseUri("/api/v1/auth/sns-sign-in"))
+                                                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2Service))
+                                                .successHandler(oAuth2SuccessHandler))
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return httpSecurity.build();
@@ -77,7 +91,10 @@ public class WebSecurityConfig {
                                 AuthenticationException authException) throws IOException, ServletException {
                         response.setContentType("application/json");
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-                        response.getWriter().write("{ \"code\": \"AF\", \"message\": \"Authentication Failed\"}");
+                        response.getWriter()
+                                        .write("{ \"code\": \"" + ResponseCode.AUTHENTICATION_FAIL
+                                                        + "\", \"message\": \""
+                                                        + ResponseMessage.AUTHENTICATION_FAIL + "\" }");
 
                 }
         }
