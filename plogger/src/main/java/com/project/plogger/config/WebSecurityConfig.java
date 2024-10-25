@@ -51,7 +51,7 @@ public class WebSecurityConfig {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(request -> request
                                                 .requestMatchers("/", "/api/v1/auth/**", "/file/*", "/find-id/*",
-                                                                "/send-auth/*", "/oauth2/callback/*","/reports")
+                                                                "/send-auth/*", "/oauth2/callback/*","/reports", "/password-send-auth")
                                                 .permitAll()
                                                 .requestMatchers("/api/v1/user/**").hasRole("USER")
                                                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")

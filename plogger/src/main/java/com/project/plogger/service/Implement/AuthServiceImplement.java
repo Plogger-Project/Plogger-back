@@ -1,5 +1,8 @@
 package com.project.plogger.service.Implement;
 
+import java.util.UUID;
+
+import org.springframework.beans.propertyeditors.UUIDEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +11,8 @@ import org.springframework.stereotype.Service;
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.FindIdAuthCheckDto;
 import com.project.plogger.dto.request.auth.FindIdRequestDto;
+import com.project.plogger.dto.request.auth.FindPasswordCheckDto;
+import com.project.plogger.dto.request.auth.FindPasswordRequestDto;
 import com.project.plogger.dto.request.auth.IdCheckRequestDto;
 import com.project.plogger.dto.request.auth.SignInRequestDto;
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
@@ -17,6 +22,7 @@ import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.dto.response.auth.FindIdResponseDto;
+import com.project.plogger.dto.response.auth.FindPasswordResponseDto;
 import com.project.plogger.dto.response.auth.SignInResponseDto;
 import com.project.plogger.provider.JwtProvider;
 import com.project.plogger.provider.SmsProvider;
@@ -124,16 +130,13 @@ public class AuthServiceImplement implements AuthService {
         try {
 
             boolean isExisted = userRepository.existsById(userId);
-            if (isExisted)
-                return ResponseDto.duplicatedUserId();
+            if (isExisted) return ResponseDto.duplicatedUserId();
 
             boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
-            if (isExistedTelNumber)
-                return ResponseDto.duplicatedTelNumber();
+            if (isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
 
             boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
-            if (!isMatched)
-                return ResponseDto.telAuthFail();
+            if (!isMatched) return ResponseDto.telAuthFail();
 
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
@@ -217,8 +220,15 @@ public class AuthServiceImplement implements AuthService {
     @Override
     public ResponseEntity<? super FindIdResponseDto > findUserIdByTelNumber(FindIdRequestDto dto) {
 
+        String telNumber = dto.getTelNumber();
+        String authNumber = dto.getAuthNumber();
+
         try {
 
+            boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
+            if (!isMatched)
+                return ResponseDto.telAuthFail();
+            
             UserEntity userEntity = userRepository.findByTelNumber(dto.getTelNumber());
             if (userEntity == null)
                 return ResponseDto.noExistTelNumber();
@@ -229,6 +239,93 @@ public class AuthServiceImplement implements AuthService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> passwordAuthNumber(FindPasswordCheckDto dto) {
+
+        String userId = dto.getUserId();
+        String telNumber = dto.getTelNumber();
+
+        try {
+            UserEntity userEntity = userRepository.findByUserIdAndTelNumber(userId, telNumber);
+            if (userEntity == null)
+                return ResponseDto.noExistUserIdAndTelNumber();
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        try {
+            boolean isExisted = userRepository.existsByTelNumber(telNumber);
+            if (!isExisted)
+                return ResponseDto.noExistTelNumber();
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        String authNumber = new CreateNumber().generateAuthNumber();
+
+        boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
+        if (!isSendSuccess)
+            return ResponseDto.messageSendFail();
+
+        try {
+
+            TelAuthEntity telAuthEntity = new TelAuthEntity(telNumber, authNumber);
+            telAuthRepository.save(telAuthEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    private String generateTempPassword() {
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    @Override
+    public ResponseEntity<? super FindPasswordResponseDto> findUserPasswordByTelNumber(FindPasswordRequestDto dto) {
+
+
+        String telNumber = dto.getTelNumber();
+        String authNumber = dto.getAuthNumber();
+
+        
+        try {
+
+            boolean isMatched = telAuthRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
+            if (!isMatched)
+                return ResponseDto.telAuthFail();
+            
+            UserEntity userEntity = userRepository.findByTelNumber(dto.getTelNumber());
+            if (userEntity == null)
+                return ResponseDto.noExistTelNumber();
+
+            String tempPassword = generateTempPassword();
+            String encodedTempPassword = passwordEncoder.encode(tempPassword);
+
+            userEntity.setPassword(encodedTempPassword);
+            userRepository.save(userEntity);
+
+            System.out.println(tempPassword);
+            boolean isSendSuccess = smsProvider.sendMessage(telNumber,tempPassword);
+            if (!isSendSuccess) return ResponseDto.messageSendFail();
+
+            return FindPasswordResponseDto.success(tempPassword);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        
 
     }
 }

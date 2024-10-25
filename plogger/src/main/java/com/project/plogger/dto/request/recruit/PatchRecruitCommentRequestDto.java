@@ -1,4 +1,4 @@
-package com.project.plogger.dto.request.auth;
+package com.project.plogger.dto.request.recruit;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -8,10 +8,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FindIdRequestDto {
+public class PatchRecruitCommentRequestDto {
 
     @NotBlank
-    private String telNumber;
-    @NotBlank
-    private String authNumber;
+    private String recruitCommentContent;
+    
 }
