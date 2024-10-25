@@ -31,6 +31,7 @@ public class GetSignInResponseDto extends ResponseDto{
         this.password = userEntity.getPassword();
         this.telNumber = userEntity.getTelNumber();
         this.address = userEntity.getAddress();
+        this.profileImage = userEntity.getProfileImage();
         this.isAdmin = userEntity.getIsAdmin();
         this.ecoScore = userEntity.getEcoScore();
         this.mileage = userEntity.getMileage();
