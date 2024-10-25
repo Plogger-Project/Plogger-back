@@ -41,7 +41,7 @@ public class QnACommentServiceImplement implements QnACommentService{
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
-            qnaCommentEntity.setQnaPostId(qnaId);
+            qnaCommentEntity.setQnaId(qnaId);
             
             qnaCommentEntity.setQnaCommentCreatedAt();
 

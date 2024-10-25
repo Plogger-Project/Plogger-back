@@ -8,8 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class FindIdRequestDto {
-
+public class FindPasswordRequestDto {
     @NotBlank
     private String telNumber;
     @NotBlank

@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
+import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
+import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
 
 import jakarta.validation.Valid;
@@ -27,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class ActivePostController {
 
     private final ActivePostService activePostService;
+    private final ActiveCommentService activeCommentService;
     
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postActivePost(@RequestBody @Valid PostActivePostRequestDto dto, @AuthenticationPrincipal String userId) {
@@ -57,5 +62,44 @@ public class ActivePostController {
         ResponseEntity<? super GetActivePostListResponseDto> response = activePostService.getActivePostList();
         return response;
     }
+
+    @PostMapping("/{activePostId}/comments")
+    public ResponseEntity<ResponseDto> postActiveComment(
+        @RequestBody @Valid PostActiveCommentRequestDto requestBody,
+        @AuthenticationPrincipal String userId,
+        @PathVariable("activePostId") Integer activePostId
+    ){ 
+        ResponseEntity<ResponseDto> response = activeCommentService.postActiveComment(requestBody, userId, activePostId);
+        return response;
+    }
+
+    @GetMapping("/{activePostId}/comments")
+    public ResponseEntity<? super GetActiveCommentListResponseDto> getActiveCommentList(
+        @PathVariable("activePostId") Integer activePostId
+    ){
+        ResponseEntity<? super GetActiveCommentListResponseDto> response = activeCommentService.getActiveCommentList(activePostId);
+        return response;
+    }
+
+    @PatchMapping("/{activePostId}/comments/{activeCommentId}")
+    public ResponseEntity<ResponseDto> patchActiveComment(
+        @PathVariable("activePostId") Integer activePostId,
+        @PathVariable("activeCommentId") Integer activeCommentId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchActiveCommentRequestDto requestBody
+    ){
+        ResponseEntity<ResponseDto> response = activeCommentService.patchActiveComment(activePostId, activeCommentId, userId, requestBody);
+        return response;
+    };
+
+    @DeleteMapping("/{activePostId}/comments/{activeCommentId}")
+    public ResponseEntity<ResponseDto> deleteActiveComment(
+        @PathVariable("activePostId") Integer activePostId,
+        @PathVariable("activeCommentId") Integer activeCommentId,
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<ResponseDto> response = activeCommentService.deleteActiveComment(activePostId, activeCommentId, userId);
+        return response;
+    };
 
 }

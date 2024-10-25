@@ -1,9 +1,7 @@
 package com.project.plogger.entity;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 

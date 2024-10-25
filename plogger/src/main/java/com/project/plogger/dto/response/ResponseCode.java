@@ -15,7 +15,10 @@ public interface ResponseCode {
     String NO_EXIST_ACTIVE_POST = "NAP";
     String NO_EXIST_QNA_POST = "NQP";
     String NO_EXIST_QNA_COMMENT = "NQC";
+    String NO_EXIST_ACTIVE_COMMENT = "NAC";
+    String NO_EXIST_RECRUIT_COMMENT = "NRC";
     String NO_EXIST_TEL_NUMBER = "NT";
+    String NO_EXIST_USER_ID_AND_TEL_NUMBER = "NIT";
 
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
