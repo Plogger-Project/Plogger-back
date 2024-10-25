@@ -1,10 +1,14 @@
 package com.project.plogger.service.Implement;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
 import com.project.plogger.entity.RecruitCommentEntity;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.UserEntity;
@@ -48,6 +52,24 @@ public class RecruitCommentServiceImplement implements RecruitCommentService{
         }
 
         return ResponseDto.success();
+        
+    }
+
+    @Override
+    public ResponseEntity<? super GetRecruitCommentListResponseDto> getRecruitCommentList(Integer recruitPostId) {
+
+        List<RecruitCommentEntity> recruitCommentEntities = new ArrayList<>();
+
+        try {
+
+            recruitCommentEntities = recruitCommentRepository.findByRecruitIdOrderByRecruitCommentIdAsc(recruitPostId);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetRecruitCommentListResponseDto.success(recruitCommentEntities);
         
     }
     

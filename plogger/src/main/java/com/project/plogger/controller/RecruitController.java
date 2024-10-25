@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.service.RecruitCommentService;
 import com.project.plogger.service.RecruitService;
@@ -51,6 +52,14 @@ public class RecruitController {
         @PathVariable("recruitPostId") Integer recruitPostId
     ){ 
         ResponseEntity<ResponseDto> response = recruitCommentService.postRecruitComment(requestBody, userId, recruitPostId);
+        return response;
+    }
+
+    @GetMapping("/{recruitPostId}/comments")
+    public ResponseEntity<? super GetRecruitCommentListResponseDto> getRecruitCommentList(
+        @PathVariable("recruitPostId") Integer recruitPostId   
+    ){
+        ResponseEntity<? super GetRecruitCommentListResponseDto> response = recruitCommentService.getRecruitCommentList(recruitPostId);
         return response;
     }
     
