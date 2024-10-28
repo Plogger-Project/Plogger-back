@@ -15,12 +15,14 @@ import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
+import com.project.plogger.dto.request.mileage.PostMileageUpRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
+import com.project.plogger.service.MileageService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +34,20 @@ public class ActivePostController {
 
     private final ActivePostService activePostService;
     private final ActiveCommentService activeCommentService;
+    private final MileageService mileageService;
     
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postActivePost(@RequestBody @Valid PostActivePostRequestDto dto, @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = activePostService.postActivePost(dto, userId);
+        return response;
+    }
+
+    @PostMapping("/{activePostId}")
+    public ResponseEntity<ResponseDto> postActivePost(
+            @RequestBody @Valid PostMileageUpRequestDto dto, 
+            @AuthenticationPrincipal String userId,
+            @PathVariable("activePostId") Integer activePostId) {
+        ResponseEntity<ResponseDto> response = mileageService.postMileage(dto, userId, activePostId);
         return response;
     }
 

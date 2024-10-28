@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.gifticon.PatchGifticonRequestDto;
 import com.project.plogger.dto.request.gifticon.PostGifticonRequestDto;
-import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.mileage.PostMileageDownRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 import com.project.plogger.service.GifticonService;
-import com.project.plogger.service.UserService;
+import com.project.plogger.service.MileageService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,8 @@ import lombok.RequiredArgsConstructor;
 public class GifticonController {
 
     private final GifticonService gifticonService;
-    private final UserService userService;
+    private final MileageService mileageService;
+    
 
     @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> postGifticon(
@@ -73,14 +74,14 @@ public class GifticonController {
         return response;
     };
 
-    @PatchMapping("/{gifticonId}/purchase")
-    public ResponseEntity<ResponseDto> purchase(
+    @PostMapping("/{gifticonId}")
+    public ResponseEntity<ResponseDto> purchaseGifticon(
         @AuthenticationPrincipal String userId,
-        @PathVariable("gifticonId") Integer gifticonId,
-        @RequestBody @Valid ChangeMileageRequestDto requestBody    
-    ) {
-        ResponseEntity<ResponseDto> response = userService.changeMileage(userId, gifticonId, requestBody);
+        @RequestBody @Valid PostMileageDownRequestDto requestBody,
+        @PathVariable("gifticonId") Integer gifticonId
+    ){
+        ResponseEntity<ResponseDto> response = mileageService.postMileage(requestBody, userId, gifticonId);
         return response;
-    }
+    };
     
 }

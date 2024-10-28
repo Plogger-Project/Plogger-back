@@ -1,12 +1,9 @@
 package com.project.plogger.service.Implement;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.project.plogger.dto.request.recruit.RecruitReportRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
-import com.project.plogger.dto.response.recruit.GetRecruitReportListDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.RecruitReportEntity;
 import com.project.plogger.repository.RecruitReportRepository;
@@ -42,10 +39,10 @@ public class RecruitReportServiceImplement implements RecruitReportService {
         }
     }
 
-    @Override
-    public List<GetRecruitReportListDto> getReportedPosts() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getReportedPosts'");
-    }
+    // @Override
+    // public List<GetRecruitReportListDto> getReportedPosts() {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'getReportedPosts'");
+    // }
 
 }

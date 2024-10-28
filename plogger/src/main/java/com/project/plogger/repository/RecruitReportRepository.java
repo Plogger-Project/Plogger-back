@@ -11,5 +11,5 @@ import java.util.List;
 public interface RecruitReportRepository extends JpaRepository<RecruitReportEntity, Integer> {
     RecruitReportEntity findByRecruitId(Integer recruitId);
 
-    List<RecruitReportEntity> findAllByOrderbyRecruitReportDesc();
+    List<RecruitReportEntity> findAllByOrderByReportIdDesc();
 }
