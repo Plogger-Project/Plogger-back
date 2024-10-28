@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.user.CommentRequestDto;
 import com.project.plogger.dto.request.user.PatchPasswordRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
@@ -200,6 +201,27 @@ public class UserServiceImplement implements UserService {
         }
 
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> patchComment(CommentRequestDto dto, String userId) {
+        try {
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null) {
+                return ResponseDto.noExistUserId();
+            }
+    
+            userEntity.setComment(dto.getComment());
+            userRepository.save(userEntity);
+    
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    
+        return ResponseDto.success();
+        
+
     }
 
 }
