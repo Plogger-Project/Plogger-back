@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,18 +37,12 @@ public class RecruitEntity {
     private String recruitLocation;
     private String recruitEndDate;
     private Integer minPeople;
-    @Column(columnDefinition = "int default 1")
     private Integer currentPeople=1;
-    @Column(columnDefinition = "int default 0")
     private Integer recruitView=0;
-    @Column(columnDefinition = "int default 0")
     private Integer recruitPostLike=0;
-    @Column(columnDefinition = "int default 0")
     private Integer recruitReport=0;
-    @Column(columnDefinition = "boolean default false")
     private Boolean isCompleted = false;
     private Boolean isMileage = false;
-    
 
     private static final DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

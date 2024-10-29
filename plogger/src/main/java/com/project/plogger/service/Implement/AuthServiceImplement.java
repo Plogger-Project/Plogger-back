@@ -2,7 +2,6 @@ package com.project.plogger.service.Implement;
 
 import java.util.UUID;
 
-import org.springframework.beans.propertyeditors.UUIDEditor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -293,7 +292,6 @@ public class AuthServiceImplement implements AuthService {
 
     @Override
     public ResponseEntity<? super FindPasswordResponseDto> findUserPasswordByTelNumber(FindPasswordRequestDto dto) {
-
 
         String telNumber = dto.getTelNumber();
         String authNumber = dto.getAuthNumber();

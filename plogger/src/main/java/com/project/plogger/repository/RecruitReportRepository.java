@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface RecruitReportRepository extends JpaRepository<RecruitReportEntity, Integer> {
-    RecruitReportEntity findByRecruitId(Integer recruitId);
 
+    RecruitReportEntity findByRecruitId(Integer recruitId);
     List<RecruitReportEntity> findAllByOrderByReportIdDesc();
 }

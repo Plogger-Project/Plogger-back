@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,14 +25,9 @@ public class RecruitReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reportId;
-
-
     private String content;
-
     private String createdAt;
-
     private Integer recruitId;
-
     private String userId;
 
     public RecruitReportEntity(RecruitReportRequestDto dto, Integer recruitId, String userId) {
