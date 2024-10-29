@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
+import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -51,11 +52,11 @@ public class RecruitController {
     }
 
 
-    @GetMapping(value = {"","/"})
-    public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
-        ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
-        return response;
-    }
+    // @GetMapping(value = {"","/"})
+    // public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
+    //     ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
+    //     return response;
+    // }
 
     @PatchMapping("/{recruitPostId}")
     public ResponseEntity<ResponseDto> patchRecruit(

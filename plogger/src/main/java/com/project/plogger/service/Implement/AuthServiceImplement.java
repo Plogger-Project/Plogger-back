@@ -294,7 +294,6 @@ public class AuthServiceImplement implements AuthService {
     @Override
     public ResponseEntity<? super FindPasswordResponseDto> findUserPasswordByTelNumber(FindPasswordRequestDto dto) {
 
-
         String telNumber = dto.getTelNumber();
         String authNumber = dto.getAuthNumber();
 
