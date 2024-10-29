@@ -39,10 +39,4 @@ public class RecruitReportServiceImplement implements RecruitReportService {
         }
     }
 
-    // @Override
-    // public List<GetRecruitReportListDto> getReportedPosts() {
-    //     // TODO Auto-generated method stub
-    //     throw new UnsupportedOperationException("Unimplemented method 'getReportedPosts'");
-    // }
-
 }

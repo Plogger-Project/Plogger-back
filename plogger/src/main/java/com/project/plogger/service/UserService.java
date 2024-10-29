@@ -3,6 +3,8 @@ package com.project.plogger.service;
 import org.springframework.http.ResponseEntity;
 
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
+import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.user.CommentRequestDto;
 import com.project.plogger.dto.request.user.PatchPasswordRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
@@ -16,4 +18,5 @@ public interface UserService {
     ResponseEntity<ResponseDto> patchUser(PatchUserRequestDto dto, String userId);
     ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId);
     ResponseEntity<ResponseDto> patchPassword(PatchPasswordRequestDto dto, String userId);
+    ResponseEntity<ResponseDto> patchComment(CommentRequestDto dto, String userId);
 }
