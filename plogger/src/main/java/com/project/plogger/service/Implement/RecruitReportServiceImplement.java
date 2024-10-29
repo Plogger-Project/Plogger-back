@@ -38,4 +38,5 @@ public class RecruitReportServiceImplement implements RecruitReportService {
         }
     }
 
+
 }
