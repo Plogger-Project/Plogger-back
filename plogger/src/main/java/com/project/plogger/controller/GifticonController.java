@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.gifticon.PatchGifticonRequestDto;
 import com.project.plogger.dto.request.gifticon.PostGifticonRequestDto;
-import com.project.plogger.dto.request.mileage.PostMileageDownRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonListResponseDto;
 import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
@@ -77,10 +76,9 @@ public class GifticonController {
     @PostMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> purchaseGifticon(
         @AuthenticationPrincipal String userId,
-        @RequestBody @Valid PostMileageDownRequestDto requestBody,
         @PathVariable("gifticonId") Integer gifticonId
     ){
-        ResponseEntity<ResponseDto> response = mileageService.postMileage(requestBody, userId, gifticonId);
+        ResponseEntity<ResponseDto> response = mileageService.postDownMileage(userId, gifticonId);
         return response;
     };
     

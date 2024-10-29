@@ -3,8 +3,8 @@ package com.project.plogger.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.project.plogger.dto.request.mileage.PostMileageDownRequestDto;
-import com.project.plogger.dto.request.mileage.PostMileageUpRequestDto;
+import com.project.plogger.dto.MileageDownDto;
+import com.project.plogger.dto.MileageUpDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,19 +35,26 @@ public class MileageEntity {
     private Integer activeId;
     private Integer gifticonId;
 
-    public MileageEntity(PostMileageUpRequestDto dto) {
+    public MileageEntity(MileageUpDto dto) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
         this.mileageChange = 150;
         this.description = "활동 게시판 작성";
         this.createdAt = simpleDateFormat.format(now);
+        this.userId = dto.getUserId();
+        this.activeId = dto.getActiveId();
+        this.mileageResult = dto.getMileageResult();
     }
 
-    public MileageEntity(PostMileageDownRequestDto dto) {
+    public MileageEntity(MileageDownDto dto, Integer mileageChange) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.mileageChange = mileageChange;
         this.description = "기프티콘 구매";
         this.createdAt = simpleDateFormat.format(now);
+        this.userId = dto.getUserId();
+        this.activeId = dto.getActiveId();
+        this.mileageResult = dto.getMileageResult();
     }
     
 }

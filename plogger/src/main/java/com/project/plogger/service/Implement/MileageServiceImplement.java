@@ -3,8 +3,8 @@ package com.project.plogger.service.Implement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.plogger.dto.request.mileage.PostMileageDownRequestDto;
-import com.project.plogger.dto.request.mileage.PostMileageUpRequestDto;
+import com.project.plogger.dto.MileageDownDto;
+import com.project.plogger.dto.MileageUpDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.GifticonEntity;
@@ -28,22 +28,20 @@ public class MileageServiceImplement implements MileageService{
     private final MileageRepository mileageRepository;
 
     @Override
-    public ResponseEntity<ResponseDto> postMileage(PostMileageUpRequestDto dto, String userId, Integer activeId) {
+    public ResponseEntity<ResponseDto> postUpMileage(String userId, Integer activeId) {
 
         try {
 
-            MileageEntity mileageEntity = new MileageEntity(dto);
-
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
-            mileageEntity.setUserId(userId);
             
             ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activeId);
             if(activePostEntity == null) return ResponseDto.noExistActivePost();
-            mileageEntity.setActiveId(activeId);
 
             userEntity.upMileage();
-            mileageEntity.setMileageResult(userEntity.getMileage());
+
+            MileageUpDto dto = new MileageUpDto(userId, activeId, userEntity.getMileage());
+            MileageEntity mileageEntity = new MileageEntity(dto);
 
             mileageRepository.save(mileageEntity);
             userRepository.save(userEntity);
@@ -58,24 +56,20 @@ public class MileageServiceImplement implements MileageService{
     }
 
     @Override
-    public ResponseEntity<ResponseDto> postMileage(PostMileageDownRequestDto dto, String userId, Integer gifticonId) {
+    public ResponseEntity<ResponseDto> postDownMileage(String userId, Integer gifticonId) {
 
         try {
 
-            MileageEntity mileageEntity = new MileageEntity(dto);
-
             UserEntity userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
-            mileageEntity.setUserId(userId);
             
             GifticonEntity gifticonEntity = gifticonRepository.findByGifticonId(gifticonId);
             if(gifticonEntity == null) return ResponseDto.noExistGifticon();
-            mileageEntity.setGifticonId(gifticonId);
-
-            mileageEntity.setMileageChange(gifticonEntity.getMileageCost());
 
             userEntity.downMileage(gifticonEntity.getMileageCost());
-            mileageEntity.setMileageResult(userEntity.getMileage());
+
+            MileageDownDto dto = new MileageDownDto(userId, gifticonId, userEntity.getMileage());
+            MileageEntity mileageEntity = new MileageEntity(dto, gifticonEntity.getMileageCost());
 
             mileageRepository.save(mileageEntity);
             userRepository.save(userEntity);

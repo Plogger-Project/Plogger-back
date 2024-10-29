@@ -15,7 +15,6 @@ import com.project.plogger.dto.request.active.PatchActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PatchActivePostRequestDto;
 import com.project.plogger.dto.request.active.PostActiveCommentRequestDto;
 import com.project.plogger.dto.request.active.PostActivePostRequestDto;
-import com.project.plogger.dto.request.mileage.PostMileageUpRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
@@ -44,10 +43,9 @@ public class ActivePostController {
 
     @PostMapping("/{activePostId}")
     public ResponseEntity<ResponseDto> postActivePost(
-            @RequestBody @Valid PostMileageUpRequestDto dto, 
             @AuthenticationPrincipal String userId,
             @PathVariable("activePostId") Integer activePostId) {
-        ResponseEntity<ResponseDto> response = mileageService.postMileage(dto, userId, activePostId);
+        ResponseEntity<ResponseDto> response = mileageService.postUpMileage(userId, activePostId);
         return response;
     }
 
