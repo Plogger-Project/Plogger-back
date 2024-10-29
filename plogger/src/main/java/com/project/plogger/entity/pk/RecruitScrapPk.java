@@ -17,6 +17,6 @@ public class RecruitScrapPk implements Serializable {
     @Column(name="user_id")    
     private String userId;
     @Column(name="recruit_id")
-    private String recruitId;
+    private Integer recruitId;
     
 }

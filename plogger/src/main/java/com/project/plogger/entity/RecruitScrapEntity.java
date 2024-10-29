@@ -1,5 +1,8 @@
 package com.project.plogger.entity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.project.plogger.entity.pk.RecruitScrapPk;
 
 import jakarta.persistence.Entity;
@@ -15,15 +18,23 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "scrap")
-@Table(name = "scrap")
+@Entity(name = "recruit_scrap")
+@Table(name = "recruit_scrap")
 @IdClass(RecruitScrapPk.class)
 public class RecruitScrapEntity {
     
     @Id
     private String userId;
     @Id
-    private String recruitId;
+    private Integer recruitId;
     private String createdAt;
+
+    public RecruitScrapEntity(String userId, Integer recruitId) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.userId = userId;
+        this.recruitId = recruitId;
+        this.createdAt = simpleDateFormat.format(now);
+    }
     
 }

@@ -8,11 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostTagPk implements Serializable {
+public class RecruitJoinPk implements Serializable {
     
     @Column(name = "user_id")
     private String userId;
