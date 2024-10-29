@@ -3,7 +3,7 @@ package com.project.plogger.entity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.project.plogger.entity.pk.RecruitScrapPk;
+import com.project.plogger.entity.pk.ActiveTagPk;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,23 +18,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "recruit_scrap")
-@Table(name = "recruit_scrap")
-@IdClass(RecruitScrapPk.class)
-public class RecruitScrapEntity {
+@Table(name = "active_tag")
+@Entity(name = "active_tag")
+@IdClass(ActiveTagPk.class)
+public class ActiveTagEntity {
     
     @Id
     private String userId;
     @Id
+    private Integer activeId;
     private Integer recruitId;
     private String createdAt;
 
-    public RecruitScrapEntity(String userId, Integer recruitId) {
+    public ActiveTagEntity(String userId, Integer activeId, Integer recruitId) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
         this.userId = userId;
+        this.activeId = activeId;
         this.recruitId = recruitId;
         this.createdAt = simpleDateFormat.format(now);
     }
-    
+
 }

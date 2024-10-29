@@ -12,11 +12,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RecruitScrapPk implements Serializable {
-
-    @Column(name="user_id")    
-    private String userId;
-    @Column(name="recruit_id")
-    private Integer recruitId;
+public class ActiveTagPk implements Serializable {
     
+    @Column(name = "user_id")
+    private String userId;
+    @Column(name = "active_id")
+    private Integer activeId;
+
 }

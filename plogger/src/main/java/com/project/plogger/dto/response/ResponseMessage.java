@@ -7,10 +7,13 @@ public interface ResponseMessage {
     String LIKE_UNCLICK = "Like unclick.";
     String SCRAP_CLICK = "Scrap click.";
     String SCRAP_UNCLICK = "Scrap unclick.";
+    String FULL_PEOPLE = "full people.";
 
     String VALIDATION_FAIL = "Validation failed.";
     String DUPLICATED_USER_ID = "Duplicated user id.";
     String DUPLICATED_TEL_NUMBER = "Duplicated user tel number.";
+    String NO_SELF_PARTICIPATION = "No self participation.";
+    String NO_SELF_TAG = "No self tag";
 
     String NO_EXIST_GIFTICON = "No exist gifticon";
     String NO_EXIST_USER_ID = "No exist user id.";
@@ -20,6 +23,7 @@ public interface ResponseMessage {
     String NO_EXIST_QNA_COMMENT = "No exist qna comment.";
     String NO_EXIST_ACTIVE_COMMENT = "No exist active comment.";
     String NO_EXIST_RECRUIT_COMMENT = "No exist recruit comment.";
+    String NO_EXIST_ACTIVE_TAG = "No exist active tag.";
 
     String NO_EXIST_TEL_NUMBER = "No exist tel number";
     String NO_EXIST_USER_ID_AND_TEL_NUMBER = "No exist user id and tel number";

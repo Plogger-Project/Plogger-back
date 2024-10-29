@@ -39,6 +39,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> fullPeople() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.FULL_PEOPLE, ResponseMessage.FULL_PEOPLE);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> signInFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.SIGN_IN_FAIL, ResponseMessage.SIGN_IN_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
@@ -69,6 +74,16 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noSelfParticipation() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_SELF_PARTICIPATION, ResponseMessage.NO_SELF_PARTICIPATION);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noSelfTag() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_SELF_TAG, ResponseMessage.NO_SELF_TAG);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> noExistGifticon() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_GIFTICON, ResponseMessage.NO_EXIST_GIFTICON);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
@@ -88,7 +103,6 @@ public class ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID_AND_TEL_NUMBER, ResponseMessage.NO_EXIST_USER_ID_AND_TEL_NUMBER);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-
 
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
@@ -112,6 +126,11 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistRecruitComment() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RECRUIT_COMMENT, ResponseMessage.NO_EXIST_RECRUIT_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistActiveTag() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_TAG, ResponseMessage.NO_EXIST_ACTIVE_TAG);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

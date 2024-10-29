@@ -7,10 +7,13 @@ public interface ResponseCode {
     String LIKE_UNCLICK = "LUC";
     String SCRAP_CLICK = "SC";
     String SCRAP_UNCLICK = "SUC";
+    String FULL_PEOPLE = "FP";
     
     String VALIDATION_FAILED = "VF";
     String DUPLICATED_USER_ID = "DI";
     String DUPLICATED_TEL_NUMBER = "DT";
+    String NO_SELF_PARTICIPATION = "NSP";
+    String NO_SELF_TAG = "NST";
 
     String NO_EXIST_USER_ID = "NI";
     String NO_EXIST_GIFTICON = "NG";
@@ -22,6 +25,7 @@ public interface ResponseCode {
     String NO_EXIST_TEL_NUMBER = "NT";
     String NO_EXIST_USER_ID_AND_TEL_NUMBER = "NIT";
     String PASSWORD_MISMATCH = "PM";
+    String NO_EXIST_ACTIVE_TAG = "NAT";
     String NO_EXIST_ALERT = "NA";
 
     String SIGN_IN_FAIL = "SF";

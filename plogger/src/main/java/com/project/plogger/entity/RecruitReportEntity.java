@@ -25,14 +25,9 @@ public class RecruitReportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer reportId;
-
-
     private String content;
-
     private String createdAt;
-
     private Integer recruitId;
-
     private String userId;
 
     public RecruitReportEntity(RecruitReportRequestDto dto, Integer recruitId, String userId) {

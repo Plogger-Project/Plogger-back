@@ -135,15 +135,20 @@ public class UserServiceImplement implements UserService {
     @Override
     public ResponseEntity<ResponseDto> patchPassword(PatchPasswordRequestDto dto, String userId) {
 
-        String currenPassword = dto.getCurrentPassword();
+        String currentPassword = dto.getCurrentPassword();
+        String newPassword = dto.getNewPassword();
 
         try {
 
             UserEntity userEntity = userRepository.findByUserId(userId);
             if (userEntity == null) return ResponseDto.noExistUserId();
 
-            String encodedPassword = passwordEncoder.encode(currenPassword);
-            dto.setCurrentPassword(encodedPassword);
+            if (!passwordEncoder.matches(currentPassword, userEntity.getPassword())) {
+                return ResponseDto.passwordMismatch();
+            }
+
+            String encodedPassword = passwordEncoder.encode(newPassword);
+            userEntity.setPassword(encodedPassword);
 
             userRepository.save(userEntity);
 

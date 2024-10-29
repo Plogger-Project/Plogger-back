@@ -10,10 +10,10 @@ import com.project.plogger.repository.RecruitReportRepository;
 import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.service.RecruitReportService;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RecruitReportServiceImplement implements RecruitReportService {
 
     private final RecruitRepository recruitRepository;
@@ -27,8 +27,7 @@ public class RecruitReportServiceImplement implements RecruitReportService {
             RecruitReportEntity recruitReportEntity = new RecruitReportEntity(dto, recruitId, userId);
 
             recruitEntity.setRecruitReport(recruitEntity.getRecruitReport() + 1);
-            recruitRepository.save(recruitEntity);
-            
+            recruitRepository.save(recruitEntity);            
             recruitReportRepository.save(recruitReportEntity);
 
             return ResponseDto.success();

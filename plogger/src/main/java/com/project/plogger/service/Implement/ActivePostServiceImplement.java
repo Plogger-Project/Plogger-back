@@ -12,8 +12,15 @@ import com.project.plogger.dto.request.active.PostActivePostRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
+import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
+import com.project.plogger.entity.ActiveTagEntity;
+import com.project.plogger.entity.RecruitEntity;
+import com.project.plogger.entity.RecruitJoinEntity;
 import com.project.plogger.repository.ActivePostRepository;
+import com.project.plogger.repository.ActiveTagRepository;
+import com.project.plogger.repository.RecruitJoinRepository;
+import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.ActivePostService;
 
@@ -24,10 +31,15 @@ import lombok.RequiredArgsConstructor;
 public class ActivePostServiceImplement implements ActivePostService {
 
     private final UserRepository userRepository;
+    private final ActiveTagRepository tagRepository;
+    private final RecruitRepository recruitRepository;
+    private final RecruitJoinRepository joinRepository;
     private final ActivePostRepository activePostRepository;
 
     @Override
-    public ResponseEntity<ResponseDto> postActivePost(PostActivePostRequestDto dto, String userId) {
+    public ResponseEntity<ResponseDto> postActivePost(PostActivePostRequestDto dto, String userId, Integer recruitId) {
+
+        List<String> activePeople = new ArrayList<>();
 
         try {
 
@@ -37,6 +49,16 @@ public class ActivePostServiceImplement implements ActivePostService {
             ActivePostEntity activePostEntity = new ActivePostEntity(dto);
             activePostEntity.setActivePostWriterId(userId);
             activePostRepository.save(activePostEntity);
+
+            List<RecruitJoinEntity> joinEntities = joinRepository.findByRecruitId(recruitId);
+
+            for(RecruitJoinEntity recruitJoinEntity: joinEntities) {
+                activePeople.add(recruitJoinEntity.getUserId());
+                ActiveTagEntity activeTagEntity = new ActiveTagEntity(recruitJoinEntity.getUserId(), activePostEntity.getActivePostId(), recruitJoinEntity.getRecruitId());
+                tagRepository.save(activeTagEntity);
+            }
+            
+            dto.setActivePeople(activePeople);
 
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -109,18 +131,29 @@ public class ActivePostServiceImplement implements ActivePostService {
     public ResponseEntity<? super GetActivePostResponseDto> getActivePost(Integer activePostId) {
 
         ActivePostEntity activePostEntity = null;
+        List<String> activePeople = new ArrayList<>();
+    
 
         try {
 
             activePostEntity = activePostRepository.findByActivePostId(activePostId);
-            if (activePostEntity == null) return ResponseDto.noExistActivePost();            
+            if (activePostEntity == null) return ResponseDto.noExistActivePost(); 
+            
+            activePostEntity.setActiveView(activePostEntity.getActiveView() + 1);
+            activePostRepository.save(activePostEntity);
+
+            List<ActiveTagEntity> activeTagEntities = tagRepository.findByActiveId(activePostId);
+
+            for(ActiveTagEntity activeTagEntity: activeTagEntities) {
+                activePeople.add(activeTagEntity.getUserId());
+            }
 
         } catch(Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetActivePostResponseDto.success(activePostEntity);
+        return GetActivePostResponseDto.success(activePostEntity, activePeople);
     }
 
     @Override
@@ -128,11 +161,9 @@ public class ActivePostServiceImplement implements ActivePostService {
 
         List<ActivePostEntity> activePostEntities = new ArrayList<>();
         
-
         try {
 
             activePostEntities = activePostRepository.findAllByOrderByActivePostIdDesc();
-
 
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -143,6 +174,25 @@ public class ActivePostServiceImplement implements ActivePostService {
 
     }
 
-    
+    @Override
+    public ResponseEntity<? super GetMyRecruitPostListResponseDto> getMyRecruitPosts(String userId) {
+
+        List<RecruitEntity> recruitEntities = new ArrayList<>();
+
+        try {
+
+            boolean isExistedUser = userRepository.existsById(userId);
+            if (!isExistedUser) return ResponseDto.noExistUserId();
+
+            recruitEntities = recruitRepository.findByRecruitPostWriterAndIsCompletedTrue(userId);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetMyRecruitPostListResponseDto.success(recruitEntities);
+
+    }
 
 }

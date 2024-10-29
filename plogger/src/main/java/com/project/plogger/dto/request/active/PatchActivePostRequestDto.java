@@ -1,6 +1,8 @@
 package com.project.plogger.dto.request.active;
 
-import jakarta.validation.constraints.NotNull;
+import java.util.List;
+
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,14 +12,16 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PatchActivePostRequestDto {
 
-    @NotNull
+    @NotBlank 
     private String activePostTitle;
     private String activePostImage;
-    @NotNull
+    @NotBlank 
     private String activePostContent;
-    @NotNull
+    @NotBlank 
     private String activeStartDate;
-    @NotNull 
+    @NotBlank 
     private String activeEndDate;
+    @NotBlank
+    private List<String> activePeople;
 
 }
