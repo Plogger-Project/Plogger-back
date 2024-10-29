@@ -20,7 +20,7 @@ public class RecruitLikeController {
     private final RecruitLikeService recruitLikeService;
     
     @PostMapping("/like/{recruitId}")
-    public ResponseEntity<ResponseDto> recruitLike(@AuthenticationPrincipal String userId, @PathVariable Integer recruitId) {
+    public ResponseEntity<ResponseDto> recruitLike(@AuthenticationPrincipal String userId, @PathVariable("recruitId") Integer recruitId) {
         ResponseEntity<ResponseDto> response = recruitLikeService.recruitLike(userId, recruitId);
         return response;
     }
