@@ -2,6 +2,7 @@ package com.project.plogger.entity;
 
 import com.project.plogger.dto.request.auth.SignUpRequestDto;
 import com.project.plogger.dto.request.user.ChangeMileageRequestDto;
+import com.project.plogger.dto.request.user.CommentRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 
 import jakarta.persistence.Entity;
@@ -51,8 +52,16 @@ public class UserEntity {
         this.address = dto.getAddress();
     }
 
-    public void purchase(ChangeMileageRequestDto dto) {
-        this.mileage = dto.getMileage();
+    public void upMileage(){
+        this.mileage += 150;
+    }
+
+    public void downMileage(Integer mileageCost){
+        this.mileage -= mileageCost;
+    }
+
+    public void patchCommet(CommentRequestDto dto) {
+        this.comment = dto.getComment();
     }
 
 }

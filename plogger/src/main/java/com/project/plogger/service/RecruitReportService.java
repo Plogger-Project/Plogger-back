@@ -10,3 +10,5 @@ public interface RecruitReportService {
     ResponseEntity<ResponseDto> createReport(Integer recruitId, String userId, RecruitReportRequestDto dto);
 
 }
+
+

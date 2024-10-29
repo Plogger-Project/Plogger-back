@@ -18,7 +18,7 @@ import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
-
+import com.project.plogger.dto.response.recruit.GetRecruitListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.service.RecruitCommentService;
 import com.project.plogger.service.RecruitService;

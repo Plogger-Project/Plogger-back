@@ -1,6 +1,5 @@
 package com.project.plogger.service.Implement;
 
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.project.plogger.dto.request.recruit.RecruitReportRequestDto;
