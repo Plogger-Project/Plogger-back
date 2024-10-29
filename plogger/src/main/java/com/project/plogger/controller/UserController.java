@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
+import com.project.plogger.dto.request.user.PatchPasswordRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -38,6 +39,12 @@ public class UserController {
     @PatchMapping("/tel-auth-check")
     public ResponseEntity<ResponseDto> patchTelAuthCheck(@RequestBody @Valid TelAuthCheckRequestDto request, @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = userService.patchTelAuthCheck(request, userId);
+        return response;
+    }
+
+    @PatchMapping("/update-password")
+    public ResponseEntity<ResponseDto> patchPassword(@RequestBody @Valid PatchPasswordRequestDto request, @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = userService.patchPassword(request, userId);
         return response;
     }
 

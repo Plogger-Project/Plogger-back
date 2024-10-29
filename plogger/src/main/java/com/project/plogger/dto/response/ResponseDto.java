@@ -29,9 +29,29 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> scrapClick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.SCRAP_CLICK, ResponseMessage.SCRAP_CLICK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> scrapUnclick() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.SCRAP_UNCLICK, ResponseMessage.SCRAP_UNCLICK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> fullPeople() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.FULL_PEOPLE, ResponseMessage.FULL_PEOPLE);
+        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> signInFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.SIGN_IN_FAIL, ResponseMessage.SIGN_IN_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> passwordMismatch() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.PASSWORD_MISMATCH, ResponseMessage.PASSWORD_MISMATCH);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
     public static ResponseEntity<ResponseDto> validationFail() {
@@ -51,6 +71,16 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> duplicatedTelNumber() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_TEL_NUMBER, ResponseMessage.DUPLICATED_TEL_NUMBER);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noSelfParticipation() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_SELF_PARTICIPATION, ResponseMessage.NO_SELF_PARTICIPATION);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noSelfTag() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_SELF_TAG, ResponseMessage.NO_SELF_TAG);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
@@ -74,7 +104,6 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
-
     public static ResponseEntity<ResponseDto> noExistActivePost() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_POST, ResponseMessage.NO_EXIST_ACTIVE_POST);
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
@@ -97,6 +126,11 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistRecruitComment() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RECRUIT_COMMENT, ResponseMessage.NO_EXIST_RECRUIT_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistActiveTag() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_TAG, ResponseMessage.NO_EXIST_ACTIVE_TAG);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

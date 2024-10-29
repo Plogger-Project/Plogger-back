@@ -19,6 +19,7 @@ import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.active.GetActiveCommentListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostListResponseDto;
 import com.project.plogger.dto.response.active.GetActivePostResponseDto;
+import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
 
@@ -33,9 +34,11 @@ public class ActivePostController {
     private final ActivePostService activePostService;
     private final ActiveCommentService activeCommentService;
     
-    @PostMapping(value = {"", "/"})
-    public ResponseEntity<ResponseDto> postActivePost(@RequestBody @Valid PostActivePostRequestDto dto, @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = activePostService.postActivePost(dto, userId);
+    @PostMapping("/{recruitId}")
+    public ResponseEntity<ResponseDto> postActivePost(
+        @RequestBody @Valid PostActivePostRequestDto dto, 
+        @AuthenticationPrincipal String userId, @PathVariable("recruitId") Integer recruitId) {
+        ResponseEntity<ResponseDto> response = activePostService.postActivePost(dto, userId, recruitId);
         return response;
     }
 
@@ -60,6 +63,12 @@ public class ActivePostController {
     @GetMapping(value = {"", "/"})
     public ResponseEntity<? super GetActivePostListResponseDto> getActivePosts() {
         ResponseEntity<? super GetActivePostListResponseDto> response = activePostService.getActivePostList();
+        return response;
+    }
+
+    @GetMapping("/my-recruits")
+    public ResponseEntity<? super GetMyRecruitPostListResponseDto> getMyRecruitPosts(@AuthenticationPrincipal String userId) {
+        ResponseEntity<? super GetMyRecruitPostListResponseDto> response = activePostService.getMyRecruitPosts(userId);
         return response;
     }
 

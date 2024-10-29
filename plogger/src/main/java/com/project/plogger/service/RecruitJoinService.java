@@ -4,8 +4,8 @@ import org.springframework.http.ResponseEntity;
 
 import com.project.plogger.dto.response.ResponseDto;
 
-public interface RecruitScrapService {
+public interface RecruitJoinService {
     
-    ResponseEntity<ResponseDto> recruitScrap(String userId, Integer recruitId);
-    
+    ResponseEntity<ResponseDto> recruitJoin(String userId, Integer recruitId);
+
 }

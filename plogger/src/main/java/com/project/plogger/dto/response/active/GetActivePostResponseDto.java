@@ -1,5 +1,7 @@
 package com.project.plogger.dto.response.active;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -25,8 +27,9 @@ public class GetActivePostResponseDto extends ResponseDto {
     private Integer activeView;
     private Integer activePostLike;
     private Integer activeReport;
+    private List<String> activePeople;
     
-    private GetActivePostResponseDto(ActivePostEntity activePostEntity) {
+    private GetActivePostResponseDto(ActivePostEntity activePostEntity, List<String> activePeople) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.activePostId = activePostEntity.getActivePostId();
         this.activePostTitle = activePostEntity.getActivePostTitle();
@@ -40,10 +43,11 @@ public class GetActivePostResponseDto extends ResponseDto {
         this.activeView = activePostEntity.getActiveView();
         this.activePostLike = activePostEntity.getActivePostLike();
         this.activeReport = activePostEntity.getActiveReport();
+        this.activePeople = activePeople;
     }
 
-    public static ResponseEntity<GetActivePostResponseDto> success(ActivePostEntity activePostEntity) {
-        GetActivePostResponseDto responseBody = new GetActivePostResponseDto(activePostEntity);
+    public static ResponseEntity<GetActivePostResponseDto> success(ActivePostEntity activePostEntity, List<String> activePeople) {
+        GetActivePostResponseDto responseBody = new GetActivePostResponseDto(activePostEntity, activePeople);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
         
     }
