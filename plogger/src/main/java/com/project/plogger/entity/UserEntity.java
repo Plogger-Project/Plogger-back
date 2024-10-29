@@ -52,8 +52,12 @@ public class UserEntity {
         this.address = dto.getAddress();
     }
 
-    public void purchase(ChangeMileageRequestDto dto) {
-        this.mileage = dto.getMileage();
+    public void upMileage(){
+        this.mileage += 150;
+    }
+
+    public void downMileage(Integer mileageCost){
+        this.mileage -= mileageCost;
     }
 
     public void patchCommet(CommentRequestDto dto) {

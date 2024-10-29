@@ -4,7 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.project.plogger.common.util.CreateNumber;
 import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
@@ -15,11 +14,9 @@ import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
-import com.project.plogger.entity.GifticonEntity;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.provider.SmsProvider;
-import com.project.plogger.repository.GifticonRepository;
 import com.project.plogger.repository.TelAuthRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.UserService;
@@ -33,7 +30,6 @@ public class UserServiceImplement implements UserService {
     private final SmsProvider smsProvider;
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
-    private final GifticonRepository gifticonRepository;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

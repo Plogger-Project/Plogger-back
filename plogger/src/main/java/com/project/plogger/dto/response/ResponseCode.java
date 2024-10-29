@@ -5,6 +5,8 @@ public interface ResponseCode {
     String SUCCESS = "SU";
     String LIKE_CLICK = "LC";
     String LIKE_UNCLICK = "LUC";
+    String SCRAP_CLICK = "SC";
+    String SCRAP_UNCLICK = "SUC";
     
     String VALIDATION_FAILED = "VF";
     String DUPLICATED_USER_ID = "DI";
@@ -19,6 +21,7 @@ public interface ResponseCode {
     String NO_EXIST_RECRUIT_COMMENT = "NRC";
     String NO_EXIST_TEL_NUMBER = "NT";
     String NO_EXIST_USER_ID_AND_TEL_NUMBER = "NIT";
+    String PASSWORD_MISMATCH = "PM";
     String NO_EXIST_ALERT = "NA";
 
     String SIGN_IN_FAIL = "SF";

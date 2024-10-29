@@ -39,7 +39,7 @@ public class RecruitLikeServiceImplement implements RecruitLikeService {
                 likeRepository.deleteByUserIdAndRecruitId(userId, recruitId); // 좋아요 취소
                 recruitEntity.setRecruitPostLike(recruitEntity.getRecruitPostLike() - 1);
                 recruitRepository.save(recruitEntity);
-                return ResponseDto.likeClick();
+                return ResponseDto.likeUnclick();
 
             } else {
 
@@ -47,7 +47,7 @@ public class RecruitLikeServiceImplement implements RecruitLikeService {
                 likeRepository.save(likeEntity); 
                 recruitEntity.setRecruitPostLike(recruitEntity.getRecruitPostLike() + 1);
                 recruitRepository.save(recruitEntity);
-                return ResponseDto.likeUnclick();
+                return ResponseDto.likeClick();
 
             }
 
