@@ -1,5 +1,8 @@
 package com.project.plogger.entity.alert;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +10,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+
+import com.project.plogger.dto.request.alert.AlertRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +37,13 @@ public class AlertEntity {
     private boolean isRead;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    private String createdAt;
+
+    public AlertEntity(AlertRequestDto dto) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.message = dto.getMessage();
+        this.createdAt = simpleDateFormat.format(now);
+    }
 
 }

@@ -1,15 +1,21 @@
 package com.project.plogger.service.Implement;
 
 import java.util.List;
+import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.alert.AlertRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+
 import com.project.plogger.dto.response.alert.AlertResponseDto;
+import com.project.plogger.dto.response.alert.GetAlertListResponseDto;
+import com.project.plogger.entity.UserEntity;
 import com.project.plogger.entity.alert.AlertEntity;
 import com.project.plogger.repository.AlertRepository;
+import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.AlertService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,20 +25,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AlertImplement implements AlertService {
 
-    private AlertRepository alertRepository;
-
-    @Autowired
-    public AlertImplement(AlertRepository alertRepository) {
-        this.alertRepository = alertRepository;
-    }
+    private final AlertRepository alertRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ResponseEntity<? super AlertResponseDto> getAlertsByUserId(String userId) {
 
+        AlertEntity alertEntity = null;
+
         try {
 
-            List<AlertEntity> alerts = alertRepository.findByUserId(userId);
-            if (alerts == null) return ResponseDto.noExistAlertsFound();
+            alertEntity = alertRepository.findByUserId(userId);
+            if (alertEntity == null) return AlertResponseDto.noExistAlertsFound();
+
 
         } catch (Exception exception) {
 
@@ -40,14 +45,21 @@ public class AlertImplement implements AlertService {
             return ResponseDto.databaseError();
 
         }
-        return ResponseDto.success();
+        return AlertResponseDto.success(alertEntity);
     }
 
     @Override
-    public ResponseEntity<ResponseDto> createAlert(AlertEntity alert) {
+    public ResponseEntity<ResponseDto> createAlert(AlertRequestDto dto, String userId) {
 
         try {
-            alertRepository.save(alert);
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+
+            AlertEntity alertEntity = new AlertEntity(dto);
+            alertEntity.setUserId(userId);
+
+            alertRepository.save(alertEntity);
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -90,5 +102,18 @@ public class AlertImplement implements AlertService {
         }
         return ResponseDto.success();
     }
-    
+
+    @Override
+    public ResponseEntity<? super GetAlertListResponseDto> getAlertList(String userId) {
+
+        List<AlertEntity> alertEntities  = new ArrayList<>();
+
+        try {
+            alertEntities = alertRepository.findByUserIdOrderByIdDesc(userId);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetAlertListResponseDto.success(alertEntities);
+    }
 }
