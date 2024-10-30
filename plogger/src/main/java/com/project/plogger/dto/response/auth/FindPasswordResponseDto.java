@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import com.project.plogger.entity.UserEntity;
 
 import lombok.Getter;
 
