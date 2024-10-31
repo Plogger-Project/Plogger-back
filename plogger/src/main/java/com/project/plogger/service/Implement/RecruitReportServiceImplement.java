@@ -1,9 +1,13 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.project.plogger.dto.request.recruit.RecruitReportRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitReportListResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.RecruitReportEntity;
 import com.project.plogger.repository.RecruitReportRepository;
@@ -38,5 +42,18 @@ public class RecruitReportServiceImplement implements RecruitReportService {
         }
     }
 
+    @Override
+    public ResponseEntity<? super GetRecruitReportListResponseDto> getAllRecruitReportPost() {
+        
+        List<RecruitReportEntity> recruitReportEntities = new ArrayList<>();
+
+        try {
+            recruitReportEntities = recruitReportRepository.findAllByOrderByReportIdAsc();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetRecruitReportListResponseDto.success(recruitReportEntities);
+    }
 
 }

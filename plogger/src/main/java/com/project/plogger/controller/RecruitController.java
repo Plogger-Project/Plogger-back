@@ -51,7 +51,6 @@ public class RecruitController {
         return response;
     }
 
-
     @GetMapping(value = {"","/"})
     public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
         ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
