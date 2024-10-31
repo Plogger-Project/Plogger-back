@@ -44,6 +44,22 @@ public class FollowController {
         return response;
     };
 
+    @GetMapping("/follower")
+    public ResponseEntity<? super GetFollowerListResponseDto> getSignInUserFollowerList(
+        @AuthenticationPrincipal String followeeId
+    ) {
+        ResponseEntity<? super GetFollowerListResponseDto> response = followService.getFollowerList(followeeId);
+        return response;
+    }
+
+    @GetMapping("/followee")
+    public ResponseEntity<? super GetFolloweeListResponseDto> getSignInUserFolloweeList(
+        @AuthenticationPrincipal String followerId
+    ) {
+        ResponseEntity<? super GetFolloweeListResponseDto> response = followService.getfolloweeList(followerId);
+        return response;
+    }
+
     @GetMapping("/follower/{followeeId}")
     public ResponseEntity<? super GetFollowerListResponseDto> getFollowerList(
         @PathVariable("followeeId") String followeeId
