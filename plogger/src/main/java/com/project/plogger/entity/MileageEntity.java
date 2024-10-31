@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.project.plogger.dto.MileageDownDto;
+import com.project.plogger.dto.MileageTagRemoveDto;
 import com.project.plogger.dto.MileageUpDto;
 
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ public class MileageEntity {
     private Integer mileageChange;
     private String description;
     private String createdAt;
-    private Integer mileageResult;
+    private Integer mileageResult = 0;
     private Integer activeId;
     private Integer gifticonId;
 
@@ -56,5 +57,16 @@ public class MileageEntity {
         this.activeId = dto.getActiveId();
         this.mileageResult = dto.getMileageResult();
     }
-    
+
+    public MileageEntity(MileageTagRemoveDto dto) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.mileageChange = 150;
+        this.description = "활동 게시판 태그 제거에 따른 마일리지 회수";
+        this.createdAt = simpleDateFormat.format(now);
+        this.userId = dto.getUserId();
+        this.activeId = dto.getActiveId();
+        this.mileageResult = dto.getMileageResult();
+    }
+
 }

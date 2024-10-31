@@ -6,6 +6,6 @@ import com.project.plogger.entity.MileageEntity;
 
 public interface MileageRepository extends JpaRepository<MileageEntity, Integer> {
 
-    
-    
+    MileageEntity findByUserId(String userId);
+
 }

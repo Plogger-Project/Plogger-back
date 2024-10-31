@@ -8,5 +8,6 @@ public interface MileageService {
 
     ResponseEntity<ResponseDto> postUpMileage(String userId, Integer activeId);
     ResponseEntity<ResponseDto> postDownMileage(String userId, Integer gifticonId);
+    ResponseEntity<ResponseDto> postTagRemoveMileage(String userId, Integer activeId);
     
 }

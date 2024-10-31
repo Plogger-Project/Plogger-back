@@ -11,6 +11,7 @@ import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.ActiveTagRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.ActiveTagService;
+import com.project.plogger.service.MileageService;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ActiveTagServiceImplement implements ActiveTagService {
     
+    private final MileageService mileageService;
     private final UserRepository userRepository;
     private final ActiveTagRepository tagRepository;
     private final ActivePostRepository activeRepository;
@@ -42,6 +44,9 @@ public class ActiveTagServiceImplement implements ActiveTagService {
 
             ActiveTagEntity tagEntity = new ActiveTagEntity(tagId, activeId, recruitId);
             tagRepository.save(tagEntity);
+
+            // 추가로 태그된 유저 마일리지 지급
+            mileageService.postUpMileage(tagId, activeId);
 
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -70,6 +75,9 @@ public class ActiveTagServiceImplement implements ActiveTagService {
             if (tagEntity == null) return ResponseDto.noExistActiveTag();
 
             tagRepository.delete(tagEntity);
+
+            // 태그가 삭제된 유저 마일리지 회수
+            mileageService.postTagRemoveMileage(tagId, activeId);
 
         } catch(Exception exception) {
             exception.printStackTrace();

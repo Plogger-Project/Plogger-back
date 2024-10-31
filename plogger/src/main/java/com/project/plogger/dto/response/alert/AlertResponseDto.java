@@ -1,8 +1,5 @@
 package com.project.plogger.dto.response.alert;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
