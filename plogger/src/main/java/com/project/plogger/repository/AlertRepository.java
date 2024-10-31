@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.project.plogger.common.object.Alert;
 import com.project.plogger.entity.alert.AlertEntity;
 
 public interface AlertRepository extends JpaRepository<AlertEntity, Long> {
