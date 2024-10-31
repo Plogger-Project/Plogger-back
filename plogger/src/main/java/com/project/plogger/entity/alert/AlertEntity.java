@@ -9,7 +9,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
 
 import com.project.plogger.dto.request.alert.AlertRequestDto;
 
@@ -41,7 +40,7 @@ public class AlertEntity {
 
     public AlertEntity(AlertRequestDto dto) {
         Date now = new Date();
-        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         this.message = dto.getMessage();
         this.createdAt = simpleDateFormat.format(now);
     }
