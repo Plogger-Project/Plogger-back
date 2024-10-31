@@ -10,7 +10,7 @@ import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
 import com.project.plogger.entity.RecruitEntity;
-import com.project.plogger.repository.RecruitJoinRepository; // Repository 추가
+import com.project.plogger.repository.RecruitJoinRepository;
 
 import lombok.Getter;
 
@@ -22,7 +22,7 @@ public class GetMyRecruitPostListResponseDto extends ResponseDto {
     // RecruitJoinRepository를 추가
     public GetMyRecruitPostListResponseDto(List<RecruitEntity> recruitEntities, RecruitJoinRepository joinRepository) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.myRecruitPosts = MyRecruit.getList(recruitEntities, joinRepository); // 수정된 getList 메소드 호출
+        this.myRecruitPosts = MyRecruit.getList(recruitEntities, joinRepository); 
     }
 
     public static ResponseEntity<GetMyRecruitPostListResponseDto> success(List<RecruitEntity> recruitEntities, RecruitJoinRepository joinRepository) {
