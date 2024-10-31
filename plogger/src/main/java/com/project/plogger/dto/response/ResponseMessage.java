@@ -28,6 +28,8 @@ public interface ResponseMessage {
     String NO_EXIST_TEL_NUMBER = "No exist tel number";
     String NO_EXIST_USER_ID_AND_TEL_NUMBER = "No exist user id and tel number";
     String NO_EXIST_ALERT = "No exist alert";
+    String NO_EXIST_FOLLOW = "No exist follow.";
+
 
     String SIGN_IN_FAIL = "Sign in failed.";
     String AUTHENTICATION_FAIL = "Authentication failed.";
