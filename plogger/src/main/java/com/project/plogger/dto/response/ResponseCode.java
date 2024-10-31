@@ -27,6 +27,7 @@ public interface ResponseCode {
     String PASSWORD_MISMATCH = "PM";
     String NO_EXIST_ACTIVE_TAG = "NAT";
     String NO_EXIST_ALERT = "NA";
+    String NO_EXIST_FOLLOW = "NF";
 
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";

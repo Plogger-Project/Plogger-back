@@ -34,7 +34,7 @@ public class ActivePostController {
 
     private final ActivePostService activePostService;
     private final ActiveCommentService activeCommentService;
-    private final MileageService mileageService;
+    // private final MileageService mileageService;
     
     @PostMapping("/{recruitId}")
     public ResponseEntity<ResponseDto> postActivePost(
@@ -44,13 +44,13 @@ public class ActivePostController {
         return response;
     }
 
-    @PostMapping("/{activePostId}")
-    public ResponseEntity<ResponseDto> postActivePost(
-            @AuthenticationPrincipal String userId,
-            @PathVariable("activePostId") Integer activePostId) {
-        ResponseEntity<ResponseDto> response = mileageService.postUpMileage(userId, activePostId);
-        return response;
-    }
+    // @PostMapping("/{activePostId}")
+    // public ResponseEntity<ResponseDto> postActivePost(
+    //         @AuthenticationPrincipal String userId,
+    //         @PathVariable("activePostId") Integer activePostId) {
+    //     ResponseEntity<ResponseDto> response = mileageService.postUpMileage(userId, activePostId);
+    //     return response;
+    // }
 
     @PatchMapping("/{activePostId}")
     public ResponseEntity<ResponseDto> patchActivePost(@RequestBody @Valid PatchActivePostRequestDto dto, @PathVariable Integer activePostId, @AuthenticationPrincipal String userId) {

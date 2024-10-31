@@ -56,6 +56,10 @@ public class UserEntity {
         this.mileage += 150;
     }
 
+    public void downMileage(){
+        this.mileage -= 150;
+    }
+
     public void downMileage(Integer mileageCost){
         this.mileage -= mileageCost;
     }

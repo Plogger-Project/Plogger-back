@@ -14,6 +14,8 @@ public interface RecruitService {
 
     ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId);
 
+    ResponseEntity<? super GetRecruitResponseDto> getProfileImage(Integer recruitPostId);
+
     ResponseEntity<? super GetRecruitListResponseDto> getRecruitList();
 
     ResponseEntity<ResponseDto> patchRecruit(Integer recruitPostId, String userId, PatchRecruitRequestDto dto);

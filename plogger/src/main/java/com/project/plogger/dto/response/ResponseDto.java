@@ -1,7 +1,11 @@
 package com.project.plogger.dto.response;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.project.plogger.entity.RecruitReportEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -136,6 +140,11 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistAlertsFound() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ALERT, ResponseMessage.NO_EXIST_ALERT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistFollow() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_FOLLOW, ResponseMessage.NO_EXIST_FOLLOW);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
