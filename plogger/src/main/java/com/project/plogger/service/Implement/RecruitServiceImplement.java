@@ -111,6 +111,21 @@ public class RecruitServiceImplement implements RecruitService {
         }
         return ResponseDto.success();
     }
+    @Override
+    public ResponseEntity<? super GetRecruitResponseDto> getProfileImage(Integer recruitPostId) {
+        GetRecruitResultSet resultSet = null;
+
+        try {
+            resultSet = recruitRepository.getRecruit(recruitPostId);
+            if(resultSet== null)
+                return ResponseDto.noExistRecruit();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetRecruitResponseDto.success(resultSet);
+
+    }
     
     
 

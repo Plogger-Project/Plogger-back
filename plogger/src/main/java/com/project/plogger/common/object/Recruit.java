@@ -23,6 +23,7 @@ public class Recruit {
     private Integer recruitPostLike;
     private Integer recruitReport;
     private Boolean isCompleted;
+    private Boolean isMileage;
 
     public Recruit(RecruitEntity recruitEntity) {
         this.recruitPostId = recruitEntity.getRecruitPostId();
@@ -39,6 +40,7 @@ public class Recruit {
         this.recruitPostLike = recruitEntity.getRecruitPostLike();
         this.recruitReport = recruitEntity.getRecruitReport();
         this.isCompleted = recruitEntity.getIsCompleted();
+        this.isMileage = recruitEntity.getIsMileage();
     }
 
     public static List<Recruit> getList(List<RecruitEntity> recruitEntities) {

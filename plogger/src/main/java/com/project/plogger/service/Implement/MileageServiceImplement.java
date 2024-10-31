@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.MileageDownDto;
+import com.project.plogger.dto.MileageTagRemoveDto;
 import com.project.plogger.dto.MileageUpDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
@@ -53,6 +54,34 @@ public class MileageServiceImplement implements MileageService{
 
         return ResponseDto.success();
         
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> postTagRemoveMileage(String userId, Integer activeId) {
+
+        try {
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            
+            ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activeId);
+            if(activePostEntity == null) return ResponseDto.noExistActivePost();
+
+            userEntity.downMileage();
+
+            MileageTagRemoveDto dto = new MileageTagRemoveDto(userId, activeId, userEntity.getMileage());
+            MileageEntity mileageEntity = new MileageEntity(dto);
+
+            mileageRepository.save(mileageEntity);
+            userRepository.save(userEntity);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
     }
 
     @Override

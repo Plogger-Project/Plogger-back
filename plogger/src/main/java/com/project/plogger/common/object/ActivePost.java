@@ -16,7 +16,7 @@ public class ActivePost {
     private String activePostImage;
     private String activePostContent;
     private String activeLocation;
-    private String activePostCraetedAt;
+    private String activePostCreatedAt;
     private String activeStartDate;
     private String activeEndDate;
     private Integer activeView;
@@ -30,7 +30,7 @@ public class ActivePost {
         this.activePostImage = activePostEntity.getActivePostImage();
         this.activePostContent = activePostEntity.getActivePostContent();
         this.activeLocation = activePostEntity.getActiveLocation();
-        this.activePostCraetedAt = activePostEntity.getActivePostCreatedAt();
+        this.activePostCreatedAt = activePostEntity.getActivePostCreatedAt();
         this.activeStartDate = activePostEntity.getActiveStartDate();
         this.activeEndDate = activePostEntity.getActiveEndDate();
         this.activeView = activePostEntity.getActiveView();

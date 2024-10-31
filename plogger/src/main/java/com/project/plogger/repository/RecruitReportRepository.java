@@ -12,6 +12,6 @@ public interface RecruitReportRepository extends JpaRepository<RecruitReportEnti
 
 
     RecruitReportEntity findByRecruitId(Integer recruitId);
-    List<RecruitReportEntity> findAllByOrderByReportIdDesc();
-
+    List<RecruitReportEntity> findAllByOrderByReportIdAsc();
+    boolean existsByRecruitIdAndUserId(Integer recruitId, String userId);
 }
