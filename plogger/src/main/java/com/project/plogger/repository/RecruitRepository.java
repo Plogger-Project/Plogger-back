@@ -23,7 +23,7 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer>
     @Query(value = "SELECT * FROM recruitpost WHERE recruit_post_id = :recruitPostId", nativeQuery = true)
     GetRecruitResultSet getRecruit(@Param("recruitPostId") Integer recruitPostId);
 
-    List<RecruitEntity> findByRecruitPostWriterAndIsCompletedTrue(String userId);
+    List<RecruitEntity> findByRecruitPostWriterAndIsCompletedTrueAndIsMileageFalse(String userId);
 
     // @Query(value = "SELECT " +
     //         "u.profile_image " +

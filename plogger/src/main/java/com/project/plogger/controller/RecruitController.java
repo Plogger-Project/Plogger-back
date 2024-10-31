@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
@@ -114,13 +113,5 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.deleteRecruitComment(recruitPostId, recruitCommentId, userId);
         return response;
     };
-
-    // @GetMapping(value = {"/{recruitPostId}"})
-    // public ResponseEntity<? super GetRecruitResponseDto> getProfileImage(
-    //     @PathVariable("recruitPostId") Integer recruitPostId) {
-    //     ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getProfileImage(recruitPostId);
-    //     return response;
-    // }
-
     
 }

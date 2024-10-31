@@ -14,7 +14,6 @@ import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
-import com.project.plogger.entity.GifticonEntity;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.provider.SmsProvider;
@@ -22,7 +21,6 @@ import com.project.plogger.repository.TelAuthRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.UserService;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service

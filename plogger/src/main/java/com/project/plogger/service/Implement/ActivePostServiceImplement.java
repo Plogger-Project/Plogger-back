@@ -23,6 +23,7 @@ import com.project.plogger.repository.RecruitJoinRepository;
 import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.ActivePostService;
+import com.project.plogger.service.MileageService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,6 +34,7 @@ public class ActivePostServiceImplement implements ActivePostService {
     private final UserRepository userRepository;
     private final ActiveTagRepository tagRepository;
     private final RecruitRepository recruitRepository;
+    private final MileageService mileageService;
     private final RecruitJoinRepository joinRepository;
     private final ActivePostRepository activePostRepository;
 
@@ -44,23 +46,41 @@ public class ActivePostServiceImplement implements ActivePostService {
         try {
 
             boolean isExistedUser = userRepository.existsById(userId);
-            if (!isExistedUser) return ResponseDto.noExistUserId();
+            if (!isExistedUser)
+                return ResponseDto.noExistUserId();
 
             ActivePostEntity activePostEntity = new ActivePostEntity(dto);
             activePostEntity.setActivePostWriterId(userId);
             activePostRepository.save(activePostEntity);
 
+            // 구인게시글 참여자 가져오기
             List<RecruitJoinEntity> joinEntities = joinRepository.findByRecruitId(recruitId);
 
-            for(RecruitJoinEntity recruitJoinEntity: joinEntities) {
-                activePeople.add(recruitJoinEntity.getUserId());
+            // 마일리지 지급 상태
+            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitId);
+            recruitEntity.setIsMileage(true);
+            recruitRepository.save(recruitEntity);
+
+            // 글 작성자에게 마일리지 지급
+            mileageService.postUpMileage(userId, activePostEntity.getActivePostId());
+
+            for (RecruitJoinEntity recruitJoinEntity : joinEntities) {
+
+                String tagId = recruitJoinEntity.getUserId();
+                activePeople.add(tagId);
+
+                // 태그 생성
                 ActiveTagEntity activeTagEntity = new ActiveTagEntity(recruitJoinEntity.getUserId(), activePostEntity.getActivePostId(), recruitJoinEntity.getRecruitId());
                 tagRepository.save(activeTagEntity);
+
+                // 태그된 유저에게 마일리지 지급
+                mileageService.postUpMileage(tagId, activePostEntity.getActivePostId());
+                
             }
-            
+
             dto.setActivePeople(activePeople);
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -70,26 +90,30 @@ public class ActivePostServiceImplement implements ActivePostService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> patchActivePost(PatchActivePostRequestDto dto, Integer activePostId, String userId) {
+    public ResponseEntity<ResponseDto> patchActivePost(PatchActivePostRequestDto dto, Integer activePostId,
+            String userId) {
 
         try {
 
             boolean isExistedUser = userRepository.existsById(userId);
-            if (!isExistedUser) return ResponseDto.noExistUserId();
+            if (!isExistedUser)
+                return ResponseDto.noExistUserId();
 
             boolean isExistedActivePost = activePostRepository.existsByActivePostId(activePostId);
-            if (!isExistedActivePost) return ResponseDto.noExistActivePost();
+            if (!isExistedActivePost)
+                return ResponseDto.noExistActivePost();
 
             ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activePostId);
 
             String activePostWriter = activePostEntity.getActivePostWriterId();
             boolean isWriter = activePostWriter.equals(userId);
-            if (!isWriter) return ResponseDto.noPermission();
+            if (!isWriter)
+                return ResponseDto.noPermission();
 
             activePostEntity.patch(dto);
             activePostRepository.save(activePostEntity);
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -101,24 +125,27 @@ public class ActivePostServiceImplement implements ActivePostService {
     @Override
     @Transactional
     public ResponseEntity<ResponseDto> deleteActivePost(Integer activePostId, String userId) {
-    
+
         try {
 
             boolean isExistedUser = userRepository.existsById(userId);
-            if (!isExistedUser) return ResponseDto.noExistUserId();
+            if (!isExistedUser)
+                return ResponseDto.noExistUserId();
 
             boolean isExistedActivePost = activePostRepository.existsByActivePostId(activePostId);
-            if (!isExistedActivePost) return ResponseDto.noExistActivePost();
+            if (!isExistedActivePost)
+                return ResponseDto.noExistActivePost();
 
             ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activePostId);
 
             String activePostWriter = activePostEntity.getActivePostWriterId();
             boolean isWriter = activePostWriter.equals(userId);
-            if (!isWriter) return ResponseDto.noPermission();
+            if (!isWriter)
+                return ResponseDto.noPermission();
 
             activePostRepository.deleteByActivePostId(activePostId);
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -132,23 +159,23 @@ public class ActivePostServiceImplement implements ActivePostService {
 
         ActivePostEntity activePostEntity = null;
         List<String> activePeople = new ArrayList<>();
-    
 
         try {
 
             activePostEntity = activePostRepository.findByActivePostId(activePostId);
-            if (activePostEntity == null) return ResponseDto.noExistActivePost(); 
-            
+            if (activePostEntity == null)
+                return ResponseDto.noExistActivePost();
+
             activePostEntity.setActiveView(activePostEntity.getActiveView() + 1);
             activePostRepository.save(activePostEntity);
 
             List<ActiveTagEntity> activeTagEntities = tagRepository.findByActiveId(activePostId);
 
-            for(ActiveTagEntity activeTagEntity: activeTagEntities) {
+            for (ActiveTagEntity activeTagEntity : activeTagEntities) {
                 activePeople.add(activeTagEntity.getUserId());
             }
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -160,12 +187,12 @@ public class ActivePostServiceImplement implements ActivePostService {
     public ResponseEntity<? super GetActivePostListResponseDto> getActivePostList() {
 
         List<ActivePostEntity> activePostEntities = new ArrayList<>();
-        
+
         try {
 
             activePostEntities = activePostRepository.findAllByOrderByActivePostIdDesc();
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
@@ -184,14 +211,14 @@ public class ActivePostServiceImplement implements ActivePostService {
             boolean isExistedUser = userRepository.existsById(userId);
             if (!isExistedUser) return ResponseDto.noExistUserId();
 
-            recruitEntities = recruitRepository.findByRecruitPostWriterAndIsCompletedTrue(userId);
+            recruitEntities = recruitRepository.findByRecruitPostWriterAndIsCompletedTrueAndIsMileageFalse(userId);
 
-        } catch(Exception exception) {
+        } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetMyRecruitPostListResponseDto.success(recruitEntities);
+        return GetMyRecruitPostListResponseDto.success(recruitEntities, joinRepository);
 
     }
 

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.project.plogger.entity.ActiveTagEntity;
 import com.project.plogger.entity.pk.ActiveTagPk;
 
-import jakarta.transaction.Transactional;
 
 @Repository
 public interface ActiveTagRepository extends JpaRepository<ActiveTagEntity, ActiveTagPk> {

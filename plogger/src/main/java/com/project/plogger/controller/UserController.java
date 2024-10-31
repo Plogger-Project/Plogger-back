@@ -37,6 +37,12 @@ public class UserController {
         return response;
     }
 
+    @PatchMapping("/tel-auth-check")
+    public ResponseEntity<ResponseDto> patchTelAuthCheck(@RequestBody @Valid TelAuthCheckRequestDto request, @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = userService.patchTelAuthCheck(request, userId);
+        return response;
+    }
+
     @PatchMapping("/comment")
     public ResponseEntity<ResponseDto> patchComment(@RequestBody @Valid CommentRequestDto dto, @AuthenticationPrincipal String userId) {
         return userService.patchComment(dto, userId);
