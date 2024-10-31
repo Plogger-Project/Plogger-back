@@ -50,13 +50,12 @@ public class RecruitController {
         ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getRecruit(recruitPostId);
         return response;
     }
-
-
-    // @GetMapping(value = {"","/"})
-    // public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
-    //     ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
-    //     return response;
-    // }
+    
+    @GetMapping(value = {"","/"})
+    public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
+        ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
+        return response;
+    }
 
     @PatchMapping("/{recruitPostId}")
     public ResponseEntity<ResponseDto> patchRecruit(
