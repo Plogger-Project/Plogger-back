@@ -50,7 +50,6 @@ public class RecruitController {
         return response;
     }
 
-
     @GetMapping(value = {"","/"})
     public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
         ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
@@ -114,6 +113,5 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.deleteRecruitComment(recruitPostId, recruitCommentId, userId);
         return response;
     };
-
     
 }
