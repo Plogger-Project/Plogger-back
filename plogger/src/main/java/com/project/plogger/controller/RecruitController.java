@@ -50,7 +50,7 @@ public class RecruitController {
         ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getRecruit(recruitPostId);
         return response;
     }
-    
+
     @GetMapping(value = {"","/"})
     public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
         ResponseEntity<? super GetRecruitListResponseDto> response = recruitService.getRecruitList();
@@ -114,6 +114,13 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.deleteRecruitComment(recruitPostId, recruitCommentId, userId);
         return response;
     };
+
+    // @GetMapping(value = {"/{recruitPostId}"})
+    // public ResponseEntity<? super GetRecruitResponseDto> getProfileImage(
+    //     @PathVariable("recruitPostId") Integer recruitPostId) {
+    //     ResponseEntity<? super GetRecruitResponseDto> response = recruitService.getProfileImage(recruitPostId);
+    //     return response;
+    // }
 
     
 }
