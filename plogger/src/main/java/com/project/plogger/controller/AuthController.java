@@ -3,6 +3,7 @@ package com.project.plogger.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ import com.project.plogger.dto.response.auth.FindIdResponseDto;
 import com.project.plogger.dto.response.auth.FindPasswordResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
 import com.project.plogger.dto.response.auth.SignInResponseDto;
+import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 import com.project.plogger.service.AuthService;
 import com.project.plogger.service.UserService;
 
@@ -40,7 +42,7 @@ public class AuthController {
     public ResponseEntity<ResponseDto> idCheck(@RequestBody @Valid IdCheckRequestDto request) {
         ResponseEntity<ResponseDto> response = authService.idCheck(request);
         return response;
-    } 
+    }
 
     @PostMapping("/tel-auth")
     public ResponseEntity<ResponseDto> telAuth(@RequestBody @Valid TelAuthRequestDto request) {
@@ -73,28 +75,37 @@ public class AuthController {
     }
 
     @PostMapping("/find-id")
-    public ResponseEntity<? super FindIdResponseDto> findUserIdByTelNumber(@RequestBody @Valid FindIdRequestDto requestBody) {
+    public ResponseEntity<? super FindIdResponseDto> findUserIdByTelNumber(
+            @RequestBody @Valid FindIdRequestDto requestBody) {
         ResponseEntity<? super FindIdResponseDto> response = authService.findUserIdByTelNumber(requestBody);
         return response;
     }
 
     @PostMapping("/password-send-auth")
-    public ResponseEntity<ResponseDto> sendPasswordAuthNumber (@RequestBody @Valid FindPasswordCheckDto request) {
+    public ResponseEntity<ResponseDto> sendPasswordAuthNumber(@RequestBody @Valid FindPasswordCheckDto request) {
         ResponseEntity<ResponseDto> response = authService.passwordAuthNumber(request);
         return response;
     }
 
     @PostMapping("/find-password")
-    public ResponseEntity<? super FindPasswordResponseDto> findPasswordByTelNumber(@RequestBody @Valid FindPasswordRequestDto requestBody) {
+    public ResponseEntity<? super FindPasswordResponseDto> findPasswordByTelNumber(
+            @RequestBody @Valid FindPasswordRequestDto requestBody) {
         ResponseEntity<? super FindPasswordResponseDto> response = authService.findUserPasswordByTelNumber(requestBody);
         return response;
     }
 
     @GetMapping("/sign-in")
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(
-        @AuthenticationPrincipal String userId
-    ){
+            @AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetSignInResponseDto> response = userService.getSignIn(userId);
         return response;
     };
+
+    @GetMapping("/sign-in/{userId}")
+    public ResponseEntity<? super GetSignInResponseDto> getUserInfo(
+            @PathVariable("userId") String userId) {
+        ResponseEntity<? super GetSignInResponseDto> response = userService.getSignIn(userId);
+        return response;
+    };
+
 }
