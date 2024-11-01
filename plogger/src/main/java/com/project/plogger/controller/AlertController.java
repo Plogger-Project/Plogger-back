@@ -14,14 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import com.project.plogger.common.object.Alert;
 import com.project.plogger.dto.request.alert.AlertRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.alert.GetAlertListResponseDto;
-import com.project.plogger.entity.alert.AlertEntity;
 import com.project.plogger.service.AlertService;
 
-import io.jsonwebtoken.io.IOException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 

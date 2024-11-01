@@ -1,5 +1,8 @@
 package com.project.plogger.service.Implement;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +10,7 @@ import com.project.plogger.dto.MileageDownDto;
 import com.project.plogger.dto.MileageTagRemoveDto;
 import com.project.plogger.dto.MileageUpDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.mileage.GetMileageListResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.GifticonEntity;
 import com.project.plogger.entity.MileageEntity;
@@ -109,6 +113,24 @@ public class MileageServiceImplement implements MileageService{
         }
 
         return ResponseDto.success();
+        
+    }
+
+    @Override
+    public ResponseEntity<? super GetMileageListResponseDto> getMileageList(String userId) {
+
+        List<MileageEntity> mileageEntities = new ArrayList<>();
+
+        try {
+
+            mileageEntities = mileageRepository.findByUserIdOrderByMileageIdDesc(userId);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetMileageListResponseDto.success(mileageEntities);
         
     }
     

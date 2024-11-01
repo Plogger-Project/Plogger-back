@@ -23,7 +23,6 @@ import com.project.plogger.dto.response.auth.FindIdResponseDto;
 import com.project.plogger.dto.response.auth.FindPasswordResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
 import com.project.plogger.dto.response.auth.SignInResponseDto;
-import com.project.plogger.dto.response.gifticon.GetGifticonResponseDto;
 import com.project.plogger.service.AuthService;
 import com.project.plogger.service.UserService;
 

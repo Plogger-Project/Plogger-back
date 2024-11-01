@@ -54,7 +54,6 @@ public class WebSecurityConfig {
                                                                 "/upload/*","/find-id/*", "/send-auth/*","/api/v1/recruit","/api/v1/recruit/**","/api/v1/qna","/api/v1/active",
                                                                 "/api/v1/active/*", "/oauth2/callback/*","/reports", "/password-send-auth","./file", "./upload",
                                                                 "/api/v1/recruit/iscompleted/*").permitAll()
-
                                                 .requestMatchers("/api/v1/user/**").hasRole("USER")
                                                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())

@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.repository.resultset.GetRecruitResultSet;
 
