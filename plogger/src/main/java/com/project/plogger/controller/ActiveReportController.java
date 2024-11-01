@@ -2,6 +2,7 @@ package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.active.ActiveReportRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActiveReportListResponseDto;
 import com.project.plogger.service.ActiveReportService;
 
 import jakarta.validation.Valid;
@@ -30,4 +32,10 @@ public class ActiveReportController {
                 
         return response;
     }
+
+    @GetMapping("")
+    public ResponseEntity<? super GetActiveReportListResponseDto> getAllActiveReportPost() {
+        ResponseEntity<? super GetActiveReportListResponseDto> response = activeReportService.getAllActiveReportPost();
+        return response;
+    }  
 }
