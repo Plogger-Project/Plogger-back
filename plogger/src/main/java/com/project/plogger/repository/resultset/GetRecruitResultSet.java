@@ -8,6 +8,7 @@ public interface GetRecruitResultSet {
     String getRecruitPostImage();
     String getRecruitPostWriter();
     String getRecruitPostCreatedAt();
+    String getRecruitEndDate();
     String getRecruitLocation();
     Integer getMinPeople();
     Integer getCurrentPeople();
