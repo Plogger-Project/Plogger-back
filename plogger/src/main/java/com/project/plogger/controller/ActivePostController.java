@@ -22,7 +22,6 @@ import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
-import com.project.plogger.service.MileageService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,8 +33,7 @@ public class ActivePostController {
 
     private final ActivePostService activePostService;
     private final ActiveCommentService activeCommentService;
-    // private final MileageService mileageService;
-    
+
     @PostMapping("/{recruitId}")
     public ResponseEntity<ResponseDto> postActivePost(
         @RequestBody @Valid PostActivePostRequestDto dto, 
@@ -43,14 +41,6 @@ public class ActivePostController {
         ResponseEntity<ResponseDto> response = activePostService.postActivePost(dto, userId, recruitId);
         return response;
     }
-
-    // @PostMapping("/{activePostId}")
-    // public ResponseEntity<ResponseDto> postActivePost(
-    //         @AuthenticationPrincipal String userId,
-    //         @PathVariable("activePostId") Integer activePostId) {
-    //     ResponseEntity<ResponseDto> response = mileageService.postUpMileage(userId, activePostId);
-    //     return response;
-    // }
 
     @PatchMapping("/{activePostId}")
     public ResponseEntity<ResponseDto> patchActivePost(@RequestBody @Valid PatchActivePostRequestDto dto, @PathVariable Integer activePostId, @AuthenticationPrincipal String userId) {
