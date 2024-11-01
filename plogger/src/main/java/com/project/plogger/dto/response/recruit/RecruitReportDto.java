@@ -1,4 +1,4 @@
-package com.project.plogger.dto;
+package com.project.plogger.dto.response.recruit;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

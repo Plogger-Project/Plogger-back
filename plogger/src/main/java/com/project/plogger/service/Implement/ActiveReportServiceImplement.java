@@ -1,10 +1,14 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.active.ActiveReportRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.active.GetActiveReportListResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.ActiveReportEntity;
 import com.project.plogger.repository.ActivePostRepository;
@@ -38,6 +42,20 @@ public class ActiveReportServiceImplement implements ActiveReportService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+    }
+
+    @Override
+    public ResponseEntity<? super GetActiveReportListResponseDto> getAllActiveReportPost() {
+        
+        List<ActiveReportEntity> activeReportEntities = new ArrayList<>();
+
+        try {
+            activeReportEntities = activeReportRepository.findAllByOrderByReportIdAsc();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetActiveReportListResponseDto.success(activeReportEntities);
     }
 
 }
