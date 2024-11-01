@@ -2,6 +2,7 @@ package com.project.plogger.service;
 
 import org.springframework.http.ResponseEntity;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -19,6 +20,8 @@ public interface RecruitService {
     ResponseEntity<? super GetRecruitListResponseDto> getRecruitList();
 
     ResponseEntity<ResponseDto> patchRecruit(Integer recruitPostId, String userId, PatchRecruitRequestDto dto);
+
+    ResponseEntity<ResponseDto> patchRecruitIsCompleted(Integer recruitPostId, String userId, PatchRecruitIsCompletedRequestDto dto);
 
     ResponseEntity<ResponseDto> deleteRecruit(Integer recruitPostId, String userId);
     

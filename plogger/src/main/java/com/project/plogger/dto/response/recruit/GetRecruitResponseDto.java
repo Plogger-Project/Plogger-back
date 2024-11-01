@@ -20,6 +20,7 @@ public class GetRecruitResponseDto  extends ResponseDto{
     private String recruitPostImage;
     private String recruitPostWriter;
     private String recruitPostCreatedAt;
+    private String recruitEndDate;
     private String recruitLocation;
     private Integer minPeople;
     private Integer currentPeople;
@@ -36,6 +37,7 @@ public class GetRecruitResponseDto  extends ResponseDto{
         this.recruitPostImage = resultSet.getRecruitPostImage();
         this.recruitPostWriter = resultSet.getRecruitPostWriter();
         this.recruitPostCreatedAt = resultSet.getRecruitPostCreatedAt();
+        this.recruitEndDate = resultSet.getRecruitEndDate();
         this.recruitLocation = resultSet.getRecruitLocation();
         this.minPeople = resultSet.getMinPeople();
         this.currentPeople = resultSet.getCurrentPeople();
