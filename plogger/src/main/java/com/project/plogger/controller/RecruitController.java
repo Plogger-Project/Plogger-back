@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.recruit.PatchRecruitCommentRequestDto;
+import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
@@ -66,6 +67,16 @@ public class RecruitController {
         return response;
     }
 
+    @PatchMapping("/iscompleted/{recruitPostId}")
+    public ResponseEntity<ResponseDto> patchRecruitIsCompleted(
+        @PathVariable("recruitPostId") Integer recruitPostId,
+        @AuthenticationPrincipal String userId,
+        @RequestBody @Valid PatchRecruitIsCompletedRequestDto requestBody
+    ) {
+        ResponseEntity<ResponseDto> response = recruitService.patchRecruitIsCompleted(recruitPostId,userId, requestBody);
+        return response;
+    }
+
     @DeleteMapping("/{recruitPostId}")
     public ResponseEntity<ResponseDto> deleteRecruit(
         @PathVariable("recruitPostId") Integer recruitPostId,
@@ -103,6 +114,8 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.patchRecruitComment(recruitPostId, recruitCommentId, userId, requestBody);
         return response;
     };
+
+
 
     @DeleteMapping("/{recruitPostId}/comments/{recruitCommentId}")
     public ResponseEntity<ResponseDto> deleteQnAComment(
