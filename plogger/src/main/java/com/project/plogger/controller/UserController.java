@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.project.plogger.dto.request.user.PatchPasswordRequestDto;
+import com.project.plogger.dto.request.auth.TelAuthCheckRequestDto;
 import com.project.plogger.dto.request.user.CommentRequestDto;
 import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
