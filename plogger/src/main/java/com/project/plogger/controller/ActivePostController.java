@@ -22,7 +22,6 @@ import com.project.plogger.dto.response.active.GetActivePostResponseDto;
 import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.service.ActiveCommentService;
 import com.project.plogger.service.ActivePostService;
-import com.project.plogger.service.MileageService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
