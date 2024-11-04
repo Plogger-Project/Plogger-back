@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -125,6 +126,26 @@ public class RecruitServiceImplement implements RecruitService {
         }
         return GetRecruitResponseDto.success(resultSet);
 
+    }
+    @Override
+    public ResponseEntity<ResponseDto> patchRecruitIsCompleted(Integer recruitPostId, String userId,
+            PatchRecruitIsCompletedRequestDto dto) {
+        try {
+                
+            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
+            if (recruitEntity == null) {
+                return ResponseDto.noExistRecruit(); // 게시글이 없는 경우
+            }
+                if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
+                return ResponseDto.noPermission(); // 사용자 권한 없는 경우
+            }
+            recruitEntity.setIsCompleted(dto.getIsCompleted());
+            recruitRepository.save(recruitEntity); // 변경된 상태 저장
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
     }
     
     

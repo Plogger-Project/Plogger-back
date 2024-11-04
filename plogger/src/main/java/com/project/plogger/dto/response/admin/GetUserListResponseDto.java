@@ -9,13 +9,15 @@ import com.project.plogger.common.object.User;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import  com.project.plogger.entity.UserEntity;
+import com.project.plogger.entity.UserEntity;
+
 import lombok.Getter;
 
 @Getter
-public class GetUserListResponseDto extends ResponseDto{
+public class GetUserListResponseDto extends ResponseDto {
+    
     private List<User> users;
-
+    
     private GetUserListResponseDto(List<UserEntity> userEntities) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.users = User.getList(userEntities);
@@ -25,4 +27,5 @@ public class GetUserListResponseDto extends ResponseDto{
         GetUserListResponseDto responseBody = new GetUserListResponseDto(userEntities);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
+
 }
