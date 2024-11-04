@@ -13,5 +13,7 @@ public interface ActiveTagRepository extends JpaRepository<ActiveTagEntity, Acti
 
     List<ActiveTagEntity> findByActiveId(Integer activeId);
     ActiveTagEntity findByUserIdAndActiveId(String userId, Integer activeId);
+    boolean existsByUserId(String userId);
+    void deleteByUserId(String userId);
 
 }

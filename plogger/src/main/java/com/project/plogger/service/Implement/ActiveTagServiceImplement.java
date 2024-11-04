@@ -9,7 +9,6 @@ import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.ActiveTagEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.ActiveTagRepository;
-import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.ActiveTagService;
 import com.project.plogger.service.MileageService;
 
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class ActiveTagServiceImplement implements ActiveTagService {
     
     private final MileageService mileageService;
-    private final UserRepository userRepository;
     private final ActiveTagRepository tagRepository;
     private final ActivePostRepository activeRepository;
 
@@ -35,9 +33,6 @@ public class ActiveTagServiceImplement implements ActiveTagService {
             ActivePostEntity activePostEntity = activeRepository.findByActivePostId(activeId);
 
             if (activePostEntity.getActivePostWriterId().equals(tagId)) return ResponseDto.noSelfTag();
-
-            boolean isExistedUser = userRepository.existsByUserId(tagId);
-            if (!isExistedUser) return ResponseDto.noExistUserId();
 
             boolean isExistedActivePost = activeRepository.existsByActivePostId(activeId);
             if (!isExistedActivePost) return ResponseDto.noExistActivePost();
@@ -59,22 +54,17 @@ public class ActiveTagServiceImplement implements ActiveTagService {
 
     @Override
     @Transactional
-    public ResponseEntity<ResponseDto> deleteTag(PostActiveTagRequestDto dto, Integer activeId, Integer recruitId) {
-
-        String tagId = dto.getTagId();
+    public ResponseEntity<ResponseDto> deleteTag(String tagId, Integer activeId, Integer recruitId) {
         
         try {
 
-            boolean isExistedUser = userRepository.existsByUserId(tagId);
-            if (!isExistedUser) return ResponseDto.noExistUserId();
+            boolean isExistedUser = tagRepository.existsByUserId(tagId);
+            if (!isExistedUser) return ResponseDto.noExistActiveTag();
 
             boolean isExistedActivePost = activeRepository.existsByActivePostId(activeId);
             if (!isExistedActivePost) return ResponseDto.noExistActivePost();
 
-            ActiveTagEntity tagEntity = tagRepository.findByUserIdAndActiveId(tagId, activeId);
-            if (tagEntity == null) return ResponseDto.noExistActiveTag();
-
-            tagRepository.delete(tagEntity);
+            tagRepository.deleteByUserId(tagId);
 
             // 태그가 삭제된 유저 마일리지 회수
             mileageService.postTagRemoveMileage(tagId, activeId);

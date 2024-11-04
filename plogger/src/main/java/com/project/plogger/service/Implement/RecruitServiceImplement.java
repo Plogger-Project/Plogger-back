@@ -52,12 +52,21 @@ public class RecruitServiceImplement implements RecruitService {
     }
     @Override
     public ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId) {
+
+
         GetRecruitResultSet resultSet = null;
         try {
             resultSet = recruitRepository.getRecruit(recruitPostId);
             if (resultSet == null) {
                 return ResponseDto.noExistRecruit();
             }
+
+            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
+            if (recruitEntity == null) return ResponseDto.noExistRecruit();
+
+            recruitEntity.setRecruitView(recruitEntity.getRecruitView() + 1);
+            recruitRepository.save(recruitEntity);
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();

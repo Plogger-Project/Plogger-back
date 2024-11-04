@@ -58,11 +58,7 @@ public class RecruitJoinServiceImplement implements RecruitJoinService {
                 recruitRepository.save(recruitEntity);
 
             }
-
-            if (recruitEntity.getCurrentPeople() == recruitEntity.getMinPeople()) {
-                recruitEntity.setIsCompleted(true);
-            }
-
+            
             recruitRepository.save(recruitEntity);
             return ResponseDto.success();
 

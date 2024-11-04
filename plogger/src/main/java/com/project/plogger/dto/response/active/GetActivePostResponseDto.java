@@ -27,6 +27,7 @@ public class GetActivePostResponseDto extends ResponseDto {
     private Integer activeView;
     private Integer activePostLike;
     private Integer activeReport;
+    private Integer recruitId;
     private List<String> activePeople;
     
     private GetActivePostResponseDto(ActivePostEntity activePostEntity, List<String> activePeople) {
@@ -43,6 +44,7 @@ public class GetActivePostResponseDto extends ResponseDto {
         this.activeView = activePostEntity.getActiveView();
         this.activePostLike = activePostEntity.getActivePostLike();
         this.activeReport = activePostEntity.getActiveReport();
+        this.recruitId = activePostEntity.getRecruitId();
         this.activePeople = activePeople;
     }
 
