@@ -43,19 +43,19 @@ public class ActivePostController {
     }
 
     @PatchMapping("/{activePostId}")
-    public ResponseEntity<ResponseDto> patchActivePost(@RequestBody @Valid PatchActivePostRequestDto dto, @PathVariable Integer activePostId, @AuthenticationPrincipal String userId) {
+    public ResponseEntity<ResponseDto> patchActivePost(@RequestBody @Valid PatchActivePostRequestDto dto, @PathVariable("activePostId") Integer activePostId, @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = activePostService.patchActivePost(dto, activePostId, userId);
         return response;
     }
 
     @DeleteMapping("/{activePostId}")
-    public ResponseEntity<ResponseDto> deleteActivePost(@PathVariable Integer activePostId, @AuthenticationPrincipal String userId) {
+    public ResponseEntity<ResponseDto> deleteActivePost(@PathVariable("activePostId") Integer activePostId, @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = activePostService.deleteActivePost(activePostId, userId);
         return response;
     }
 
     @GetMapping("/{activePostId}")
-    public ResponseEntity<? super GetActivePostResponseDto> getActivePost(@PathVariable Integer activePostId) {
+    public ResponseEntity<? super GetActivePostResponseDto> getActivePost(@PathVariable("activePostId") Integer activePostId) {
         ResponseEntity<? super GetActivePostResponseDto> response = activePostService.getActivePost(activePostId);
         return response;
     }
