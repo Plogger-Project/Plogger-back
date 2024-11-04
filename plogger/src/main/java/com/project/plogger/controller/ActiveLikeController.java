@@ -20,7 +20,7 @@ public class ActiveLikeController {
     private final ActiveLikeService activeLikeService;
     
     @PostMapping("/like/{activeId}")
-    public ResponseEntity<ResponseDto> activeLike(@AuthenticationPrincipal String userId, @PathVariable Integer activeId) {
+    public ResponseEntity<ResponseDto> activeLike(@AuthenticationPrincipal String userId, @PathVariable("activeId") Integer activeId) {
         ResponseEntity<ResponseDto> response = activeLikeService.activeLike(userId, activeId);
         return response;
     }

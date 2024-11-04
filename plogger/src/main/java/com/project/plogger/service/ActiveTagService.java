@@ -8,6 +8,6 @@ import com.project.plogger.dto.response.ResponseDto;
 public interface ActiveTagService {
     
     ResponseEntity<ResponseDto> postTag(PostActiveTagRequestDto dto, Integer activeId, Integer recruitId);
-    ResponseEntity<ResponseDto> deleteTag(PostActiveTagRequestDto dto, Integer activeId, Integer recruitId);
+    ResponseEntity<ResponseDto> deleteTag(String tagId, Integer activeId, Integer recruitId);
 
 }

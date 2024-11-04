@@ -16,7 +16,6 @@ import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.ActiveTagEntity;
 import com.project.plogger.entity.RecruitEntity;
-import com.project.plogger.entity.RecruitJoinEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.ActiveTagRepository;
 import com.project.plogger.repository.RecruitJoinRepository;
@@ -41,8 +40,6 @@ public class ActivePostServiceImplement implements ActivePostService {
     @Override
     public ResponseEntity<ResponseDto> postActivePost(PostActivePostRequestDto dto, String userId, Integer recruitId) {
 
-        List<String> activePeople = new ArrayList<>();
-
         try {
 
             boolean isExistedUser = userRepository.existsById(userId);
@@ -51,10 +48,8 @@ public class ActivePostServiceImplement implements ActivePostService {
 
             ActivePostEntity activePostEntity = new ActivePostEntity(dto);
             activePostEntity.setActivePostWriterId(userId);
+            activePostEntity.setRecruitId(recruitId);
             activePostRepository.save(activePostEntity);
-
-            // 구인게시글 참여자 가져오기
-            List<RecruitJoinEntity> joinEntities = joinRepository.findByRecruitId(recruitId);
 
             // 마일리지 지급 상태
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitId);
@@ -64,21 +59,12 @@ public class ActivePostServiceImplement implements ActivePostService {
             // 글 작성자에게 마일리지 지급
             mileageService.postUpMileage(userId, activePostEntity.getActivePostId());
 
-            for (RecruitJoinEntity recruitJoinEntity : joinEntities) {
-
-                String tagId = recruitJoinEntity.getUserId();
-                activePeople.add(tagId);
-
-                // 태그 생성
-                ActiveTagEntity activeTagEntity = new ActiveTagEntity(recruitJoinEntity.getUserId(), activePostEntity.getActivePostId(), recruitJoinEntity.getRecruitId());
+            for (String tagId: dto.getActivePeople()) {
+                ActiveTagEntity activeTagEntity = new ActiveTagEntity(tagId, activePostEntity.getActivePostId(), recruitEntity.getRecruitPostId());
                 tagRepository.save(activeTagEntity);
 
-                // 태그된 유저에게 마일리지 지급
                 mileageService.postUpMileage(tagId, activePostEntity.getActivePostId());
-                
             }
-
-            dto.setActivePeople(activePeople);
 
         } catch (Exception exception) {
             exception.printStackTrace();

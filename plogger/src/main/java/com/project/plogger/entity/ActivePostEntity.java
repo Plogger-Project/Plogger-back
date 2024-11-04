@@ -41,6 +41,7 @@ public class ActivePostEntity {
     private Integer activePostLike = 0;
     private Integer activeReport = 0;
     private String activePostImage;
+    private Integer recruitId;
     
     public ActivePostEntity(PostActivePostRequestDto dto) {
         Date now = new Date();
