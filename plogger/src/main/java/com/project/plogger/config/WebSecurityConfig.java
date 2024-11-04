@@ -52,7 +52,7 @@ public class WebSecurityConfig {
                                 .authorizeHttpRequests(request -> request
 
                                                 .requestMatchers("/", "/api/v1/auth/sign-in/*", "/api/v1/auth/**", "/file/*","/upload/*","/find-id/*", "/send-auth/*","/api/v1/recruit","/api/v1/recruit/*","/api/v1/qna","/api/v1/active",
-                                                                "/api/v1/active/*", "/oauth2/callback/*","/reports", "/password-send-auth", "./upload", "./file").permitAll()
+                                                                "/api/v1/active/*", "/oauth2/callback/*","/reports", "/password-send-auth", "./upload", "./file", "/api/v1/recruit/scrap/*").permitAll()
                                                 .requestMatchers("/api/v1/user/**").hasRole("USER")
                                                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                                                 .anyRequest().authenticated())

@@ -28,6 +28,7 @@ public interface ResponseCode {
     String NO_EXIST_ACTIVE_TAG = "NAT";
     String NO_EXIST_ALERT = "NA";
     String NO_EXIST_FOLLOW = "NF";
+    String NO_EXIST_RECRUIT_SCRAP = "NRS";
 
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
