@@ -1,5 +1,7 @@
 package com.project.plogger.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +16,8 @@ public interface RecruitScrapRepository extends JpaRepository<RecruitScrapEntity
     boolean existsByUserIdAndRecruitId(String userId, Integer recruitId);
     @Transactional
     void deleteByUserIdAndRecruitId(String userId, Integer recruitId);
+
+    List<RecruitScrapEntity> findByOrderByCreatedAtDesc();
+    RecruitScrapEntity findByUserIdAndRecruitId(String userId, Integer recruitId);
 
 }
