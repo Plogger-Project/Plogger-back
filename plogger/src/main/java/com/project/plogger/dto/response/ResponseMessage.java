@@ -24,6 +24,7 @@ public interface ResponseMessage {
     String NO_EXIST_ACTIVE_COMMENT = "No exist active comment.";
     String NO_EXIST_RECRUIT_COMMENT = "No exist recruit comment.";
     String NO_EXIST_ACTIVE_TAG = "No exist active tag.";
+    String NO_EXIST_CHAT_ROOM = "No exist chat room";
 
     String NO_EXIST_TEL_NUMBER = "No exist tel number";
     String NO_EXIST_USER_ID_AND_TEL_NUMBER = "No exist user id and tel number";

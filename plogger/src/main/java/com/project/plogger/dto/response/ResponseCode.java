@@ -29,6 +29,7 @@ public interface ResponseCode {
     String NO_EXIST_ALERT = "NA";
     String NO_EXIST_FOLLOW = "NF";
     String NO_EXIST_RECRUIT_SCRAP = "NRS";
+    String NO_EXIST_CHAT_ROOM = "NCR";
 
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
