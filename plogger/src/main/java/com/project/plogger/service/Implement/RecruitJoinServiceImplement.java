@@ -1,9 +1,13 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitJoinListResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.RecruitJoinEntity;
 import com.project.plogger.entity.UserEntity;
@@ -67,6 +71,21 @@ public class RecruitJoinServiceImplement implements RecruitJoinService {
             return ResponseDto.databaseError();
         }
 
+    }
+
+    @Override
+    public ResponseEntity<? super GetRecruitJoinListResponseDto> getRecruitJoinList(String userId, Integer recruitId) {
+        List<RecruitJoinEntity> list = new ArrayList<>();
+        try {
+            list = joinRepository.findByRecruitId(recruitId);
+            // if (list == null || list.isEmpty())
+            //     return ResponseDto.noExistRecruit();
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetRecruitJoinListResponseDto.success(list);
     }
     
 }
