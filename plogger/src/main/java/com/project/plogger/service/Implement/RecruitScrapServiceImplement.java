@@ -83,8 +83,6 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
     @Override
     public ResponseEntity<? super GetRecruitScrapResponseDto> getScrap(String userId, Integer recruitId) {
 
-        RecruitScrapEntity recruitScrapEntity = null;
-
         try {
 
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitId);
@@ -95,15 +93,12 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
             if (userEntity == null)
                 return ResponseDto.noExistUserId();
 
-            recruitScrapEntity = scrapRepository.findByUserIdAndRecruitId(userId, recruitId);
-            if(recruitScrapEntity == null) return ResponseDto.noExistRecruitScrap();
-
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetRecruitScrapResponseDto.success(recruitScrapEntity);
+        return GetRecruitScrapResponseDto.success();
         
     }
 

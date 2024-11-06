@@ -1,33 +1,28 @@
 package com.project.plogger.dto.response.scrap;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import com.project.plogger.entity.RecruitScrapEntity;
 
 import lombok.Getter;
 
-@Getter
 public class GetRecruitScrapResponseDto extends ResponseDto{
 
-    private String userId;
     private Integer recruitId;
-    private String createdAt;
+    private List<String> userIds;
 
-    public GetRecruitScrapResponseDto(RecruitScrapEntity recruitScrapEntity) {
+    public GetRecruitScrapResponseDto(Integer recruitId, List<String> userIds) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.userId = recruitScrapEntity.getUserId();
-        this.recruitId = recruitScrapEntity.getRecruitId();
-        this.createdAt = recruitScrapEntity.getCreatedAt();
+        this.recruitId = recruitId;
+        this.userIds = userIds;
+    }
+    
+    // public static ResponseEntity<GetRecruitScrapResponseDto> {
 
-    }
-    
-    public static ResponseEntity<GetRecruitScrapResponseDto> success(RecruitScrapEntity recruitScrapEntity) {
-        GetRecruitScrapResponseDto responseBody = new GetRecruitScrapResponseDto(recruitScrapEntity);
-        return ResponseEntity.status(HttpStatus.OK).body(responseBody);
-    }
-    
+    // }
 }
