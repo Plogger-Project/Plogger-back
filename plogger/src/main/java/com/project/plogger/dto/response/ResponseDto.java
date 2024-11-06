@@ -134,6 +134,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistChatRoom() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_CHAT_ROOM, ResponseMessage.NO_EXIST_CHAT_ROOM);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> noExistAlertsFound() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ALERT, ResponseMessage.NO_EXIST_ALERT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);

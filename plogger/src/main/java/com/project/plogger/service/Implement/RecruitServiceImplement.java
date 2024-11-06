@@ -53,9 +53,10 @@ public class RecruitServiceImplement implements RecruitService {
     @Override
     public ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId) {
 
-
         GetRecruitResultSet resultSet = null;
+
         try {
+            
             resultSet = recruitRepository.getRecruit(recruitPostId);
             if (resultSet == null) {
                 return ResponseDto.noExistRecruit();
