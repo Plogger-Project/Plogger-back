@@ -23,7 +23,7 @@ public class GetUserListResponseDto extends ResponseDto {
         this.users = User.getList(userEntities);
     }
 
-    public static ResponseEntity<GetUserListResponseDto> success(List<UserEntity> userEntities) {
+    public static ResponseEntity<? super GetUserListResponseDto> success(List<UserEntity> userEntities) {
         GetUserListResponseDto responseBody = new GetUserListResponseDto(userEntities);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
