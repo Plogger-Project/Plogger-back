@@ -9,6 +9,7 @@ import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
+import com.project.plogger.dto.response.admin.GetUserListResponseDto;
 
 public interface UserService {
 
@@ -18,4 +19,5 @@ public interface UserService {
     ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId);
     ResponseEntity<ResponseDto> patchPassword(PatchPasswordRequestDto dto, String userId);
     ResponseEntity<ResponseDto> patchComment(CommentRequestDto dto, String userId);
+    ResponseEntity<? super GetUserListResponseDto> findList();
 }

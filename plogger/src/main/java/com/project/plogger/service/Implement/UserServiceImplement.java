@@ -1,5 +1,8 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +17,7 @@ import com.project.plogger.dto.request.user.PatchTelAuthRequestDto;
 import com.project.plogger.dto.request.user.PatchUserRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
+import com.project.plogger.dto.response.admin.GetUserListResponseDto;
 import com.project.plogger.entity.TelAuthEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.provider.SmsProvider;
@@ -202,6 +206,21 @@ public class UserServiceImplement implements UserService {
         return ResponseDto.success();
         
 
+    }
+
+    @Override
+    public ResponseEntity<? super GetUserListResponseDto> findList() {
+
+        List<UserEntity> userEntities = new ArrayList<>();
+
+        try {
+            userEntities = userRepository.findAll();
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetUserListResponseDto.success(userEntities);
     }
 
 }
