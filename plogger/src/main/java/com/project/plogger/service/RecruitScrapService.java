@@ -10,6 +10,6 @@ public interface RecruitScrapService {
     
     ResponseEntity<ResponseDto> recruitScrap(String userId, Integer recruitId);
     ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList();
-    ResponseEntity<? super GetRecruitScrapResponseDto> getScrap(String userId, Integer recruitId);
+    ResponseEntity<? super GetRecruitScrapResponseDto> getScrap(Integer recruitId);
     
 }

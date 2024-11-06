@@ -18,6 +18,7 @@ public interface RecruitScrapRepository extends JpaRepository<RecruitScrapEntity
     void deleteByUserIdAndRecruitId(String userId, Integer recruitId);
 
     List<RecruitScrapEntity> findByOrderByCreatedAtDesc();
+    List<RecruitScrapEntity> findByRecruitId(Integer recruitId);
     RecruitScrapEntity findByUserIdAndRecruitId(String userId, Integer recruitId);
 
 }

@@ -36,10 +36,9 @@ public class RecruitScrapController {
 
     @GetMapping("/{recruitId}")
     public ResponseEntity<? super GetRecruitScrapResponseDto> getRecruitScrap(
-        @AuthenticationPrincipal String userId,
-        @PathVariable("recruitId") Integer recruitId
+        @PathVariable("recruitId") Integer recruitId 
     ){
-        ResponseEntity<? super GetRecruitScrapResponseDto> response = scrapService.getScrap(userId, recruitId);
+        ResponseEntity<? super GetRecruitScrapResponseDto> response = scrapService.getScrap(recruitId);
         return response;
     };
 
