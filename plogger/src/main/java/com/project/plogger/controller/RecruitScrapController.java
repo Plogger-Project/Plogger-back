@@ -29,8 +29,10 @@ public class RecruitScrapController {
     }
 
     @GetMapping(value = {"", "/"})
-    public ResponseEntity<? super GetRecruitScrapListResponseDto> getRecruitScrapList() {
-        ResponseEntity<? super GetRecruitScrapListResponseDto> response = scrapService.getScrapList();
+    public ResponseEntity<? super GetRecruitScrapListResponseDto> getRecruitScrapList(
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetRecruitScrapListResponseDto> response = scrapService.getScrapList(userId);
         return response;
     }
 

@@ -63,13 +63,13 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
     }
 
     @Override
-    public ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList() {
+    public ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList(String userId) {
 
         List<RecruitScrapEntity> recruitScrapEntities = new ArrayList<>();
 
         try {
 
-            recruitScrapEntities = scrapRepository.findByOrderByCreatedAtDesc();
+            recruitScrapEntities = scrapRepository.findByUserIdOrderByCreatedAtDesc(userId);
             
         } catch (Exception exception) {
             exception.printStackTrace();
