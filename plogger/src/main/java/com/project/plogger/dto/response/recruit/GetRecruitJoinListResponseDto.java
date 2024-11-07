@@ -6,9 +6,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.project.plogger.common.object.Recruit;
-import com.project.plogger.common.object.RecruitJoin;
-import com.project.plogger.common.object.RecruitReport;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;

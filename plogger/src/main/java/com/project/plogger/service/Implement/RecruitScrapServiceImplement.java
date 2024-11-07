@@ -63,13 +63,13 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
     }
 
     @Override
-    public ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList() {
+    public ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList(String userId) {
 
         List<RecruitScrapEntity> recruitScrapEntities = new ArrayList<>();
 
         try {
 
-            recruitScrapEntities = scrapRepository.findByOrderByCreatedAtDesc();
+            recruitScrapEntities = scrapRepository.findByUserIdOrderByCreatedAtDesc(userId);
             
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -81,24 +81,20 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
     }
 
     @Override
-    public ResponseEntity<? super GetRecruitScrapResponseDto> getScrap(String userId, Integer recruitId) {
+    public ResponseEntity<? super GetRecruitScrapResponseDto> getScrap(Integer recruitId) {
+
+        List<RecruitScrapEntity> list = new ArrayList<>();
 
         try {
 
-            RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitId);
-            if (recruitEntity == null)
-                return ResponseDto.noExistRecruit();
-
-            UserEntity userEntity = userRepository.findByUserId(userId);
-            if (userEntity == null)
-                return ResponseDto.noExistUserId();
+            list = scrapRepository.findByRecruitId(recruitId);
 
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetRecruitScrapResponseDto.success();
+        return GetRecruitScrapResponseDto.success(list);
         
     }
 
