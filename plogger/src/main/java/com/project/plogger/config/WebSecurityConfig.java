@@ -52,8 +52,8 @@ public class WebSecurityConfig {
                                 .authorizeHttpRequests(request -> request
 
                                                 
-                                                .requestMatchers("/", "/api/v1/auth/sign-in/*", "/api/v1/auth/**", "/file/*", "/api/v1/recruit/*/comments", "/api/v1/active",
-                                                                "/upload/*","/find-id/*", "/send-auth/*","/api/v1/recruit","/api/v1/recruit/**","/api/v1/recruit/join/*","/api/v1/qna","/api/v1/active/*/comments",
+                                                .requestMatchers("/", "/api/v1/auth/sign-in/*", "/api/v1/auth/**", "/file/*", "/api/v1/recruit/*/comments", "/api/v1/active","/api/v1/active/*/comments",
+                                                                "/upload/*","/find-id/*", "/send-auth/*","/api/v1/recruit","/api/v1/recruit/**","/api/v1/recruit/join/*","/api/v1/qna","/api/v1/qna/*","/api/v1/qna/*/comments"
                                                                 "/api/v1/active/*", "/oauth2/callback/*","/reports", "/password-send-auth","./file", "./upload",
                                                                 "/api/v1/recruit/iscompleted/*", "/api/v1/recruit/scrap", "/api/v1/recruit/scrap/*", "/api/v1/follow/**").permitAll()
                                                 .requestMatchers("/api/v1/user/**").hasRole("USER")
