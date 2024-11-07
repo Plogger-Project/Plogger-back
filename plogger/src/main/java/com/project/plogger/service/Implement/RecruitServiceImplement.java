@@ -94,13 +94,20 @@ public class RecruitServiceImplement implements RecruitService {
 
         try {
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
-            if (recruitEntity == null)
-                return ResponseDto.noExistRecruit();
-            if (!recruitEntity.getRecruitPostWriter().equals(userId))
-                return ResponseDto.noPermission();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (recruitEntity == null)return ResponseDto.noExistRecruit();
+            if (userEntity == null)return ResponseDto.noExistUserId();
+
+            if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                } 
+            }
+            
             recruitEntity.RecruitPatch(dto);
-            recruitEntity.setRecruitPostCreatedAt();
             recruitRepository.save(recruitEntity);
+            
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
@@ -113,9 +120,19 @@ public class RecruitServiceImplement implements RecruitService {
 
         try {
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
-            if (recruitEntity == null)  return ResponseDto.noExistRecruit();
-            if (!recruitEntity.getRecruitPostWriter().equals(userId))return ResponseDto.noPermission();
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null)return ResponseDto.noExistUserId();
+            if (recruitEntity == null)
+                return ResponseDto.noExistRecruit();
+            
+            if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
+            
             recruitRepository.delete(recruitEntity);
+            
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
