@@ -18,6 +18,8 @@ public class PostRecruitRequestDto {
     @NotBlank
     private String recruitLocation;
     @NotBlank
+    private String recruitAddress;
+    @NotBlank
     private String recruitEndDate;
     @Min(1)
     private Integer minPeople;
