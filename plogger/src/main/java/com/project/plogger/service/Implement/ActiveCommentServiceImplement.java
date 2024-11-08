@@ -80,10 +80,16 @@ public class ActiveCommentServiceImplement implements ActiveCommentService{
         try {
 
             ActiveCommentEntity activeCommentEntity = activeCommentRepository.findByActiveCommentId(activeCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(activeCommentEntity == null) return ResponseDto.noExistActiveComment();
 
             if(!activeCommentEntity.getActiveId().equals(activeId)) return ResponseDto.noExistActivePost();
-            if(!activeCommentEntity.getActiveCommentWriter().equals(userId)) return ResponseDto.noPermission();
+            if (!activeCommentEntity.getActiveCommentWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
+            
 
             activeCommentEntity.patch(dto);
             activeCommentEntity.setActiveCommentCreatedAt();
@@ -105,11 +111,16 @@ public class ActiveCommentServiceImplement implements ActiveCommentService{
         try {
 
             ActiveCommentEntity activeCommentEntity = activeCommentRepository.findByActiveCommentId(activeCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(activeCommentEntity == null) return ResponseDto.noExistActiveComment();
 
             if(!activeCommentEntity.getActiveId().equals(activeId)) return ResponseDto.noExistActivePost();
-            if(!activeCommentEntity.getActiveCommentWriter().equals(userId)) return ResponseDto.noPermission();
+            if (!activeCommentEntity.getActiveCommentWriter().equals(userId)) {
 
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
             activeCommentRepository.delete(activeCommentEntity);
             
         } catch (Exception exception) {
