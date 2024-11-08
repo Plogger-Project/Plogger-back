@@ -42,7 +42,6 @@ public class RecruitServiceImplement implements RecruitService {
             if (userEntity == null)
                 return ResponseDto.noExistUserId();
 
-            
             recruitEntity.setRecruitPostCreatedAt();
             recruitEntity.setRecruitPostWriter(userId);
             recruitRepository.save(recruitEntity);
@@ -53,20 +52,22 @@ public class RecruitServiceImplement implements RecruitService {
         }
         return ResponseDto.success();
     }
+    
     @Override
     public ResponseEntity<? super GetRecruitResponseDto> getRecruit(Integer recruitPostId) {
 
         GetRecruitResultSet resultSet = null;
 
         try {
-            
+
             resultSet = recruitRepository.getRecruit(recruitPostId);
             if (resultSet == null) {
                 return ResponseDto.noExistRecruit();
             }
 
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
-            if (recruitEntity == null) return ResponseDto.noExistRecruit();
+            if (recruitEntity == null)
+                return ResponseDto.noExistRecruit();
 
             recruitEntity.setRecruitView(recruitEntity.getRecruitView() + 1);
             recruitRepository.save(recruitEntity);
@@ -78,6 +79,7 @@ public class RecruitServiceImplement implements RecruitService {
         return GetRecruitResponseDto.success(resultSet);
 
     }
+    
     @Override
     public ResponseEntity<? super GetRecruitListResponseDto> getRecruitList() {
 
@@ -124,31 +126,33 @@ public class RecruitServiceImplement implements RecruitService {
         try {
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
             UserEntity userEntity = userRepository.findByUserId(userId);
-            if (userEntity == null)return ResponseDto.noExistUserId();
+            if (userEntity == null)
+                return ResponseDto.noExistUserId();
             if (recruitEntity == null)
                 return ResponseDto.noExistRecruit();
-            
+
             if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
                 if (userEntity.getIsAdmin() != true) {
                     return ResponseDto.noPermission();
                 }
             }
-            
+
             recruitRepository.delete(recruitEntity);
-            
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
         return ResponseDto.success();
     }
+    
     @Override
     public ResponseEntity<? super GetRecruitResponseDto> getProfileImage(Integer recruitPostId) {
         GetRecruitResultSet resultSet = null;
 
         try {
             resultSet = recruitRepository.getRecruit(recruitPostId);
-            if(resultSet== null)
+            if (resultSet == null)
                 return ResponseDto.noExistRecruit();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -157,17 +161,21 @@ public class RecruitServiceImplement implements RecruitService {
         return GetRecruitResponseDto.success(resultSet);
 
     }
+    
     @Override
     public ResponseEntity<ResponseDto> patchRecruitIsCompleted(Integer recruitPostId, String userId,
             PatchRecruitIsCompletedRequestDto dto) {
         try {
                 
             RecruitEntity recruitEntity = recruitRepository.findByRecruitPostId(recruitPostId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if (recruitEntity == null) {
                 return ResponseDto.noExistRecruit(); // 게시글이 없는 경우
             }
-                if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
-                return ResponseDto.noPermission(); // 사용자 권한 없는 경우
+            if (!recruitEntity.getRecruitPostWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+            return ResponseDto.noPermission();
+            }
             }
             recruitEntity.setIsCompleted(dto.getIsCompleted());
             recruitRepository.save(recruitEntity); // 변경된 상태 저장

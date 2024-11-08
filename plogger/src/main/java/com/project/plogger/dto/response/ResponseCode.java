@@ -12,6 +12,7 @@ public interface ResponseCode {
     String VALIDATION_FAILED = "VF";
     String DUPLICATED_USER_ID = "DI";
     String DUPLICATED_TEL_NUMBER = "DT";
+    String DUPLICATED_REPORT = "DR";
     String NO_SELF_PARTICIPATION = "NSP";
     String NO_SELF_TAG = "NST";
 
@@ -29,6 +30,8 @@ public interface ResponseCode {
     String NO_EXIST_ALERT = "NA";
     String NO_EXIST_FOLLOW = "NF";
     String NO_EXIST_RECRUIT_SCRAP = "NRS";
+    String NO_EXIST_RECRUIT_REPORT = "NRR";
+    String NO_EXIST_ACTIVE_REPORT = "NAR";
     String NO_EXIST_CHAT_ROOM = "NCR";
 
     String SIGN_IN_FAIL = "SF";

@@ -1,10 +1,14 @@
 package com.project.plogger.filter;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -12,7 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.project.plogger.entity.UserEntity;
 import com.project.plogger.provider.JwtProvider;
+import com.project.plogger.repository.UserRepository;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -25,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -71,9 +78,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // security context 생성 및 등록
         private void setContext(HttpServletRequest request, String userId) {
 
+            UserEntity userEntity = userRepository.findByUserId(userId);
+
+            boolean isAdmin = userEntity.getIsAdmin();
+
+            List <GrantedAuthority> roles = AuthorityUtils.NO_AUTHORITIES;
+            if (isAdmin) {
+                roles = new ArrayList<>();
+                roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            }
+
             // 접근 주체에 대한 인증 토큰 생성
             AbstractAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
+                new UsernamePasswordAuthenticationToken(userId, null, roles);
     
             // 생성한 인증 토큰이 어떤 요청에 대한 내용인 상세 정보 추가
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

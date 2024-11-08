@@ -1,32 +1,30 @@
 package com.project.plogger.dto.response.recruit;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.project.plogger.common.object.SimpleUser;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import com.project.plogger.entity.RecruitJoinEntity;
+import com.project.plogger.entity.UserEntity;
 
 import lombok.Getter;
 
 @Getter
 public class GetRecruitJoinListResponseDto extends ResponseDto {
     
-    private List<String> joins;
+    private List<SimpleUser> joins;
 
-    private GetRecruitJoinListResponseDto(List<RecruitJoinEntity> recruitJoinEntities) {
+    private GetRecruitJoinListResponseDto(List<UserEntity> userEntities) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        List<String> joins = new ArrayList<>();
-        for (RecruitJoinEntity recruitJoinEntity: recruitJoinEntities) joins.add(recruitJoinEntity.getUserId());
-        this.joins = joins;
+        this.joins = SimpleUser.getList(userEntities);
     }
 
-    public static ResponseEntity<GetRecruitJoinListResponseDto> success(List<RecruitJoinEntity> recruitJoinEntities) {
-        GetRecruitJoinListResponseDto responseBody = new GetRecruitJoinListResponseDto(recruitJoinEntities);
+    public static ResponseEntity<GetRecruitJoinListResponseDto> success(List<UserEntity> userEntities) {
+        GetRecruitJoinListResponseDto responseBody = new GetRecruitJoinListResponseDto(userEntities);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }

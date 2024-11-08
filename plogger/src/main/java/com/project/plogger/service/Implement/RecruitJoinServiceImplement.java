@@ -75,12 +75,9 @@ public class RecruitJoinServiceImplement implements RecruitJoinService {
 
     @Override
     public ResponseEntity<? super GetRecruitJoinListResponseDto> getRecruitJoinList(String userId, Integer recruitId) {
-        List<RecruitJoinEntity> list = new ArrayList<>();
+        List<UserEntity> list = new ArrayList<>();
         try {
-            list = joinRepository.findByRecruitId(recruitId);
-            // if (list == null || list.isEmpty())
-            //     return ResponseDto.noExistRecruit();
-            
+            list = userRepository.findJoinByRecruitId(recruitId);
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();

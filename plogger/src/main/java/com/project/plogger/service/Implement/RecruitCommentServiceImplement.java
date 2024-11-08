@@ -80,11 +80,16 @@ public class RecruitCommentServiceImplement implements RecruitCommentService{
         try {
 
             RecruitCommentEntity recruitCommentEntity = recruitCommentRepository.findByRecruitCommentId(recruitCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(recruitCommentEntity == null) return ResponseDto.noExistRecruitComment();
 
             if(!recruitCommentEntity.getRecruitId().equals(recruitId)) return ResponseDto.noExistRecruit();
-            if(!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) return ResponseDto.noPermission();
-
+            if (!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+            return ResponseDto.noPermission();
+            }
+            }
+            
             recruitCommentEntity.patch(dto);
             recruitCommentEntity.setRecruitCommentCreatedAt();
 
@@ -105,11 +110,15 @@ public class RecruitCommentServiceImplement implements RecruitCommentService{
         try {
 
             RecruitCommentEntity recruitCommentEntity = recruitCommentRepository.findByRecruitCommentId(recruitCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(recruitCommentEntity == null) return ResponseDto.noExistRecruitComment();
 
             if(!recruitCommentEntity.getRecruitId().equals(recruitId)) return ResponseDto.noExistRecruit();
-            if(!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) return ResponseDto.noPermission();
-
+            if (!recruitCommentEntity.getRecruitCommentWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
             recruitCommentRepository.delete(recruitCommentEntity);
             
         } catch (Exception exception) {
