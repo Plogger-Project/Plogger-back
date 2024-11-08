@@ -35,6 +35,7 @@ public class ActivePostEntity {
     private String activePostWriterId;
     private String activePostCreatedAt;
     private String activeLocation;
+    private String activeAddress;
     private String activeStartDate;
     private String activeEndDate;
     private Integer activeView = 0;
@@ -52,6 +53,7 @@ public class ActivePostEntity {
         this.activeStartDate = dto.getActiveStartDate();
         this.activeEndDate = dto.getActiveEndDate();
         this.activeLocation = dto.getActiveLocation();
+        this.activeAddress = dto.getActiveAddress();
         this.activePostCreatedAt = simpleDateFormat.format(now);
     }
 

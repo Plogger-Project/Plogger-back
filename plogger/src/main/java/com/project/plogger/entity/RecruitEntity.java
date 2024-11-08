@@ -35,6 +35,7 @@ public class RecruitEntity {
     private String recruitPostWriter;
     private String recruitPostCreatedAt;
     private String recruitLocation;
+    private String recruitAddress;
     private String recruitEndDate;
     private Integer minPeople;
     private Integer currentPeople=1;
