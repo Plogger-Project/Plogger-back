@@ -72,5 +72,14 @@ public class GifticonController {
         ResponseEntity<ResponseDto> response = mileageService.postDownMileage(userId, gifticonId);
         return response;
     };
+
+    @DeleteMapping("/{gifticonId}")
+    public ResponseEntity<ResponseDto> deleteGifticon(
+        @AuthenticationPrincipal String userId,
+        @PathVariable("gifticonId") Integer gifticonId
+    ){
+        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(userId, gifticonId);
+        return response;
+    };
     
 }

@@ -1,9 +1,13 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.like.GetRecruitLikeResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.RecruitLikeEntity;
 import com.project.plogger.entity.UserEntity;
@@ -56,6 +60,24 @@ public class RecruitLikeServiceImplement implements RecruitLikeService {
             return ResponseDto.databaseError();
         }
 
+    }
+
+    @Override
+    public ResponseEntity<? super GetRecruitLikeResponseDto> getLike(Integer recruitId) {
+
+        List<RecruitLikeEntity> list = new ArrayList<>();
+
+        try {
+
+            list = likeRepository.findByRecruitId(recruitId);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetRecruitLikeResponseDto.success(list);
+        
     }
 
 }

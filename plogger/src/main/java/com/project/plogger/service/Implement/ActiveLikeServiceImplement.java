@@ -1,9 +1,13 @@
 package com.project.plogger.service.Implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.like.GetActiveLikeResponseDto;
 import com.project.plogger.entity.ActiveLikeEntity;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.UserEntity;
@@ -56,6 +60,23 @@ public class ActiveLikeServiceImplement implements ActiveLikeService {
             return ResponseDto.databaseError();
         }
 
+    }
+
+    @Override
+    public ResponseEntity<? super GetActiveLikeResponseDto> getLike(Integer activeId) {
+        
+        List<ActiveLikeEntity> list = new ArrayList<>();
+
+        try {
+
+            list = likeRepository.findByActiveId(activeId);
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetActiveLikeResponseDto.success(list);
     }
 
 }
