@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MileageDownDto {
     private String userId;
-    private Integer activeId;
+    private Integer gifticonId;
     private Integer mileageResult;
 }

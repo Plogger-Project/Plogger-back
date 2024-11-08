@@ -16,6 +16,7 @@ import com.project.plogger.dto.response.active.GetMyRecruitPostListResponseDto;
 import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.ActiveTagEntity;
 import com.project.plogger.entity.RecruitEntity;
+import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.ActiveTagRepository;
 import com.project.plogger.repository.RecruitJoinRepository;
@@ -90,11 +91,14 @@ public class ActivePostServiceImplement implements ActivePostService {
                 return ResponseDto.noExistActivePost();
 
             ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activePostId);
-
+            UserEntity userEntity = userRepository.findByUserId(userId);
             String activePostWriter = activePostEntity.getActivePostWriterId();
             boolean isWriter = activePostWriter.equals(userId);
-            if (!isWriter)
-                return ResponseDto.noPermission();
+            if (!isWriter) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
 
             activePostEntity.patch(dto);
             activePostRepository.save(activePostEntity);
@@ -123,11 +127,15 @@ public class ActivePostServiceImplement implements ActivePostService {
                 return ResponseDto.noExistActivePost();
 
             ActivePostEntity activePostEntity = activePostRepository.findByActivePostId(activePostId);
-
+            UserEntity userEntity = userRepository.findByUserId(userId);
             String activePostWriter = activePostEntity.getActivePostWriterId();
             boolean isWriter = activePostWriter.equals(userId);
-            if (!isWriter)
-                return ResponseDto.noPermission();
+            if (!isWriter) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
+                
 
             activePostRepository.deleteByActivePostId(activePostId);
 

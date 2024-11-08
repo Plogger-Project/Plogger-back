@@ -54,7 +54,7 @@ public class MileageEntity {
         this.description = "기프티콘 구매";
         this.createdAt = simpleDateFormat.format(now);
         this.userId = dto.getUserId();
-        this.activeId = dto.getActiveId();
+        this.gifticonId = dto.getGifticonId();
         this.mileageResult = dto.getMileageResult();
     }
 
