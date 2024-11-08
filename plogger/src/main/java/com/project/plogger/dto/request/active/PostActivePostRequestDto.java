@@ -24,6 +24,8 @@ public class PostActivePostRequestDto {
     private String activeEndDate;
     @NotBlank
     private String activeLocation;
+    @NotBlank
+    private String activeAddress;
     @NotEmpty
     private List<String> activePeople;
 

@@ -65,18 +65,18 @@ public class RecruitScrapServiceImplement implements RecruitScrapService {
     @Override
     public ResponseEntity<? super GetRecruitScrapListResponseDto> getScrapList(String userId) {
 
-        List<RecruitScrapEntity> recruitScrapEntities = new ArrayList<>();
+        List<RecruitEntity> recruitEntities = new ArrayList<>();
 
         try {
 
-            recruitScrapEntities = scrapRepository.findByUserIdOrderByCreatedAtDesc(userId);
+            recruitEntities = recruitRepository.findScrapByUserId(userId);
             
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetRecruitScrapListResponseDto.success(recruitScrapEntities);
+        return GetRecruitScrapListResponseDto.success(recruitEntities);
         
     }
 
