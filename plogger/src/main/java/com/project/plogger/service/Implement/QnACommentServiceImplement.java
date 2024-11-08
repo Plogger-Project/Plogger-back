@@ -32,18 +32,22 @@ public class QnACommentServiceImplement implements QnACommentService{
     public ResponseEntity<ResponseDto> postQnAComment(PostQnACommentRequestDto dto, String userId, Integer qnaId) {
 
         try {
-            
-            QnACommentEntity qnaCommentEntity = new QnACommentEntity(dto);
-
-            UserEntity userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.noExistUserId();
-            qnaCommentEntity.setQnaCommentWriter(userId);
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
-            qnaCommentEntity.setQnaId(qnaId);
+
+            UserEntity userEntity = userRepository.findByUserId(userId);
+            if (userEntity == null)return ResponseDto.noExistUserId();
             
+            if (!userEntity.getIsAdmin()) {
+                return ResponseDto.noPermission();
+            }
+            
+            QnACommentEntity qnaCommentEntity = new QnACommentEntity(dto);
+            qnaCommentEntity.setQnaCommentWriter(userId);
             qnaCommentEntity.setQnaCommentCreatedAt();
+
+            qnaCommentEntity.setQnaId(qnaId);
 
             qnaCommentRepository.save(qnaCommentEntity);
             
