@@ -28,8 +28,18 @@ public class ActiveReportServiceImplement implements ActiveReportService {
     @Override
     public ResponseEntity<ResponseDto> createReport(Integer activeId, String userId, ActiveReportRequestDto dto) {
         try {
+            boolean isAlreadyReported = activeReportRepository.existsByActiveIdAndUserId(activeId, userId);
+
+            if (isAlreadyReported) {
+                return ResponseDto.duplicatedReport();
+            }
+
             ActivePostEntity activePostEntity = activeRepository.findByActivePostId(activeId);
             ActiveReportEntity activeReportEntity = new ActiveReportEntity(dto, activeId, userId);
+
+            if (activePostEntity == null) {
+                return ResponseDto.duplicatedReport();
+            }
 
             activePostEntity.setActiveReport(activePostEntity.getActiveReport() + 1);
             activeRepository.save(activePostEntity);
@@ -50,7 +60,7 @@ public class ActiveReportServiceImplement implements ActiveReportService {
         List<ActiveReportEntity> activeReportEntities = new ArrayList<>();
 
         try {
-            activeReportEntities = activeReportRepository.findAllByOrderByReportIdAsc();
+            activeReportEntities = activeReportRepository.findAllByOrderByReportIdDesc();
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
