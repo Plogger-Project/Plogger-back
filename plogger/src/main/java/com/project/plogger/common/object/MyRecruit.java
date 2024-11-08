@@ -14,12 +14,14 @@ public class MyRecruit {
     private Integer recruitPostId;
     private String recruitPostTitle;
     private String recruitLocation;
+    private String recruitAddress;
     private List<String> recruitJoinPeople;
 
     public MyRecruit(RecruitEntity recruitEntity, RecruitJoinRepository joinRepository) {
         this.recruitPostId = recruitEntity.getRecruitPostId();
         this.recruitPostTitle = recruitEntity.getRecruitPostTitle();
         this.recruitLocation = recruitEntity.getRecruitLocation();
+        this.recruitAddress = recruitEntity.getRecruitAddress();
         this.recruitJoinPeople = new ArrayList<>();
 
         List<RecruitJoinEntity> joinEntities = joinRepository.findByRecruitId(recruitPostId);
@@ -29,7 +31,6 @@ public class MyRecruit {
     }
 
     public static List<MyRecruit> getList(List<RecruitEntity> recruitEntities, RecruitJoinRepository joinRepository) {
-
         List<MyRecruit> recruits = new ArrayList<>();
         for (RecruitEntity recruitEntity : recruitEntities) {
             MyRecruit recruit = new MyRecruit(recruitEntity, joinRepository);
