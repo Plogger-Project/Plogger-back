@@ -92,6 +92,7 @@ public class WebSecurityConfig {
                 @Override
                 public void commence(HttpServletRequest request, HttpServletResponse response,
                                 AuthenticationException authException) throws IOException, ServletException {
+                        authException.printStackTrace();
                         response.setContentType("application/json");
                         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                         response.getWriter()

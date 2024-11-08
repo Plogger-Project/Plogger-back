@@ -74,6 +74,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> duplicatedReport() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_REPORT, ResponseMessage.DUPLICATED_REPORT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> noSelfParticipation() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_SELF_PARTICIPATION, ResponseMessage.NO_SELF_PARTICIPATION);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
@@ -151,6 +156,16 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistRecruitScrap() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RECRUIT_SCRAP, ResponseMessage.NO_EXIST_RECRUIT_SCRAP);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistRecruitReport() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_RECRUIT_REPORT, ResponseMessage.NO_EXIST_RECRUIT_REPORT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistActiveReport() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ACTIVE_REPORT, ResponseMessage.NO_EXIST_ACTIVE_REPORT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

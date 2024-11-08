@@ -12,6 +12,7 @@ public interface ResponseMessage {
     String VALIDATION_FAIL = "Validation failed.";
     String DUPLICATED_USER_ID = "Duplicated user id.";
     String DUPLICATED_TEL_NUMBER = "Duplicated user tel number.";
+    String DUPLICATED_REPORT = "Duplicated Report";
     String NO_SELF_PARTICIPATION = "No self participation.";
     String NO_SELF_TAG = "No self tag";
 
@@ -31,6 +32,9 @@ public interface ResponseMessage {
     String NO_EXIST_ALERT = "No exist alert";
     String NO_EXIST_FOLLOW = "No exist follow.";
     String NO_EXIST_RECRUIT_SCRAP = "No exist recruit scrap.";
+
+    String NO_EXIST_RECRUIT_REPORT = "No exist recruit report";
+    String NO_EXIST_ACTIVE_REPORT = "No exist active report";
 
     String SIGN_IN_FAIL = "Sign in failed.";
     String AUTHENTICATION_FAIL = "Authentication failed.";
