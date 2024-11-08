@@ -17,6 +17,7 @@ import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitCommentRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitCityCountResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitCommentListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
@@ -33,6 +34,7 @@ public class RecruitController {
 
     private final RecruitService recruitService;
     private final RecruitCommentService recruitCommentService;
+    
 
     @PostMapping(value = { "", "/" })
     public ResponseEntity<ResponseDto> postRecruit(
@@ -126,5 +128,10 @@ public class RecruitController {
         ResponseEntity<ResponseDto> response = recruitCommentService.deleteRecruitComment(recruitPostId, recruitCommentId, userId);
         return response;
     };
+
+    @GetMapping("/cityPostCounts")
+    public ResponseEntity<? super GetRecruitCityCountResponseDto> getCityPostCounts() {
+        return recruitService.getCityPostCounts();
+    }
     
 }

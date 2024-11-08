@@ -45,7 +45,6 @@ public class RecruitEntity {
     private Boolean isCompleted = false;
     private Boolean isMileage = false;
 
-
     private static final DateTimeFormatter Formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void setRecruitPostCreatedAt() {
@@ -72,8 +71,4 @@ public class RecruitEntity {
         this.recruitEndDate = dto.getRecruitEndDate();
     }
 
-    
-
-
-    
 }

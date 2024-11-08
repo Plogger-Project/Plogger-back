@@ -3,6 +3,7 @@ package com.project.plogger.service.Implement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,14 @@ import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
+import com.project.plogger.dto.response.recruit.GetRecruitCityCountResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
 import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.repository.UserRepository;
+import com.project.plogger.repository.resultset.CityPostCountResultSet;
 import com.project.plogger.repository.resultset.GetRecruitResultSet;
 
 import com.project.plogger.service.RecruitService;
@@ -182,5 +185,19 @@ public class RecruitServiceImplement implements RecruitService {
         }
         return ResponseDto.success();
     }
-    
+
+    @Override
+    public ResponseEntity<? super GetRecruitCityCountResponseDto> getCityPostCounts() {
+
+        List<CityPostCountResultSet> cityPostCounts = null;
+        try {
+            cityPostCounts = recruitRepository.getCityPostCounts();
+            
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetRecruitCityCountResponseDto.success(cityPostCounts);
+    } 
 }
