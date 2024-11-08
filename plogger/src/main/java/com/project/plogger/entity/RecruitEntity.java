@@ -35,6 +35,7 @@ public class RecruitEntity {
     private String recruitPostWriter;
     private String recruitPostCreatedAt;
     private String recruitLocation;
+    private String recruitAddress = "기본주소";
     private String recruitEndDate;
     private Integer minPeople;
     private Integer currentPeople=1;
@@ -57,6 +58,7 @@ public class RecruitEntity {
         this.recruitPostContent = dto.getRecruitPostContent();
         this.recruitPostImage = dto.getRecruitPostImage();
         this.recruitLocation = dto.getRecruitLocation();
+        this.recruitAddress = dto.getRecruitAddress();
         this.minPeople = dto.getMinPeople();
         this.recruitEndDate = dto.getRecruitEndDate();
 

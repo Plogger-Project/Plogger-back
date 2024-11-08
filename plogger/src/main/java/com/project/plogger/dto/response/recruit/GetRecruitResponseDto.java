@@ -22,6 +22,7 @@ public class GetRecruitResponseDto  extends ResponseDto{
     private String recruitPostCreatedAt;
     private String recruitEndDate;
     private String recruitLocation;
+    private String recruitAddress;
     private Integer minPeople;
     private Integer currentPeople;
     private Integer recruitView;
@@ -39,6 +40,7 @@ public class GetRecruitResponseDto  extends ResponseDto{
         this.recruitPostCreatedAt = resultSet.getRecruitPostCreatedAt();
         this.recruitEndDate = resultSet.getRecruitEndDate();
         this.recruitLocation = resultSet.getRecruitLocation();
+        this.recruitAddress = resultSet.getRecruitAddress();
         this.minPeople = resultSet.getMinPeople();
         this.currentPeople = resultSet.getCurrentPeople();
         this.recruitView = resultSet.getRecruitView();
