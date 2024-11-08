@@ -64,15 +64,6 @@ public class GifticonController {
         return response;
     };
 
-    @DeleteMapping("/{gifticonId}")
-    public ResponseEntity<ResponseDto> deleteGifticon(
-        @AuthenticationPrincipal String userId,
-        @PathVariable("gifticonId") Integer gifticonId
-    ){
-        ResponseEntity<ResponseDto> response = gifticonService.deleteGifticon(userId, gifticonId);
-        return response;
-    };
-
     @PostMapping("/{gifticonId}")
     public ResponseEntity<ResponseDto> purchaseGifticon(
         @AuthenticationPrincipal String userId,
