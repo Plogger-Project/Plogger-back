@@ -58,6 +58,7 @@ public class RecruitEntity {
         this.recruitPostContent = dto.getRecruitPostContent();
         this.recruitPostImage = dto.getRecruitPostImage();
         this.recruitLocation = dto.getRecruitLocation();
+        this.recruitAddress = dto.getRecruitAddress();
         this.minPeople = dto.getMinPeople();
         this.recruitEndDate = dto.getRecruitEndDate();
 

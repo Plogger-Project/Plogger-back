@@ -16,6 +16,7 @@ public class Recruit {
     private String recruitPostWriter;
     private String recruitPostCreatedAt;
     private String recruitLocation;
+    private String recruitAddress;
     private String recruitEndDate;
     private Integer minPeople;
     private Integer currentPeople;
@@ -33,6 +34,7 @@ public class Recruit {
         this.recruitPostWriter = recruitEntity.getRecruitPostWriter();
         this.recruitPostCreatedAt = recruitEntity.getRecruitPostCreatedAt();
         this.recruitLocation = recruitEntity.getRecruitLocation();
+        this.recruitAddress = recruitEntity.getRecruitAddress();
         this.recruitEndDate = recruitEntity.getRecruitEndDate();
         this.minPeople = recruitEntity.getMinPeople();
         this.currentPeople = recruitEntity.getCurrentPeople();

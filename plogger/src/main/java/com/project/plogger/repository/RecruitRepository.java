@@ -24,16 +24,10 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer>
 
     List<RecruitEntity> findByRecruitPostWriterAndIsCompletedTrueAndIsMileageFalse(String userId);
 
-    // @Query(value = "SELECT " +
-    //         "u.profile_image " +
-    //         "FROM recruitpost rp " +
-    //         "JOIN user u " +
-    //         "ON rp.recruit_post_writer=u.user_id " +
-    //         "WHERE rp.recruit_post_id=  :recruitPostId "
-    //         , nativeQuery = true)
-    // String getProfileImage(@Param("recruitPostId") Integer recruitPostId);
-
-  
-
+    @Query(value = 
+    "SELECT * FROM recruitpost WHERE recruit_post_id IN (" +
+        "SELECT recruit_id FROM recruit_scrap WHERE user_id = :userId" +
+    ")", nativeQuery=true)
+    List<RecruitEntity> findScrapByUserId(@Param("userId") String userId);
 
 }
