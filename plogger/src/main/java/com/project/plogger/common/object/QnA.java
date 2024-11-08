@@ -13,6 +13,7 @@ public class QnA {
     private Integer qnaPostId;
     private String qnaPostTitle;
     private String qnaPostWriter;
+    private String qnaPostImage;
     private String qnaPostCreatedAt;
     private Boolean isPinned;
 
@@ -20,6 +21,7 @@ public class QnA {
         this.qnaPostId = qnaEntity.getQnaPostId();
         this.qnaPostTitle = qnaEntity.getQnaPostTitle();
         this.qnaPostWriter = qnaEntity.getQnaPostWriter();
+        this.qnaPostImage = qnaEntity.getQnaPostImage();
         this.qnaPostCreatedAt = qnaEntity.getQnaPostCreatedAt();
         this.isPinned = qnaEntity.getIsPinned();
     }
