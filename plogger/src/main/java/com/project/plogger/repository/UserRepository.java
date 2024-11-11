@@ -35,6 +35,8 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
     nativeQuery=true
     )
     List<UserEntity> findJoinByRecruitId(@Param("recruitId") Integer recruitId);
+
+    void deleteByUserId(String userId);
     
     
 }
