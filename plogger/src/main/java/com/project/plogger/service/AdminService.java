@@ -18,4 +18,6 @@ public interface AdminService {
     ResponseEntity<ResponseDto> deleteRecruitReport(Integer recruitId);
 
     ResponseEntity<ResponseDto> deleteActiveReport(Integer activeId);
+
+    ResponseEntity<ResponseDto> deleteUser(String userId);
 }

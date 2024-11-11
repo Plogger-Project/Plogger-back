@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -30,13 +31,12 @@ public class AlertController {
     private final AlertService alertService;
     private static final ConcurrentHashMap<String, SseEmitter> emitters = new ConcurrentHashMap<>();
 
-    @PostMapping
+    @PostMapping(value = {"", "/"})
     public ResponseEntity<ResponseDto> createAlert(
-        @RequestBody @Valid AlertRequestDto request,
-        @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = alertService.createAlert(request, userId);
+        @RequestBody @Valid AlertRequestDto request) {
+        ResponseEntity<ResponseDto> response = alertService.createAlert(request);
         
-        sendAlertToClient(userId, response.getBody());
+        // sendAlertToClient(response.getBody());
 
         return response;
     }
@@ -70,16 +70,16 @@ public class AlertController {
         return emitter;
     }
 
-        private void sendAlertToClient(String userId, ResponseDto alertData) {
-        SseEmitter emitter = emitters.get(userId);
-        if (emitter != null) {
-            try {
-                emitter.send(SseEmitter.event()
-                        .name("alert")
-                        .data(alertData));
-            } catch (Exception Exception) {
-                emitters.remove(userId);
-            }
-        }
-    }
+    //     private void sendAlertToClient(String userId, ResponseDto alertData) {
+    //     SseEmitter emitter = emitters.get(userId);
+    //     if (emitter != null) {
+    //         try {
+    //             emitter.send(SseEmitter.event()
+    //                     .name("alert")
+    //                     .data(alertData));
+    //         } catch (Exception Exception) {
+    //             emitters.remove(userId);
+    //         }
+    //     }
+    // }
 }

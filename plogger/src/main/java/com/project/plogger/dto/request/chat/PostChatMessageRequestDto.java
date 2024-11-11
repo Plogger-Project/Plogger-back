@@ -9,9 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostChatMessageRequestDto {
-
-    @NotNull
-    private String receiverId;
+    
     @NotNull
     private String message;
 

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.project.plogger.dto.request.chat.PostChatMessageRequestDto;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,15 +28,16 @@ public class ChatMessageEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer chatId;
     private String senderId;
-    private String receiverId;
     private Integer roomId;
     private String message;
+    @Column(name = "sent_at")
     private String sendAt;
 
     public ChatMessageEntity(PostChatMessageRequestDto dto, String senderId, Integer roomId) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        this.receiverId = dto.getReceiverId();
+        this.roomId = roomId;
+        this.senderId = senderId;
         this.message = dto.getMessage();
         this.sendAt = simpleDateFormat.format(now);
     }

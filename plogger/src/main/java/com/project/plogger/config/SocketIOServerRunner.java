@@ -1,4 +1,4 @@
-package com.project.plogger.component;
+package com.project.plogger.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

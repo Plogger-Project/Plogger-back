@@ -49,15 +49,15 @@ public class AlertImplement implements AlertService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> createAlert(AlertRequestDto dto, String userId) {
+    public ResponseEntity<ResponseDto> createAlert(AlertRequestDto dto) {
 
         try {
 
-            UserEntity userEntity = userRepository.findByUserId(userId);
+            UserEntity userEntity = userRepository.findByUserId(dto.getUserId());
             if(userEntity == null) return ResponseDto.noExistUserId();
 
             AlertEntity alertEntity = new AlertEntity(dto);
-            alertEntity.setUserId(userId);
+            alertEntity.setUserId(dto.getUserId());
 
             alertRepository.save(alertEntity);
 

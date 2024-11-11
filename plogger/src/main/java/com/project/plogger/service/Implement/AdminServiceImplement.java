@@ -2,7 +2,6 @@ package com.project.plogger.service.Implement;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.admin.GetSignInResponseDto;
 import com.project.plogger.dto.response.admin.GetUserListResponseDto;
 import com.project.plogger.dto.response.admin.GetUserResponseDto;
-import com.project.plogger.entity.RecruitReportEntity;
 import com.project.plogger.entity.UserEntity;
 import com.project.plogger.repository.ActiveReportRepository;
 import com.project.plogger.repository.RecruitReportRepository;
@@ -28,7 +26,7 @@ public class AdminServiceImplement implements AdminService {
     private final RecruitReportRepository recruitReportRepository;
     private final ActiveReportRepository activeReportRepository;
     private final UserRepository userRepository;
-
+    
     @Override
     public ResponseEntity<? super GetUserListResponseDto> getUserList() {
 
@@ -103,6 +101,7 @@ public class AdminServiceImplement implements AdminService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<ResponseDto> deleteActiveReport(Integer activeId) {
         try {
 
@@ -111,6 +110,25 @@ public class AdminServiceImplement implements AdminService {
                 return ResponseDto.noExistActiveReport();
 
             activeReportRepository.deleteByActiveId(activeId);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    @Transactional
+    public ResponseEntity<ResponseDto> deleteUser(String userId) {
+        try {
+            
+            boolean existsByUserId = userRepository.existsByUserId(userId);
+            if (!existsByUserId)
+                return ResponseDto.noExistUserId();
+            
+            userRepository.deleteByUserId(userId);
 
         } catch (Exception exception) {
             exception.printStackTrace();
