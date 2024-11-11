@@ -19,15 +19,23 @@ public class AdminController {
 
     private final AdminService adminService;
 
-    @DeleteMapping("/{recruitId}")
+    @DeleteMapping("recruit/{recruitId}")
     public ResponseEntity<ResponseDto> deleteRecruitReport(@PathVariable("recruitId") Integer recruitId) {
         ResponseEntity<ResponseDto> response = adminService.deleteRecruitReport(recruitId);
         return response;
     }
 
-    @DeleteMapping("/{activeId}")
+    @DeleteMapping("active/{activeId}")
     public ResponseEntity<ResponseDto> deleteActiveReport(@PathVariable("activeId") Integer activeId) {
         ResponseEntity<ResponseDto> response = adminService.deleteActiveReport(activeId);
         return response;
     }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<ResponseDto> deleteUser(@PathVariable("userId") String userId) {
+        ResponseEntity<ResponseDto> response = adminService.deleteUser(userId);
+        return response;
+    }
+
+
 }
