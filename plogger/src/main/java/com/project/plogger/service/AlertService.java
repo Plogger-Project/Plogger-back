@@ -13,7 +13,7 @@ import com.project.plogger.dto.response.alert.GetAlertListResponseDto;
 public interface AlertService {
     ResponseEntity<? super AlertResponseDto> getAlertsByUserId(String userId);
     ResponseEntity<? super GetAlertListResponseDto> getAlertList(String userId);
-    ResponseEntity<ResponseDto> createAlert(AlertRequestDto dto, String userId);
+    ResponseEntity<ResponseDto> createAlert(AlertRequestDto dto);
     ResponseEntity<ResponseDto> markAlertAsRead(Long id);
     ResponseEntity<ResponseDto> deleteAlert(Long id);
 }
