@@ -37,12 +37,17 @@ public class AlertEntity {
 
     @Column(name = "created_at")
     private String createdAt;
+    private Integer recruitPostId;
+    private Integer activePostId;
 
     public AlertEntity(AlertRequestDto dto) {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        this.userId = dto.getUserId();
         this.message = dto.getMessage();
         this.createdAt = simpleDateFormat.format(now);
+        this.recruitPostId = dto.getRecruitPostId();
+        this.activePostId = dto.getActivePostId();
     }
 
 }
