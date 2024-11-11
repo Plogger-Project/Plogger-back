@@ -33,6 +33,8 @@ public class ChatJoinEntity {
         Date now = new Date();
         SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
         this.joinedAt = simpleDateFormat.format(now);
+        this.roomId = roomId;
+        this.userId = userId;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.project.plogger.service.Implement;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,12 +35,18 @@ public class ChatServiceImplement implements ChatService {
 
     // 채팅방 만들기
     @Override
-    public ResponseEntity<ResponseDto> createChatRoom(PostChatRoomRequestDto dto) {
+    public ResponseEntity<ResponseDto> createChatRoom(PostChatRoomRequestDto dto, String userId) {
 
         try {
 
             ChatRoomEntity roomEntity = new ChatRoomEntity(dto);
             chatRoomRepository.save(roomEntity);
+
+            ChatJoinEntity joinEntity = new ChatJoinEntity();
+            joinEntity.setRoomId(roomEntity.getRoomId());
+            joinEntity.setUserId(userId);
+            joinEntity.setJoinedAt(LocalDateTime.now().toString());
+            chatJoinRepository.save(joinEntity);
 
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -119,8 +126,6 @@ public class ChatServiceImplement implements ChatService {
         return ResponseDto.success();
 
     }
-
-    // 채팅방 하나 가져오기
     
 
     // 내가 참여한 채팅방 가지고오기
