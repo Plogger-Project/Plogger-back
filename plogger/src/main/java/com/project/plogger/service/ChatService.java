@@ -11,7 +11,7 @@ import com.project.plogger.dto.response.chat.GetRoomResponseDto;
 
 public interface ChatService {
 
-    ResponseEntity<ResponseDto> createChatRoom(PostChatRoomRequestDto dto);
+    ResponseEntity<ResponseDto> createChatRoom(PostChatRoomRequestDto dto, String userId);
     ResponseEntity<? super GetMessageListResponseDto> getMessages(Integer roomId);
     ResponseEntity<ResponseDto> saveMessage(PostChatMessageRequestDto dto, Integer roomId, String senderId);
     ResponseEntity<ResponseDto> joinRoom(Integer roomId, String userId);
