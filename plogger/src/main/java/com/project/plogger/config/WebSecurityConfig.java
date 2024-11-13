@@ -79,7 +79,7 @@ public class WebSecurityConfig {
 
                 CorsConfiguration configuration = new CorsConfiguration();
                 configuration.addAllowedMethod("*");
-                configuration.addAllowedOrigin("http://localhost:3000");
+                configuration.addAllowedOrigin("*");
                 configuration.addAllowedHeader("*");
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
