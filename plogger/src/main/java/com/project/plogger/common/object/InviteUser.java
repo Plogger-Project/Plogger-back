@@ -4,15 +4,18 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class JoinRoom {
+public class InviteUser {
     private Integer roomId;
+    private String[] invitedPeople;
 
     @JsonCreator
-    public JoinRoom(@JsonProperty("roomId") Integer roomId) {
+    public InviteUser(
+        @JsonProperty("roomId") Integer roomId,
+        @JsonProperty("invitedPeople") String[] invitedPeople
+    ) {
         this.roomId = roomId;
+        this.invitedPeople = invitedPeople;
     }
 }

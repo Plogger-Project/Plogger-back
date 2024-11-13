@@ -39,6 +39,7 @@ public class AlertEntity {
     private String createdAt;
     private Integer recruitPostId;
     private Integer activePostId;
+    private Integer qnaPostId;
 
     public AlertEntity(AlertRequestDto dto) {
         Date now = new Date();
@@ -48,6 +49,7 @@ public class AlertEntity {
         this.createdAt = simpleDateFormat.format(now);
         this.recruitPostId = dto.getRecruitPostId();
         this.activePostId = dto.getActivePostId();
+        this.qnaPostId = dto.getQnaPostId();
     }
 
 }

@@ -1,7 +1,5 @@
 package com.project.plogger.config;
 
-import java.util.Map.Entry;
-
 import org.springframework.stereotype.Component;
 
 import com.corundumstudio.socketio.SocketIOServer;
@@ -9,13 +7,12 @@ import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.project.plogger.common.object.ChatMessage;
+import com.project.plogger.common.object.InviteUser;
 import com.project.plogger.common.object.JoinRoom;
+import com.project.plogger.common.object.RoomInvite;
 import com.project.plogger.entity.chat.ChatJoinEntity;
 import com.project.plogger.provider.JwtProvider;
-import com.project.plogger.repository.UserRepository;
 import com.project.plogger.repository.chat.ChatJoinRepository;
-import com.project.plogger.repository.chat.ChatMessageRepository;
-import com.project.plogger.repository.chat.ChatRoomRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,10 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SocketModule {
     
-    private final ChatRoomRepository chatRoomRepository;
-    private final ChatMessageRepository chatMessageRepository;
     private final ChatJoinRepository chatJoinRepository;
-    private final UserRepository userRepository;
 
     private final SocketIOServer server;
     private final JwtProvider provider;
@@ -34,33 +28,24 @@ public class SocketModule {
     public SocketModule(
         SocketIOServer server, 
         JwtProvider provider, 
-        ChatRoomRepository chatRoomRepository,
-        ChatMessageRepository chatMessageRepository,
-        ChatJoinRepository chatJoinRepository,
-        UserRepository userRepository
+        ChatJoinRepository chatJoinRepository
     ) {
 
         this.server = server;
         this.provider = provider;
-        this.chatRoomRepository = chatRoomRepository;
-        this.chatMessageRepository = chatMessageRepository;
         this.chatJoinRepository = chatJoinRepository;
-        this.userRepository = userRepository;
         server.addConnectListener(OnConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", ChatMessage.class, onChatReceived());
         server.addEventListener("join_room", JoinRoom.class, onJoinRoom());
+        server.addEventListener("invite_users", InviteUser.class, onInviteUser());
     }
 
     private ConnectListener OnConnected() {
         return (client) -> {
-            String token = null;
-            for (Entry<String,String> header : client.getHandshakeData().getHttpHeaders()) {
-                if ("accessToken".equals(header.getKey())) { // 쿠키 이름이 "accessToken"일 경우
-                    token = header.getValue();
-                    break;
-                }
-            }
+            
+            String token = client.getHandshakeData().getSingleUrlParam("accessToken");
+            // String token = client.getHandshakeData().getHttpHeaders().get("accessToken");
     
             if (token != null) {
                 log.info("Received token : {}", token);
@@ -70,12 +55,6 @@ public class SocketModule {
                 if (userId != null) {
                     log.info("User [{}] connected", userId);
                     client.set("userId", userId);
-                    // String roomId = client.getHandshakeData().getSingleUrlParam("roomId");
-                    // client.joinRoom(roomId);
-    
-                    // String joinMessage = userId + "님이 들어왔습니다.";
-                    // server.getRoomOperations(roomId).sendEvent("join_message", joinMessage);
-                    // log.info("Socket ID[{}] connected to room[{}]", client.getSessionId().toString(), roomId);
                 } else {
                     log.error("Invalid JWT token for client [{}]", client.getSessionId().toString());
                     client.disconnect();
@@ -117,11 +96,26 @@ public class SocketModule {
             ChatJoinEntity chatJoinEntity = new ChatJoinEntity(roomId, userId);
             chatJoinRepository.save(chatJoinEntity);
 
-            String message = userId + "님이 참여하였습니다.";
+            String message = userId + "님이 연결되었습니다.";
 
             client.joinRoom(roomId.toString());
             ChatMessage chatMessage = new ChatMessage(roomId, "system", message);
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
+        };
+    }
+
+    private DataListener<InviteUser> onInviteUser() {
+        return (client, data, ack) -> {
+            Integer roomId = data.getRoomId();
+            String[] invitedPeople = data.getInvitedPeople();
+    
+            for (String invitedUserId : invitedPeople) {
+                ChatJoinEntity chatJoinEntity = new ChatJoinEntity(roomId, invitedUserId);
+                chatJoinRepository.save(chatJoinEntity);
+                log.info("User [{}] invited to room [{}]", invitedUserId, roomId);
+            }
+            RoomInvite roomInvite = new RoomInvite("system-invite", invitedPeople);
+            server.getRoomOperations(roomId.toString()).sendEvent("receive_message", roomInvite);
         };
     }
 }
