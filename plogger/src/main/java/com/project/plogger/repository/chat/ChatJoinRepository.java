@@ -12,5 +12,6 @@ import com.project.plogger.entity.pk.ChatJoinPk;
 public interface ChatJoinRepository extends JpaRepository<ChatJoinEntity, ChatJoinPk> {
     
     List<ChatJoinEntity> findByUserId(String userId);
+    boolean existsByRoomIdAndUserId(Integer roomId, String userId);
 
 }

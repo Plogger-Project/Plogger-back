@@ -10,6 +10,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import com.corundumstudio.socketio.SocketIOServer;
+import com.corundumstudio.socketio.Transport;
 
 @Configuration
 public class SocketIOConfig {
@@ -25,6 +26,7 @@ public class SocketIOConfig {
         com.corundumstudio.socketio.Configuration config = new com.corundumstudio.socketio.Configuration();
         config.setHostname(hostname);
         config.setPort(port);
+        config.setTransports(Transport.POLLING, Transport.WEBSOCKET);
         return new SocketIOServer(config);
     }
 
