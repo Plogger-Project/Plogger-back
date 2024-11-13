@@ -1,7 +1,5 @@
 package com.project.plogger.service;
 
-import java.util.List;
-
 import org.springframework.http.ResponseEntity;
 
 import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
@@ -11,7 +9,6 @@ import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitCityCountResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitListResponseDto;
 import com.project.plogger.dto.response.recruit.GetRecruitResponseDto;
-import com.project.plogger.repository.resultset.CityPostCountResultSet;
 
 public interface RecruitService {
 
