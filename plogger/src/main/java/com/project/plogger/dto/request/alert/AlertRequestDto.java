@@ -16,4 +16,5 @@ public class AlertRequestDto {
     private String message;
     private Integer recruitPostId;
     private Integer activePostId;
+    private Integer qnaPostId;
 }
