@@ -2,7 +2,6 @@ package com.project.plogger.config;
 
 import org.springframework.stereotype.Component;
 
-import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
