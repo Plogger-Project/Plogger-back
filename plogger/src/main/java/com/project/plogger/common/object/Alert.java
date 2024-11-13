@@ -16,6 +16,7 @@ public class Alert {
     private String createdAt;
     private Integer recruitPostId;
     private Integer activePostId;
+    private Integer qnaPostId;
 
     public Alert(AlertEntity alertEntity) {
         this.id = alertEntity.getId();
@@ -25,6 +26,7 @@ public class Alert {
         this.createdAt = alertEntity.getCreatedAt();
         this.recruitPostId = alertEntity.getRecruitPostId();
         this.activePostId = alertEntity.getActivePostId();
+        this.qnaPostId = alertEntity.getQnaPostId();
     }
 
     public static List<Alert> getList(List<AlertEntity> alertEntities) {
