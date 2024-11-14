@@ -207,7 +207,7 @@ public class RecruitServiceImplement implements RecruitService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 9 * * ?") // "초 분 시 일 월 요일" 형식
+    @Scheduled(cron = "0 0 10 * * ?") // "초 분 시 일 월 요일" 형식
     @Transactional
     public void updateCompletedRecruitPosts() {
         LocalDateTime currentDateTime = LocalDateTime.now();
