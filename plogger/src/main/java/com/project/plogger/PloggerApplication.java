@@ -13,5 +13,4 @@ public class PloggerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PloggerApplication.class, args);
 	}
-
 }

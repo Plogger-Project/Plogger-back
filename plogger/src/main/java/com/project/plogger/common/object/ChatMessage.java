@@ -8,10 +8,17 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.project.plogger.entity.chat.ChatMessageEntity;
+import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class ChatMessage {
     
     private Integer chatId;
@@ -19,6 +26,7 @@ public class ChatMessage {
     private Integer roomId;
     private String message;
     private String sentAt;
+    private Boolean isRead;
 
     @JsonCreator
     public ChatMessage(
@@ -30,21 +38,22 @@ public class ChatMessage {
         this.roomId = roomId;
         this.senderId = senderId;
         this.message = message;
-        this.sentAt = simpleDateFormat.format(now);;
+        this.sentAt = simpleDateFormat.format(now);
     }
 
-    public ChatMessage(ChatMessageEntity chatMessageEntity) {
-        this.chatId = chatMessageEntity.getChatId();
-        this.senderId = chatMessageEntity.getSenderId();
-        this.roomId = chatMessageEntity.getRoomId();
-        this.message = chatMessageEntity.getMessage();
-        this.sentAt = chatMessageEntity.getSendAt();
+    public ChatMessage(GetChatMessageResultSet resultSet) {
+        this.chatId = resultSet.getChatId();
+        this.senderId = resultSet.getSenderId();
+        this.roomId = resultSet.getRoomId();
+        this.message = resultSet.getMessage();
+        this.sentAt = resultSet.getSentAt();
+        this.isRead = resultSet.getIsRead() == 1;
     }
 
-    public static List<ChatMessage> getList(List<ChatMessageEntity> chatMessageEntities) {
+    public static List<ChatMessage> getList(List<GetChatMessageResultSet> resultSets) {
         List<ChatMessage> chatMessages = new ArrayList<>();
-        for (ChatMessageEntity chatMessageEntity : chatMessageEntities) {
-            ChatMessage chatMessage = new ChatMessage(chatMessageEntity);
+        for (GetChatMessageResultSet resultSet : resultSets) {
+            ChatMessage chatMessage = new ChatMessage(resultSet);
             chatMessages.add(chatMessage);
         }
 
