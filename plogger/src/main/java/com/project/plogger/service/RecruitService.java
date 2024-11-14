@@ -1,6 +1,12 @@
 package com.project.plogger.service;
 
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
@@ -28,4 +34,5 @@ public interface RecruitService {
 
     ResponseEntity<? super GetRecruitCityCountResponseDto> getCityPostCounts();
 
+    void updateCompletedRecruitPosts();
 }

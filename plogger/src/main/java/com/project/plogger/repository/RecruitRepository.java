@@ -15,6 +15,8 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer>
     
     List<RecruitEntity> findByOrderByRecruitPostIdDesc();
 
+    List<RecruitEntity> findByRecruitEndDateBeforeAndIsCompletedFalse(String currentDate);
+
     RecruitEntity findByRecruitPostId(Integer recruitPostId);
 
     boolean existsByRecruitPostId(Integer recruitPostID);
@@ -34,10 +36,11 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer>
     @Query(
         value = 
             "SELECT " +
-                "SUBSTRING_INDEX(r.recruit_address, ' ', 1) AS city, " +
-                "COUNT(r.recruit_post_id) AS postCount " +
+            "SUBSTRING_INDEX(r.recruit_address, ' ', 1) AS city, " +
+            "COUNT(r.recruit_post_id) AS postCount " +
             "FROM recruitpost r " +
             "WHERE r.recruit_address IS NOT NULL " +
+            "AND r.is_completed = false " +
             "GROUP BY city " +
             "ORDER BY postCount DESC",
         nativeQuery = true

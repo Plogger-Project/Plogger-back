@@ -1,9 +1,15 @@
 package com.project.plogger.service.Implement;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
@@ -22,6 +28,7 @@ import com.project.plogger.repository.resultset.GetRecruitResultSet;
 
 import com.project.plogger.service.RecruitService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -191,12 +198,33 @@ public class RecruitServiceImplement implements RecruitService {
         List<CityPostCountResultSet> cityPostCounts = null;
         try {
             cityPostCounts = recruitRepository.getCityPostCounts();
-            
+
         } catch (Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
         return GetRecruitCityCountResponseDto.success(cityPostCounts);
-    } 
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 10 * * ?") // "초 분 시 일 월 요일" 형식
+    @Transactional
+    public void updateCompletedRecruitPosts() {
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String currentDateString = currentDateTime.format(formatter);
+
+        // recruit_end_date가 현재 시간보다 이전인 게시글들의 상태를 완료로 변경
+        List<RecruitEntity> recruitPosts = recruitRepository.findByRecruitEndDateBeforeAndIsCompletedFalse(currentDateString);
+
+        for (RecruitEntity recruitPost : recruitPosts) {
+            recruitPost.setIsCompleted(true);
+            recruitRepository.save(recruitPost);
+        }
+
+        System.out.println("Completed recruit posts updated: " + recruitPosts.size());
+    }
+    
+    
 }
