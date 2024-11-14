@@ -9,7 +9,6 @@ import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
-import com.project.plogger.entity.chat.ChatMessageEntity;
 import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 
 import lombok.Getter;

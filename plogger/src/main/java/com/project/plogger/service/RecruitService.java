@@ -1,7 +1,6 @@
 package com.project.plogger.service;
 
 import org.springframework.http.ResponseEntity;
-
 import com.project.plogger.dto.request.recruit.PatchRecruitIsCompletedRequestDto;
 import com.project.plogger.dto.request.recruit.PatchRecruitRequestDto;
 import com.project.plogger.dto.request.recruit.PostRecruitRequestDto;
