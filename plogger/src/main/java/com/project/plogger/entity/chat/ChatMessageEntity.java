@@ -41,5 +41,14 @@ public class ChatMessageEntity {
         this.message = dto.getMessage();
         this.sendAt = simpleDateFormat.format(now);
     }
+
+    public ChatMessageEntity(Integer roomId, String senderId, String message) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.roomId = roomId;
+        this.senderId = senderId;
+        this.message = message;
+        this.sendAt = simpleDateFormat.format(now);
+    }
     
 }
