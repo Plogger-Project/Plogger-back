@@ -32,7 +32,9 @@ public class SmsProvider {
         Message message = new Message();
         message.setFrom(from);
         message.setTo(telNumber);
-        message.setText("[Plogger] 인증번호 [" + authNumber + "]를 입력해주세요.");
+        message.setText(authNumber.length() > 4 
+            ? "[Plogger] 임시 비밀번호 [" + authNumber + "]를 입력해주세요." 
+            : "[Plogger] 인증번호 [" + authNumber + "]를 입력해주세요.");
 
         SingleMessageSentResponse response = this.messageService.sendOne(new SingleMessageSendingRequest(message));
 
