@@ -15,6 +15,8 @@ public interface RecruitRepository extends JpaRepository<RecruitEntity, Integer>
     
     List<RecruitEntity> findByOrderByRecruitPostIdDesc();
 
+    List<RecruitEntity> findByRecruitEndDateBeforeAndIsCompletedFalse(String currentDate);
+
     RecruitEntity findByRecruitPostId(Integer recruitPostId);
 
     boolean existsByRecruitPostId(Integer recruitPostID);
