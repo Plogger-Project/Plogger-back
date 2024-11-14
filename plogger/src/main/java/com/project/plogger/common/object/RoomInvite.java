@@ -8,4 +8,5 @@ import lombok.Getter;
 public class RoomInvite {
     private String senderId;
     private String[] inviteUsers;
+    private Integer roomId;
 }

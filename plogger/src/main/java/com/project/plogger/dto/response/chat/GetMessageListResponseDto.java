@@ -10,6 +10,7 @@ import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.ResponseMessage;
 import com.project.plogger.entity.chat.ChatMessageEntity;
+import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 
 import lombok.Getter;
 
@@ -18,13 +19,13 @@ public class GetMessageListResponseDto extends ResponseDto {
 
     private List<ChatMessage> messages;
 
-    private GetMessageListResponseDto(List<ChatMessageEntity> chatMessageEntities) {
+    private GetMessageListResponseDto(List<GetChatMessageResultSet> resultSets) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-        this.messages = ChatMessage.getList(chatMessageEntities);
+        this.messages = ChatMessage.getList(resultSets);
     }
 
-    public static ResponseEntity<GetMessageListResponseDto> success(List<ChatMessageEntity> chatMessageEntities) {
-        GetMessageListResponseDto responseBody = new GetMessageListResponseDto(chatMessageEntities);
+    public static ResponseEntity<GetMessageListResponseDto> success(List<GetChatMessageResultSet> resultSets) {
+        GetMessageListResponseDto responseBody = new GetMessageListResponseDto(resultSets);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
     

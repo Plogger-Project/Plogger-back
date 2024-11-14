@@ -2,6 +2,7 @@ package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,8 +41,19 @@ public class ChatController {
     }
 
     @GetMapping("/rooms/{roomId}/messages")
-    public ResponseEntity<? super GetMessageListResponseDto> getChatMessages(@PathVariable("roomId") Integer roomId) {
-        ResponseEntity<? super GetMessageListResponseDto> response = chatService.getMessages(roomId);
+    public ResponseEntity<? super GetMessageListResponseDto> getChatMessages(
+        @PathVariable("roomId") Integer roomId,
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetMessageListResponseDto> response = chatService.getMessages(roomId, userId);
+        return response;
+    }
+
+    @GetMapping("/messages")
+    public ResponseEntity<? super GetMessageListResponseDto> getTotalChatMessages(
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetMessageListResponseDto> response = chatService.getTotalChatMessages(userId);
         return response;
     }
 
@@ -54,6 +66,12 @@ public class ChatController {
     @GetMapping("/rooms")
     public ResponseEntity<? super GetRoomListResponseDto> getMyChatRooms(@AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetRoomListResponseDto> response = chatService.getMyRooms(userId);
+        return response;
+    }
+
+    @DeleteMapping("/rooms/{roomId}")
+    public ResponseEntity<ResponseDto> leaveRoom(@PathVariable("roomId") Integer roomId, @AuthenticationPrincipal String userId) {
+        ResponseEntity<ResponseDto> response = chatService.leaveRoom(roomId, userId);
         return response;
     }
 

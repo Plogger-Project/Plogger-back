@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.dto.request.chat.PostChatMessageRequestDto;
 import com.project.plogger.dto.request.chat.PostChatRoomRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
@@ -20,6 +21,7 @@ import com.project.plogger.repository.UserRepository;
 import com.project.plogger.repository.chat.ChatJoinRepository;
 import com.project.plogger.repository.chat.ChatMessageRepository;
 import com.project.plogger.repository.chat.ChatRoomRepository;
+import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 import com.project.plogger.service.ChatService;
 
 import lombok.RequiredArgsConstructor;
@@ -83,23 +85,23 @@ public class ChatServiceImplement implements ChatService {
 
     // 메세지들 들고오기
     @Override
-    public ResponseEntity<? super GetMessageListResponseDto> getMessages(Integer roomId) {
+    public ResponseEntity<? super GetMessageListResponseDto> getMessages(Integer roomId, String userId) {
 
-        List<ChatMessageEntity> messageEntities = new ArrayList<>();
+        List<GetChatMessageResultSet> resultSets = new ArrayList<>();
         
         try {
 
             boolean isExistedRoom = chatRoomRepository.existsByRoomId(roomId);
             if (!isExistedRoom) return ResponseDto.noExistChatRoom();
 
-            messageEntities = chatMessageRepository.findByRoomId(roomId);
+            resultSets = chatMessageRepository.getChatMessageList(userId, roomId);
 
         } catch(Exception exception) {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
 
-        return GetMessageListResponseDto.success(messageEntities);
+        return GetMessageListResponseDto.success(resultSets);
 
     }
 
@@ -177,6 +179,44 @@ public class ChatServiceImplement implements ChatService {
 
         return GetRoomResponseDto.success(chatRoomEntity);
 
+    }
+
+    // 채팅방 나가기
+    @Override
+    public ResponseEntity<ResponseDto> leaveRoom(Integer roomId, String userId) {
+
+        try {
+
+            boolean isExistedUser = userRepository.existsByUserId(userId);
+            if (!isExistedUser) return ResponseDto.noExistUserId();
+
+            boolean isExistedRoom = chatRoomRepository.existsByRoomId(roomId);
+            if (!isExistedRoom) return ResponseDto.noExistChatRoom();
+
+            chatJoinRepository.deleteByRoomIdAndUserId(roomId, userId);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetMessageListResponseDto> getTotalChatMessages(String userId) {
+        List<GetChatMessageResultSet> resultSets = new ArrayList<>();
+        
+        try {
+
+            resultSets = chatMessageRepository.getChatMessageList(userId);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetMessageListResponseDto.success(resultSets);
     }
     
 }

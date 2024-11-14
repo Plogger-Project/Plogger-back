@@ -9,10 +9,13 @@ import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.common.object.InviteUser;
 import com.project.plogger.common.object.JoinRoom;
+import com.project.plogger.common.object.LeaveRoom;
 import com.project.plogger.common.object.RoomInvite;
 import com.project.plogger.entity.chat.ChatJoinEntity;
+import com.project.plogger.entity.chat.ChatMessageEntity;
 import com.project.plogger.provider.JwtProvider;
 import com.project.plogger.repository.chat.ChatJoinRepository;
+import com.project.plogger.repository.chat.ChatMessageRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SocketModule {
     
     private final ChatJoinRepository chatJoinRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
     private final SocketIOServer server;
     private final JwtProvider provider;
@@ -28,17 +32,20 @@ public class SocketModule {
     public SocketModule(
         SocketIOServer server, 
         JwtProvider provider, 
-        ChatJoinRepository chatJoinRepository
+        ChatJoinRepository chatJoinRepository,
+        ChatMessageRepository chatMessageRepository
     ) {
 
         this.server = server;
         this.provider = provider;
         this.chatJoinRepository = chatJoinRepository;
+        this.chatMessageRepository = chatMessageRepository;
         server.addConnectListener(OnConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", ChatMessage.class, onChatReceived());
         server.addEventListener("join_room", JoinRoom.class, onJoinRoom());
         server.addEventListener("invite_users", InviteUser.class, onInviteUser());
+        server.addEventListener("leave_room", LeaveRoom.class, onLeaveRoom());
     }
 
     private ConnectListener OnConnected() {
@@ -82,6 +89,8 @@ public class SocketModule {
             String roomIdStr = String.valueOf(roomId);
 
             ChatMessage chatMessage = new ChatMessage(roomId, senderId, message);
+            ChatMessageEntity chatMessageEntity = new ChatMessageEntity(roomId, senderId, message);
+            chatMessageRepository.save(chatMessageEntity);
 
             server.getRoomOperations(roomIdStr).sendEvent("receive_message", chatMessage);
             log.info("Received message for room: {}, sender: {}, message: {}, sentAt: {}", roomIdStr, senderId, message, sentAt);
@@ -114,8 +123,24 @@ public class SocketModule {
                 chatJoinRepository.save(chatJoinEntity);
                 log.info("User [{}] invited to room [{}]", invitedUserId, roomId);
             }
-            RoomInvite roomInvite = new RoomInvite("system-invite", invitedPeople);
+            RoomInvite roomInvite = new RoomInvite("system-invite", invitedPeople, roomId);
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", roomInvite);
+        };
+    }
+
+    private DataListener<LeaveRoom> onLeaveRoom() {
+        return (client, data, ack) -> {
+            Integer roomId = data.getRoomId();
+            String userId = data.getUserId();
+
+            chatJoinRepository.deleteByRoomIdAndUserId(roomId, userId);
+
+            String message = userId + "님이 채팅방을 나갔습니다.";
+            System.out.println(message);
+            client.leaveRoom(roomId.toString());
+            ChatMessage chatMessage = new ChatMessage(roomId, "system", message);
+            server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
+            client.sendEvent("leave_anyone", chatMessage);
         };
     }
 }
