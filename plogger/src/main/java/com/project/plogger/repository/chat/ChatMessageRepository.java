@@ -2,7 +2,6 @@ package com.project.plogger.repository.chat;
 
 import org.springframework.stereotype.Repository;
 
-import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.entity.chat.ChatMessageEntity;
 import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 

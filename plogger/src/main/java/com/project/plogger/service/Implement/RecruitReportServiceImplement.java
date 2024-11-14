@@ -12,7 +12,6 @@ import com.project.plogger.entity.RecruitEntity;
 import com.project.plogger.entity.RecruitReportEntity;
 import com.project.plogger.repository.RecruitReportRepository;
 import com.project.plogger.repository.RecruitRepository;
-import com.project.plogger.repository.UserRepository;
 import com.project.plogger.service.RecruitReportService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,6 @@ public class RecruitReportServiceImplement implements RecruitReportService {
 
     private final RecruitRepository recruitRepository;
     private final RecruitReportRepository recruitReportRepository;
-    private final UserRepository userRepository;
 
     @Override
     public ResponseEntity<ResponseDto> createReport(Integer recruitId, String userId,

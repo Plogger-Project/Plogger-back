@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.dto.request.chat.PostChatMessageRequestDto;
 import com.project.plogger.dto.request.chat.PostChatRoomRequestDto;
 import com.project.plogger.dto.response.ResponseDto;

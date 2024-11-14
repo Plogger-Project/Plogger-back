@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.plogger.entity.chat.ChatMessageEntity;
 import com.project.plogger.repository.resultset.GetChatMessageResultSet;
 
 import lombok.AllArgsConstructor;
