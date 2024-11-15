@@ -13,7 +13,6 @@ import com.project.plogger.common.object.ChatMessage;
 import com.project.plogger.common.object.InviteUser;
 import com.project.plogger.common.object.JoinRoom;
 import com.project.plogger.common.object.LeaveRoom;
-import com.project.plogger.common.object.RoomInvite;
 import com.project.plogger.entity.chat.ChatJoinEntity;
 import com.project.plogger.entity.chat.ChatMessageEntity;
 import com.project.plogger.entity.chat.ChatReadEntity;
@@ -54,6 +53,7 @@ public class SocketModule {
         server.addEventListener("join_room", JoinRoom.class, onJoinRoom());
         server.addEventListener("invite_users", InviteUser.class, onInviteUser());
         server.addEventListener("leave_room", LeaveRoom.class, onLeaveRoom());
+        server.addEventListener("read_message", Integer.class, onReadMessage());
     }
 
     private ConnectListener OnConnected() {
@@ -122,10 +122,6 @@ public class SocketModule {
             ChatJoinEntity chatJoinEntity = new ChatJoinEntity(roomId, userId);
             chatJoinRepository.save(chatJoinEntity);
 
-            String message = userId + "님이 연결되었습니다.";
-            ChatMessageEntity chatMessageEntity = new ChatMessageEntity(roomId, "system", message);
-            chatMessageRepository.save(chatMessageEntity);
-
             List<ChatMessageEntity> messageList = chatMessageRepository.findByRoomId(roomId);
             List<ChatReadEntity> readList = new ArrayList<>();
 
@@ -136,8 +132,6 @@ public class SocketModule {
             chatReadRepository.saveAll(readList);
 
             client.joinRoom(roomId.toString());
-            ChatMessage chatMessage = new ChatMessage(roomId, "system", message);
-            server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
         };
     }
 
@@ -177,6 +171,22 @@ public class SocketModule {
 
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
             client.sendEvent("leave_anyone", chatMessage);
+        };
+    }
+
+    private DataListener<Integer> onReadMessage() {
+        return (client, data, ack) -> {
+            Integer roomId = data;
+            String userId = client.get("userId");
+
+            List<ChatMessageEntity> messageList = chatMessageRepository.findByRoomId(roomId);
+            List<ChatReadEntity> readList = new ArrayList<>();
+
+            for (ChatMessageEntity entity: messageList) {
+                Integer chatId = entity.getChatId();
+                readList.add(new ChatReadEntity(userId, chatId));
+            }
+            chatReadRepository.saveAll(readList);
         };
     }
 }
