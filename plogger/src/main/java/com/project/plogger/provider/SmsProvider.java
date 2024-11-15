@@ -29,7 +29,7 @@ public class SmsProvider {
 
     public boolean sendMessage(String telNumber, String authNumber) {
 
-        Message message = new Message();
+        Message message = new Message();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         message.setFrom(from);
         message.setTo(telNumber);
         message.setText(authNumber.length() > 4 
