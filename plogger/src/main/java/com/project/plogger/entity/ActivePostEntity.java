@@ -46,7 +46,7 @@ public class ActivePostEntity {
     
     public ActivePostEntity(PostActivePostRequestDto dto) {
         Date now = new Date();
-        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm");
         this.activePostTitle = dto.getActivePostTitle();
         this.activePostContent = dto.getActivePostContent();
         this.activePostImage = dto.getActivePostImage();
@@ -59,7 +59,7 @@ public class ActivePostEntity {
 
     public void patch(PatchActivePostRequestDto dto) {
         Date now = new Date();
-        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd hh:mm");
         this.activePostTitle = dto.getActivePostTitle();
         this.activePostImage = dto.getActivePostImage();
         this.activePostContent = dto.getActivePostContent();
