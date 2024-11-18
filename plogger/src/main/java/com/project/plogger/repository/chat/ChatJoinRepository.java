@@ -17,5 +17,6 @@ public interface ChatJoinRepository extends JpaRepository<ChatJoinEntity, ChatJo
     boolean existsByRoomIdAndUserId(Integer roomId, String userId);
     @Transactional
     void deleteByRoomIdAndUserId(Integer roomId, String userId);
+    boolean existsByRoomId(Integer roomId);
 
 }

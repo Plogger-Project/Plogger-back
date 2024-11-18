@@ -29,7 +29,7 @@ public class ActiveTagController {
     }
 
     @DeleteMapping("/tag/{activeId}/{recruitId}/{tagId}")
-    public ResponseEntity<ResponseDto> deleteTag(@PathVariable String tagId, @PathVariable("activeId") Integer activeId, @PathVariable("recruitId") Integer recruitId) {
+    public ResponseEntity<ResponseDto> deleteTag(@PathVariable("tagId") String tagId, @PathVariable("activeId") Integer activeId, @PathVariable("recruitId") Integer recruitId) {
         ResponseEntity<ResponseDto> response = tagService.deleteTag(tagId, activeId, recruitId);
         return response;
     }

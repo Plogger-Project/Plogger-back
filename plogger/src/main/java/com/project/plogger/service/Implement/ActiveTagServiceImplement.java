@@ -9,6 +9,7 @@ import com.project.plogger.entity.ActivePostEntity;
 import com.project.plogger.entity.ActiveTagEntity;
 import com.project.plogger.repository.ActivePostRepository;
 import com.project.plogger.repository.ActiveTagRepository;
+import com.project.plogger.repository.RecruitRepository;
 import com.project.plogger.service.ActiveTagService;
 import com.project.plogger.service.MileageService;
 
@@ -22,6 +23,7 @@ public class ActiveTagServiceImplement implements ActiveTagService {
     private final MileageService mileageService;
     private final ActiveTagRepository tagRepository;
     private final ActivePostRepository activeRepository;
+    private final RecruitRepository recruitRepository;
 
     @Override
     public ResponseEntity<ResponseDto> postTag(PostActiveTagRequestDto dto, Integer activeId, Integer recruitId) {
@@ -60,6 +62,9 @@ public class ActiveTagServiceImplement implements ActiveTagService {
 
             boolean isExistedUser = tagRepository.existsByUserId(tagId);
             if (!isExistedUser) return ResponseDto.noExistActiveTag();
+
+            boolean isExistedRecruitPost = recruitRepository.existsByRecruitPostId(recruitId);
+            if (!isExistedRecruitPost) return ResponseDto.noExistRecruit();
 
             boolean isExistedActivePost = activeRepository.existsByActivePostId(activeId);
             if (!isExistedActivePost) return ResponseDto.noExistActivePost();
