@@ -125,15 +125,16 @@ public class WebSecurityConfig {
                                                 
                                                 // fileController
                                                 .requestMatchers(HttpMethod.GET,"/file/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/file/upload").hasRole("USER")
+                                                // .requestMatchers(HttpMethod.POST, "/file/upload").hasRole("USER")
+                                                .requestMatchers(HttpMethod.POST, "/file/upload").permitAll()
                                                 
                                                 // followController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/follow/**").hasRole("USER")
+                                                .requestMatchers(HttpMethod.GET,"/api/v1/follow/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST,"/api/v1/follow").hasRole("USER")
                                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/follow/*").hasRole("USER")
                                                 
                                                 // gifticonController
-                                                .requestMatchers(HttpMethod.GET, "/api/v1/gifticon/**").hasRole("USER")
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/gifticon/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST,"/api/v1/gifticon/*").hasRole("USER")
                                                 .requestMatchers(HttpMethod.POST,"/api/v1/gifticon").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.PATCH,"/api/v1/gifticon/*").hasRole("ADMIN")
