@@ -29,9 +29,8 @@ public class RecruitJoinController {
     }
     
     @GetMapping("/join/{recruitId}")
-    public ResponseEntity<? super GetRecruitJoinListResponseDto> recruitJoinList(@PathVariable("recruitId") Integer recruitId,
-            @AuthenticationPrincipal String userId) {
-        ResponseEntity<? super GetRecruitJoinListResponseDto> response = joinService.getRecruitJoinList(userId, recruitId);
+    public ResponseEntity<? super GetRecruitJoinListResponseDto> recruitJoinList(@PathVariable("recruitId") Integer recruitId) {
+        ResponseEntity<? super GetRecruitJoinListResponseDto> response = joinService.getRecruitJoinList(recruitId);
         return response;
     }
     
