@@ -82,7 +82,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             boolean isAdmin = userEntity.getIsAdmin();
 
-            List <GrantedAuthority> roles = AuthorityUtils.NO_AUTHORITIES;
+            // List <GrantedAuthority> roles = AuthorityUtils.NO_AUTHORITIES;
+            List<GrantedAuthority> roles = new ArrayList<>();
+            roles.add(new SimpleGrantedAuthority("ROLE_USER"));
+
             if (isAdmin) {
                 roles = new ArrayList<>();
                 roles.add(new SimpleGrantedAuthority("ROLE_ADMIN"));

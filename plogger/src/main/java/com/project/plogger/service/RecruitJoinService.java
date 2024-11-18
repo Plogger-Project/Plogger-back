@@ -9,5 +9,5 @@ public interface RecruitJoinService {
     
     ResponseEntity<ResponseDto> recruitJoin(String userId, Integer recruitId);
 
-    ResponseEntity<? super GetRecruitJoinListResponseDto> getRecruitJoinList(String userId, Integer recruitId);
+    ResponseEntity<? super GetRecruitJoinListResponseDto> getRecruitJoinList(Integer recruitId);
 }
