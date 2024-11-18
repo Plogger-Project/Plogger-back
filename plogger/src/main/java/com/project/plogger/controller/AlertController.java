@@ -40,10 +40,10 @@ public class AlertController {
         return response;
     }
 
-    @PatchMapping("/{id}/read")
-    public ResponseEntity<ResponseDto> markAsRead(@PathVariable Long id) {
-        return alertService.markAlertAsRead(id);
-    }
+    // @PatchMapping("/{id}/read")
+    // public ResponseEntity<ResponseDto> markAsRead(@PathVariable Long id) {
+    //     return alertService.markAlertAsRead(id);
+    // }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto> deleteAlert(@PathVariable Long id) {
@@ -57,17 +57,17 @@ public class AlertController {
         return response;
     }
 
-    @GetMapping("/stream")
-    public SseEmitter streamAlerts(@AuthenticationPrincipal String userId) {
-        SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
-        emitters.put(userId, emitter);
+    // @GetMapping("/stream")
+    // public SseEmitter streamAlerts(@AuthenticationPrincipal String userId) {
+    //     SseEmitter emitter = new SseEmitter(Long.MAX_VALUE);
+    //     emitters.put(userId, emitter);
 
-        // SSE 연결 종료시 제거
-        emitter.onCompletion(() -> emitters.remove(userId));
-        emitter.onTimeout(() -> emitters.remove(userId));
+    //     // SSE 연결 종료시 제거
+    //     emitter.onCompletion(() -> emitters.remove(userId));
+    //     emitter.onTimeout(() -> emitters.remove(userId));
 
-        return emitter;
-    }
+    //     return emitter;
+    // }
 
     //     private void sendAlertToClient(String userId, ResponseDto alertData) {
     //     SseEmitter emitter = emitters.get(userId);
