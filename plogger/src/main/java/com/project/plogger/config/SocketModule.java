@@ -20,6 +20,7 @@ import com.project.plogger.provider.JwtProvider;
 import com.project.plogger.repository.chat.ChatJoinRepository;
 import com.project.plogger.repository.chat.ChatMessageRepository;
 import com.project.plogger.repository.chat.ChatReadRepository;
+import com.project.plogger.repository.chat.ChatRoomRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SocketModule {
     
     private final ChatJoinRepository chatJoinRepository;
+    private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatReadRepository chatReadRepository;
 
@@ -38,12 +40,14 @@ public class SocketModule {
         SocketIOServer server, 
         JwtProvider provider, 
         ChatJoinRepository chatJoinRepository,
+        ChatRoomRepository chatRoomRepository,
         ChatMessageRepository chatMessageRepository,
         ChatReadRepository chatReadRepository
     ) {
 
         this.server = server;
         this.provider = provider;
+        this.chatRoomRepository = chatRoomRepository;
         this.chatJoinRepository = chatJoinRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.chatReadRepository = chatReadRepository;
@@ -70,6 +74,12 @@ public class SocketModule {
                 if (userId != null) {
                     log.info("User [{}] connected", userId);
                     client.set("userId", userId);
+                    List<ChatJoinEntity> chatJoinEntities = chatJoinRepository.findByUserId(userId);
+                    for (ChatJoinEntity chatJoinEntity: chatJoinEntities) {
+                        Integer roomId = chatJoinEntity.getRoomId();
+                        client.joinRoom(roomId.toString());
+                    }
+
                 } else {
                     log.error("Invalid JWT token for client [{}]", client.getSessionId().toString());
                     client.disconnect();
@@ -168,6 +178,11 @@ public class SocketModule {
             ChatMessage chatMessage = new ChatMessage(roomId, "system", message);
             ChatMessageEntity chatMessageEntity = new ChatMessageEntity(roomId, "system-invite", message);
             chatMessageRepository.save(chatMessageEntity);
+
+            boolean isExistedUser = chatJoinRepository.existsByRoomId(roomId);
+            boolean isExistedRoom = chatRoomRepository.existsByRoomId(roomId);
+
+            if (isExistedRoom && !isExistedUser) chatRoomRepository.deleteByRoomId(roomId);
 
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
             client.sendEvent("leave_anyone", chatMessage);

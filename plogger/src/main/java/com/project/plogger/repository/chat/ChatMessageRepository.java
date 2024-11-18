@@ -48,4 +48,6 @@ public interface ChatMessageRepository extends JpaRepository<ChatMessageEntity, 
     )
     List<GetChatMessageResultSet> getChatMessageList(@Param("userId") String userId);
 
+    boolean existsByRoomId(Integer roomId);
+
 }

@@ -63,6 +63,9 @@ public class ActiveCommentServiceImplement implements ActiveCommentService{
 
         try {
 
+            boolean isExistedActivePost = activePostRepository.existsByActivePostId(activeId);
+            if (!isExistedActivePost) return ResponseDto.noExistActivePost();
+
             activeCommentEntities = activeCommentRepository.findByActiveIdOrderByActiveCommentIdAsc(activeId);
             
         } catch (Exception exception) {
