@@ -44,6 +44,7 @@ public interface ResponseMessage {
     String NO_PERMISSION = "No permission.";
 
     String MESSAGE_SEND_FAIL = "Auth number send failed.";
+    String ALERT_MESSAGE_SEND_FAIL = "Alert message send failed.";
     String TOKEN_CREATE_FAIL = "Token creation failed.";
     String DATABASE_ERROR = "Database error.";
 
