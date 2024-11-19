@@ -53,7 +53,6 @@ public class WebSecurityConfig {
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(request -> request
 
-
                                                 // authController
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/auth/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST,"/api/v1/auth/id-check", "/api/v1/auth/tel-auth","/api/v1/auth/tel-auth-check","/api/v1/auth/sign-up","/api/v1/auth/sign-in","/api/v1/auth/send-auth","/api/v1/auth/find-id","/api/v1/auth/password-send-auth","/api/v1/auth/find-password").permitAll()
@@ -143,13 +142,6 @@ public class WebSecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/gifticon/","/api/v1/gifticon/*").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/gifticon/*").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE,"/api/v1/gifticon/*").hasRole("ADMIN")
-
-                                                
-
-                                                
-
-
-
 
                                                 // adminController
                                                 .requestMatchers("/api/v1/admin").hasRole("ADMIN")
