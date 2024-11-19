@@ -137,7 +137,7 @@ public class WebSecurityConfig {
                                                 
                                                 // gifticonController
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/gifticon/**").authenticated()
-                                                .requestMatchers(HttpMethod.POST, "/api/v1/gifticon/","/api/v1/gifticon/*").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/gifticon/","/api/v1/gifticon/*").authenticated()
                                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/gifticon/*").hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE,"/api/v1/gifticon/*").hasRole("ADMIN")
 

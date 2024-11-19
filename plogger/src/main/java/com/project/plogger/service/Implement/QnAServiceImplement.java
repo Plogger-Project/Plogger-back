@@ -90,10 +90,14 @@ public class QnAServiceImplement implements QnAService{
         try {
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
             
-            if(!qnaEntity.getQnaPostWriter().equals(userId)) return ResponseDto.noPermission();
-
+            if (!qnaEntity.getQnaPostWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
             qnaEntity.patch(dto);
             qnaEntity.setQnaPostCreatedAt();
             
@@ -113,10 +117,14 @@ public class QnAServiceImplement implements QnAService{
         try {
 
             QnAEntity qnaEntity = qnaRepository.findByQnaPostId(qnaPostId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(qnaEntity == null) return ResponseDto.noExistQnA();
 
-            if(!qnaEntity.getQnaPostWriter().equals(userId)) return ResponseDto.noPermission();
-
+            if (!qnaEntity.getQnaPostWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
             qnaRepository.delete(qnaEntity);
             
         } catch (Exception exception) {
