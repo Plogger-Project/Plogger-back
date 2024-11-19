@@ -83,10 +83,15 @@ public class QnACommentServiceImplement implements QnACommentService{
         try {
 
             QnACommentEntity qnaCommentEntity = qnaCommentRepository.findByQnaCommentId(qnaCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(qnaCommentEntity == null) return ResponseDto.noExistQnAComment();
 
             if(!qnaCommentEntity.getQnaId().equals(qnaId)) return ResponseDto.noExistQnA();
-            if(!qnaCommentEntity.getQnaCommentWriter().equals(userId)) return ResponseDto.noPermission();
+            if (!qnaCommentEntity.getQnaCommentWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
 
             qnaCommentEntity.patch(dto);
             qnaCommentEntity.setQnaCommentCreatedAt();
@@ -108,10 +113,15 @@ public class QnACommentServiceImplement implements QnACommentService{
         try {
 
             QnACommentEntity qnaCommentEntity = qnaCommentRepository.findByQnaCommentId(qnaCommentId);
+            UserEntity userEntity = userRepository.findByUserId(userId);
             if(qnaCommentEntity == null) return ResponseDto.noExistQnAComment();
 
             if(!qnaCommentEntity.getQnaId().equals(qnaId)) return ResponseDto.noExistQnA();
-            if(!qnaCommentEntity.getQnaCommentWriter().equals(userId)) return ResponseDto.noPermission();     
+            if (!qnaCommentEntity.getQnaCommentWriter().equals(userId)) {
+                if (userEntity.getIsAdmin() != true) {
+                    return ResponseDto.noPermission();
+                }
+            }
 
             qnaCommentRepository.delete(qnaCommentEntity);
 
