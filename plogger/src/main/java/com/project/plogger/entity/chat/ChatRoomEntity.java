@@ -36,4 +36,11 @@ public class ChatRoomEntity {
         this.createdAt = simpleDateFormat.format(now);
     }
 
+    public ChatRoomEntity(String roomName) {
+        Date now = new Date();
+        SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        this.roomName = roomName;
+        this.createdAt = simpleDateFormat.format(now);
+    }
+
 }

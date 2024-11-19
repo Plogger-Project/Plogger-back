@@ -51,102 +51,99 @@ public class WebSecurityConfig {
                                 .sessionManagement(sessionManagement -> sessionManagement
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(request -> request
-                                                // recruitController
+                                                // authController
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/auth/**").permitAll()
+                                                .requestMatchers(HttpMethod.POST,"/api/v1/auth/id-check", "/api/v1/auth/tel-auth","/api/v1/auth/tel-auth-check","/api/v1/auth/sign-up","/api/v1/auth/sign-in","/api/v1/auth/send-auth","/api/v1/auth/find-id","/api/v1/auth/password-send-auth","/api/v1/auth/find-password").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/v1/recruit/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST, "/api/v1/recruit/*/comments","/api/v1/recruit/*/comments/*",
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/active/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/qna/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/mypage/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/file/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET,"/api/v1/follow/**").permitAll()
+                                                
+                                                // recruitController
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/recruit","/api/v1/recruit/","/api/v1/recruit/*/comments","/api/v1/recruit/*/comments/*",
                                                                 "/api/v1/recruit/join/*", "/api/v1/recruit/report/*",
                                                                 "/api/v1/recruit/like/*",
                                                                 "/api/v1/recruit/scrap/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/recruit/*",
                                                                 "/api/v1/recruit/iscompleted/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.DELETE, "/api/v1/recruit/*",
                                                                 "/api/v1/recruit/*/comments/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 
                                                 // activeController
-                                                .requestMatchers(HttpMethod.GET, "/api/v1/active/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST, "/api/v1/active/*",
                                                                 "/api/v1/active/*/comments",
                                                                 "/api/v1/active/like/*",
                                                                 "/api/v1/report/active/*",
                                                                 "/api/v1/active/tag/*/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.PATCH,"/api/v1/active/*",
                                                                 "/api/v1/active/*/comments/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.DELETE,"/api/v1/active/*",
                                                                 "/api/v1/active/*/comments/*",
                                                                 "/api/v1/active/tag/*/*/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                                 
                                                 // qnaController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/qna/**").permitAll()
                                                 .requestMatchers(HttpMethod.POST,"/api/v1/qna",
                                                                 "/api/v1/qna/*/comments")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.PATCH,"/api/v1/qna/*",
                                                                 "/api/v1/qna/*/comments/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                 .requestMatchers(HttpMethod.DELETE,"/api/v1/qna/*",
                                                                 "/api/v1/qna/*/comments/*")
-                                                                .hasRole("USER")
+                                                                .authenticated()
                                                                 
-                                                // authController
-                                                .requestMatchers(HttpMethod.GET, "/api/v1/auth/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/auth/id-check", "/api/v1/auth/tel-auth","/api/v1/auth/sign-up","/api/v1/auth/sign-in","/api/v1/auth/send-auth","/api/v1/auth/find-id","/api/v1/auth/password-send-auth","/api/v1/auth/find-password").permitAll()
+                                                
                      
 
                                                 // userController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/mypage/**").permitAll()
                                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/mypage",
                                                                 "/api/v1/mypage/tel-auth",
                                                                 "/api/v1/mypage/tel-auth-check", "/api/v1/mypage/comment",
-                                                                "/api/v1/mypage/update-password").hasRole("USER")
+                                                                "/api/v1/mypage/update-password").authenticated()
                                                 
 
-                                                // adminController
-                                                .requestMatchers("/**").hasRole("ADMIN")
+                                                
                                                 
 
                                                 // alertController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/alert/**").hasRole("USER")
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/alert").hasRole("USER")
-                                                .requestMatchers(HttpMethod.PATCH,"/api/v1/alert/*/read").hasRole("USER")
-                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/alert/*").hasRole("USER")
+                                                .requestMatchers(HttpMethod.GET,"/api/v1/alert/**").authenticated()
+                                                .requestMatchers(HttpMethod.POST,"/api/v1/alert").authenticated()
+                                                .requestMatchers(HttpMethod.PATCH,"/api/v1/alert/*/read").authenticated()
+                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/alert/*").authenticated()
                                                 
                                                 
                                                 // chatController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/chat/**").hasRole("USER")
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/chat/rooms","/api/v1/chat/rooms/*/messages","/api/v1/chat/rooms/*/join").hasRole("USER")
-                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/chat/rooms/*").hasRole("USER")
+                                                .requestMatchers(HttpMethod.GET,"/api/v1/chat/**").authenticated()
+                                                .requestMatchers(HttpMethod.POST,"/api/v1/chat/rooms","/api/v1/chat/rooms/*/messages","/api/v1/chat/rooms/*/join").authenticated()
+                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/chat/rooms/*").authenticated()
                                                 
                                                 // fileController
-                                                .requestMatchers(HttpMethod.GET,"/file/**").permitAll()
-                                                // .requestMatchers(HttpMethod.POST, "/file/upload").hasRole("USER")
-                                                .requestMatchers(HttpMethod.POST, "/file/upload").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/file/**").authenticated()
                                                 
                                                 // followController
-                                                .requestMatchers(HttpMethod.GET,"/api/v1/follow/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/follow").hasRole("USER")
-                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/follow/*").hasRole("USER")
-                                                
-                                                // gifticonController
-                                                .requestMatchers(HttpMethod.GET, "/api/v1/gifticon/**").permitAll()
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/gifticon/*").hasRole("USER")
-                                                .requestMatchers(HttpMethod.POST,"/api/v1/gifticon").hasRole("ADMIN")
-                                                .requestMatchers(HttpMethod.PATCH,"/api/v1/gifticon/*").hasRole("ADMIN")
-                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/gifticon/*").hasRole("ADMIN")
-                                                
+                                                .requestMatchers(HttpMethod.POST,"/api/v1/follow").authenticated()
+                                                .requestMatchers(HttpMethod.DELETE, "/api/v1/follow/*").authenticated()
 
                                                 // mileageController
-                                                .requestMatchers(HttpMethod.GET, "/api/v1/mileage/**").hasRole("USER")
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/mileage/**").authenticated()
+                                                
+                                                // gifticonController
+                                                .requestMatchers(HttpMethod.GET, "/api/v1/gifticon/**").authenticated()
+                                                .requestMatchers(HttpMethod.POST, "/api/v1/gifticon/","/api/v1/gifticon/*").authenticated()
+                                                .requestMatchers(HttpMethod.PATCH, "/api/v1/gifticon/*").hasRole("ADMIN")
+                                                .requestMatchers(HttpMethod.DELETE,"/api/v1/gifticon/*").hasRole("ADMIN")
 
 
-
-
-
+                                                // adminController
+                                                .requestMatchers("/api/v1/admin").hasRole("ADMIN")
                                                 .anyRequest().authenticated())
                                 .exceptionHandling(exceptionHandling -> exceptionHandling
                                                 .authenticationEntryPoint(new FailedAuthenticationEntryPoint()))

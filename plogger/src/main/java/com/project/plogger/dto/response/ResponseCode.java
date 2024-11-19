@@ -41,6 +41,7 @@ public interface ResponseCode {
     String NO_PERMISSION = "NP";
 
     String MESSAGE_SEND_FAIL = "TF";
+    String ALERT_MESSAGE_SEND_FAIL = "AMF";
     String TOKEN_CREATE_FAIL = "TCF";
     String DATABASE_ERROR = "DBE";
 
