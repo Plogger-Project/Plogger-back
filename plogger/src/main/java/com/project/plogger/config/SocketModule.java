@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.ConnectListener;
 import com.corundumstudio.socketio.listener.DataListener;
@@ -132,9 +133,16 @@ public class SocketModule {
             ChatJoinEntity chatJoinEntity = new ChatJoinEntity(roomId, userId);
             chatJoinRepository.save(chatJoinEntity);
 
+            List<ChatJoinEntity> chatJoinEntities = chatJoinRepository.findByRoomId(roomId);
+            List<String> userList = new ArrayList<>();
+            for (ChatJoinEntity entity: chatJoinEntities) {
+                userList.add(entity.getUserId());
+            }
+
+            server.getRoomOperations(roomId.toString()).sendEvent("room_users", userList);
+
             List<ChatMessageEntity> messageList = chatMessageRepository.findByRoomId(roomId);
             List<ChatReadEntity> readList = new ArrayList<>();
-
             for (ChatMessageEntity entity: messageList) {
                 Integer chatId = entity.getChatId();
                 readList.add(new ChatReadEntity(userId, chatId));
@@ -154,8 +162,18 @@ public class SocketModule {
             for (String invitedUserId : invitedPeople) {
                 ChatJoinEntity chatJoinEntity = new ChatJoinEntity(roomId, invitedUserId);
                 chatJoinRepository.save(chatJoinEntity);
+
+                // 초대된 방 실시간 리스트 반영
+                for (SocketIOClient cli: server.getAllClients()) {
+                    if (cli.get("userId").equals(invitedUserId)) {
+                        cli.sendEvent("joined_room", roomId.toString());
+                    }
+                }
                 log.info("User [{}] invited to room [{}]", invitedUserId, roomId);
             }
+
+            InviteUser inviteUser = new InviteUser(roomId, invitedPeople);
+            server.getRoomOperations(roomId.toString()).sendEvent("invite_people", inviteUser);
             
             String message = clientId + "님이 " + String.join(", ", invitedPeople) + " 를 초대했습니다.";
             ChatMessageEntity chatMessageEntity = new ChatMessageEntity(roomId, "system-invite", message);
@@ -183,6 +201,15 @@ public class SocketModule {
             boolean isExistedRoom = chatRoomRepository.existsByRoomId(roomId);
 
             if (isExistedRoom && !isExistedUser) chatRoomRepository.deleteByRoomId(roomId);
+            
+            // 채팅방 나가기
+            chatJoinRepository.deleteByRoomIdAndUserId(roomId, userId);
+            List<ChatJoinEntity> chatJoinEntities = chatJoinRepository.findByRoomId(roomId);
+            List<String> userList = new ArrayList<>();
+            for (ChatJoinEntity entity: chatJoinEntities) {
+                userList.add(entity.getUserId());
+            }
+            server.getRoomOperations(roomId.toString()).sendEvent("room_users", userList);
 
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
             client.sendEvent("leave_anyone", chatMessage);

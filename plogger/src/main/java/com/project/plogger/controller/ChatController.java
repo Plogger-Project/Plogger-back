@@ -2,15 +2,12 @@ package com.project.plogger.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.project.plogger.dto.request.chat.PostChatMessageRequestDto;
 import com.project.plogger.dto.request.chat.PostChatRoomRequestDto;
 import com.project.plogger.dto.response.ResponseDto;
 import com.project.plogger.dto.response.chat.GetMessageListResponseDto;
@@ -33,22 +30,6 @@ public class ChatController {
         return response;
     }
 
-    @PostMapping("/rooms/{roomId}/messages")
-    public ResponseEntity<ResponseDto> postChatMessage(@RequestBody @Valid PostChatMessageRequestDto dto, 
-    @PathVariable("roomId") Integer roomId, @AuthenticationPrincipal String senderId) {
-        ResponseEntity<ResponseDto> response = chatService.saveMessage(dto, roomId, senderId);
-        return response;
-    }
-
-    @GetMapping("/rooms/{roomId}/messages")
-    public ResponseEntity<? super GetMessageListResponseDto> getChatMessages(
-        @PathVariable("roomId") Integer roomId,
-        @AuthenticationPrincipal String userId
-    ) {
-        ResponseEntity<? super GetMessageListResponseDto> response = chatService.getMessages(roomId, userId);
-        return response;
-    }
-
     @GetMapping("/messages")
     public ResponseEntity<? super GetMessageListResponseDto> getTotalChatMessages(
         @AuthenticationPrincipal String userId
@@ -57,21 +38,9 @@ public class ChatController {
         return response;
     }
 
-    @PostMapping("/rooms/{roomId}/join")
-    public ResponseEntity<ResponseDto> joinChatRoom(@PathVariable("roomId") Integer roomId, @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = chatService.joinRoom(roomId, userId);
-        return response;
-    }
-
     @GetMapping("/rooms")
     public ResponseEntity<? super GetRoomListResponseDto> getMyChatRooms(@AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetRoomListResponseDto> response = chatService.getMyRooms(userId);
-        return response;
-    }
-
-    @DeleteMapping("/rooms/{roomId}")
-    public ResponseEntity<ResponseDto> leaveRoom(@PathVariable("roomId") Integer roomId, @AuthenticationPrincipal String userId) {
-        ResponseEntity<ResponseDto> response = chatService.leaveRoom(roomId, userId);
         return response;
     }
 
