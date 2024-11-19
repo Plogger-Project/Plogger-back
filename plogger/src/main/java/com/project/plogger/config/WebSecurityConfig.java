@@ -19,7 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.project.plogger.config.WebSecurityConfig.FailedAuthenticationEntryPoint;
 import com.project.plogger.dto.response.ResponseCode;
 import com.project.plogger.dto.response.ResponseMessage;
 import com.project.plogger.filter.JwtAuthenticationFilter;
