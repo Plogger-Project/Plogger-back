@@ -100,18 +100,11 @@ public class WebSecurityConfig {
                                                                 "/api/v1/qna/*/comments/*")
                                                                 .authenticated()
                                                                 
-                                                
-                     
-
                                                 // userController
                                                 .requestMatchers(HttpMethod.PATCH, "/api/v1/mypage",
                                                                 "/api/v1/mypage/tel-auth",
                                                                 "/api/v1/mypage/tel-auth-check", "/api/v1/mypage/comment",
                                                                 "/api/v1/mypage/update-password").authenticated()
-                                                
-
-                                                
-                                                
 
                                                 // alertController
                                                 .requestMatchers(HttpMethod.GET,"/api/v1/alert/**").authenticated()
