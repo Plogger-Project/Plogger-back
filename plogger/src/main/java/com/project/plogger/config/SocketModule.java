@@ -34,7 +34,6 @@ public class SocketModule {
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final ChatReadRepository chatReadRepository;
-    private final UserRepository userRepository;
 
     private final SocketIOServer server;
     private final JwtProvider provider;
@@ -55,7 +54,6 @@ public class SocketModule {
         this.chatJoinRepository = chatJoinRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.chatReadRepository = chatReadRepository;
-        this.userRepository = userRepository;
         server.addConnectListener(OnConnected());
         server.addDisconnectListener(onDisconnected());
         server.addEventListener("send_message", ChatMessage.class, onChatReceived());
@@ -194,33 +192,22 @@ public class SocketModule {
             String userId = data.getUserId();
 
             chatJoinRepository.deleteByRoomIdAndUserId(roomId, userId);
-            boolean isExistedUser = userRepository.existsByUserId(userId);
-
-            String message = "";
-            if (!isExistedUser) {
-                message = "알수없음님이 채팅방을 나갔습니다.";
-            } else {
-                message = userId + "님이 채팅방을 나갔습니다.";
-            }
+            String message = userId + "님이 채팅방을 나갔습니다.";
 
             client.leaveRoom(roomId.toString());
             ChatMessage chatMessage = new ChatMessage(roomId, "system", message);
             ChatMessageEntity chatMessageEntity = new ChatMessageEntity(roomId, "system-invite", message);
             chatMessageRepository.save(chatMessageEntity);
-
-            boolean isExistedRoom = chatRoomRepository.existsByRoomId(roomId);
-
-            if (isExistedRoom && !isExistedUser) chatRoomRepository.deleteByRoomId(roomId);
-            
+    
             // 채팅방 나가기
-            chatJoinRepository.deleteByRoomIdAndUserId(roomId, userId);
             List<ChatJoinEntity> chatJoinEntities = chatJoinRepository.findByRoomId(roomId);
+            if (chatJoinEntities.isEmpty()) chatRoomRepository.deleteByRoomId(roomId);
             List<String> userList = new ArrayList<>();
             for (ChatJoinEntity entity: chatJoinEntities) {
                 userList.add(entity.getUserId());
             }
-            server.getRoomOperations(roomId.toString()).sendEvent("room_users", userList);
 
+            server.getRoomOperations(roomId.toString()).sendEvent("room_users", userList);
             server.getRoomOperations(roomId.toString()).sendEvent("receive_message", chatMessage);
             client.sendEvent("leave_anyone", chatMessage);
         };
