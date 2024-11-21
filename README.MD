@@ -267,7 +267,7 @@
 <br/>
 
 # 6. Project Structure (프로젝트 구조)
-### pront-end
+### front-end
 ```plaintext
 src
 ├── @types
